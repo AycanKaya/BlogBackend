@@ -20,6 +20,11 @@ namespace Persistence.Context
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<Permissions> Permissions { get; set; }
+        public DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
+        public DbSet<UserWithRole> UserWithRoles { get; set; }
+
 
         public async Task<int> SaveChanges()
         {

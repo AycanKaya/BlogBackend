@@ -14,6 +14,11 @@ namespace Application.Interfaces
         DbSet<Comment> Comments { get; set; }
         DbSet<Post> Posts { get; set; }
         DbSet<User> Users { get; set; }
+        DbSet<Roles> Roles { get; set; }
+        DbSet<Permissions>  Permissions { get; set; }
+        DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
+        DbSet<UserWithRole> UserWithRoles { get; set; }
+
 
     }
 }

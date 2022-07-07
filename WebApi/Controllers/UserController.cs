@@ -106,6 +106,12 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("Register-Admin")]
+
+
+
+
+
+
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);

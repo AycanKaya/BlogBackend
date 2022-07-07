@@ -15,3 +15,5 @@ C:\Users\Aycan\Desktop\BlogBackend\Persistence\bin\Debug\net6.0\Domain.dll
 C:\Users\Aycan\Desktop\BlogBackend\Persistence\bin\Debug\net6.0\Application.pdb
 C:\Users\Aycan\Desktop\BlogBackend\Persistence\bin\Debug\net6.0\Domain.pdb
 C:\Users\Aycan\Desktop\BlogBackend\Persistence\obj\Debug\net6.0\Persistence.csproj.CopyComplete
+C:\Users\Aycan\Desktop\BlogBackend\Persistence\bin\Debug\net6.0\Persistence.runtimeconfig.json
+C:\Users\Aycan\Desktop\BlogBackend\Persistence\obj\Debug\net6.0\Persistence.genruntimeconfig.cache

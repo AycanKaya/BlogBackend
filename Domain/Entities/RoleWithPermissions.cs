@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class RoleWithPermissions
     {
-        public int RoleId { get; set; }
+        public int RoleId { get; set; } //IdentityRole foreignkey
         public int PermissionId { get; set; }
 
     }

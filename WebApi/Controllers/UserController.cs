@@ -10,8 +10,9 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 using Microsoft.AspNetCore.Http;
-using Application.Helper;
-
+using Domain.Entities;
+using Persistence.Context;
+using Application.Interfaces;
 namespace WebApi.Controllers
 {
 
@@ -21,15 +22,18 @@ namespace WebApi.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IApplicationDbContext _context;
         private readonly IConfiguration _configuration;
 
         public UserController(
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
+            IApplicationDbContext context,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
             _configuration = configuration;
         }
 
@@ -65,7 +69,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
+        [Route("Register-BasicUser")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
@@ -79,14 +83,29 @@ namespace WebApi.Controllers
                 UserName = model.Username
             };
             var result = await _userManager.CreateAsync(user, model.Password);
+
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
-            return Ok(new ResponseModel { Status = "Success", Message = "User created successfully!" });
+            if (!await _roleManager.RoleExistsAsync("Basic"))
+                await _roleManager.CreateAsync(new IdentityRole("Basic"));
+
+
+            if (await _roleManager.RoleExistsAsync("Basic"))
+            {
+                await _userManager.AddToRoleAsync(user, "Basic");
+            }
+
+            ResponseModel response = new ResponseModel();
+            response.UserName=user.UserName;
+            response.Email=user.Email;
+            response.Message = "User created successfully!";
+            response.Status = "Success";
+            return Ok(response);
         }
 
         [HttpPost]
-        [Route("register-admin")]
+        [Route("Register-Admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
@@ -102,30 +121,32 @@ namespace WebApi.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+      
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
 
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+           
+            if (await _roleManager.RoleExistsAsync("Admin"))
             {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+                await _userManager.AddToRoleAsync(user, "Admin");
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
-            }
-            return Ok(new ResponseModel { Status = "Success", Message = "User created successfully!" });
+
+            ResponseModel response = new ResponseModel();
+            response.UserName = user.UserName;
+            response.Email = user.Email;
+            response.Message = "Admin created successfully!";
+            response.Status = "Success";
+            return Ok(response);
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 expires: DateTime.Now.AddHours(3),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
@@ -135,4 +156,3 @@ namespace WebApi.Controllers
         }
     }
 }
-

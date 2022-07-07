@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Application;
 using Application.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Context
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -20,7 +22,6 @@ namespace Persistence.Context
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Roles> Roles { get; set; }
         public DbSet<Permissions> Permissions { get; set; }
         public DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
         public DbSet<UserWithRole> UserWithRoles { get; set; }
@@ -30,5 +31,51 @@ namespace Persistence.Context
         {
             return await base.SaveChangesAsync();
         }
-    }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //   modelBuilder.Entity<Customer>().HasKey(c => c.Id);
+            //   base.OnModelCreating(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.ToTable(name: "Post");
+
+            });
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.ToTable(name: "Comment");
+
+            });
+            modelBuilder.Entity<Permissions>(entity =>
+            {
+                entity.HasKey(c => c.ID);
+                entity.ToTable(name: "Permissions");
+
+            });
+            modelBuilder.Entity<UserWithRole>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToTable(name: "UserWithRole");
+
+            });
+
+            modelBuilder.Entity<RoleWithPermissions>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToTable(name: "RoleWithPermissions");
+
+            });
+
+        }
+
+
+
+        }
 }

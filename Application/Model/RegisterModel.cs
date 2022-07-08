@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Persistence.Model
+namespace Application.Model
 {
     public class RegisterModel
     {

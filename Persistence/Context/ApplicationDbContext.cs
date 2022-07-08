@@ -35,8 +35,6 @@ namespace Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //   modelBuilder.Entity<Customer>().HasKey(c => c.Id);
-            //   base.OnModelCreating(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
 

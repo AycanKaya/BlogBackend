@@ -27,6 +27,8 @@ namespace Persistence
 
             services.AddTransient<IJWTService, JWTService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAdminService, AdminServices>();
+      
         }
     }
 }

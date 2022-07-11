@@ -19,6 +19,11 @@ namespace Application.Services
         {
             _configuration = configuration;
         }
+
+        /*
+         * DecodeToken ve GetJWT yapılacak.
+         */
+
         public string DecodeToken(string token)
         {
             throw new NotImplementedException();

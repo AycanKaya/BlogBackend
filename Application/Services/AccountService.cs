@@ -1,51 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Application.Model;
-using System.Text;
-using System.Collections.Generic;
-using System;
-using Microsoft.AspNetCore.Http;
 using Domain.Entities;
 using Application.Interfaces;
+using Application.DTO;
 
 namespace Application.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IConfiguration _configuration;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IJWTService _jwtService;
 
-        public AccountService(IConfiguration configuration, UserManager<IdentityUser> userManager,IJWTService service)
+        public AccountService(UserManager<IdentityUser> userManager,IJWTService service)
         {
-            _configuration = configuration;
+            
             _userManager = userManager;
             _jwtService = service;
         }
 
-        public async Task<ResponseModel> RegisterUser(RegisterModel model)
+  
+
+        public async Task<ResponseModel> Register(RegisterRequest registerRequest)
         {
-            var exist_user = await _userManager.FindByEmailAsync(model.Email);
+            var exist_user = await _userManager.FindByEmailAsync(registerRequest.Email);
             if(exist_user != null)
-                throw new Exception($"Username '{model.Username}' is already taken.");
+                throw new Exception($"Username '{registerRequest.Username}' is already taken.");
             IdentityUser user = new()
             {
-                Email = model.Email,
+                Email = registerRequest.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = registerRequest.Username
 
             };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, registerRequest.Password);
             if (!result.Succeeded)
                 throw new Exception($"{result.Errors}");
 
@@ -57,23 +45,23 @@ namespace Application.Services
             return response;
 
         }
-        public async Task<ResponseModel> LoginUser(LoginModel model)
+        public async Task<ResponseModel> Login(AuthenticationRequest authenticationRequest)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(authenticationRequest.Email);
             if (user == null)
                 throw new Exception($"User not be found");
 
-            if(await _userManager.CheckPasswordAsync(user, model.Password))
+            if(await _userManager.CheckPasswordAsync(user, authenticationRequest.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-                var token= _jwtService.GetToken(model.Username, userRoles);
+                var token= _jwtService.GetToken(authenticationRequest.Email, userRoles);
                 var handleToken = new JwtSecurityTokenHandler().WriteToken(token);
                 if (token != null)
                 {
                     return new ResponseModel()
                     {
-                        UserName = model.Username,
-                        Email=model.Email,
+                      
+                        Email=authenticationRequest.Email,
                         Message= "",
                         token=handleToken,
                     };
@@ -89,5 +77,15 @@ namespace Application.Services
 
 
         }
+
+
+    
+
+
+
+
+
+
+
     }
 }

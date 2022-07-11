@@ -11,6 +11,7 @@ public static class ServiceExtensions
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddTransient<IJWTService, JWTService>();
         services.AddTransient<IAccountService, AccountService>();
+        services.AddTransient<IAdminService, AdminServices>();
 
     }
 }

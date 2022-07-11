@@ -1,22 +1,11 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System.Text;
-using System.Collections.Generic;
-using System;
-using Microsoft.AspNetCore.Http;
-using Domain.Entities;
-using Persistence.Context;
 using Application.Interfaces;
-using Application.Model;
-using Application.Interfaces;
+using Application.DTO;
 
 namespace WebApi.Controllers
 {
+    
 
     [Route("api/[controller]")]
     [ApiController]
@@ -27,24 +16,25 @@ namespace WebApi.Controllers
         public UserController(IAccountService accountService)
         {
             _accountService = accountService;
-        }
-       
+        } 
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login(LoginModel model)
+
+        [HttpPost("authenticate")]
+        
+        public async Task<IActionResult> Login(AuthenticationRequest request)
         {
-            return Ok(await _accountService.LoginUser(model));
+            return Ok(await _accountService.Login(request));
             
         }
 
         [HttpPost]
-        [Route("Register")]
-        public async Task<IActionResult> Register(RegisterModel model)
+        [Route("register")]
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
-            return Ok(await _accountService.RegisterUser(model));
+            return Ok(await _accountService.Register(request));
         }
 
+        
 
     }
 }

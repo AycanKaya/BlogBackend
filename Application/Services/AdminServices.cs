@@ -36,14 +36,10 @@ namespace Application.Services
         }
 
         public async Task<IdentityUser> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO)
-        {
-            
-            
+        {           
             var user =   await _userManager.Users.Where(x => x.Id == userMatchRoleDTO.UserId).FirstOrDefaultAsync();
-
             if (user == null)
                 throw new ArgumentNullException();
-
             await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
             return user;
 

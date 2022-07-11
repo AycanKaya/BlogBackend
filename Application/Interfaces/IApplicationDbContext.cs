@@ -19,6 +19,8 @@ namespace Application.Interfaces
         DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
         DbSet<UserWithRole> UserWithRoles { get; set; }
 
+        Task<int> SaveChanges();
+
 
     }
 }

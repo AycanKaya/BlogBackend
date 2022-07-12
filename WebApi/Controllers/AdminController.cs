@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using System.Threading.Tasks;
 using Application.DTO;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApi.Controllers
 {
@@ -10,7 +11,7 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-   // [Authorize(Roles = "Admin")]
+    // [Authorize]
     public class AdminController : ControllerBase
     {
         IAdminService _adminService;
@@ -22,6 +23,7 @@ namespace WebApi.Controllers
 
 
          [HttpGet]
+         [Authorize]
          public async Task<IActionResult> GetAllUsers()
         {
             var users = await _adminService.GetAllUsers();

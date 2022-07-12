@@ -36,77 +36,13 @@ namespace WebApi
         {
             services.AddApplication();
 
-            //    services.AddControllers().AddProtobufFormatters().AddXmlSerializerFormatters();
 
             services.AddControllers();
-            
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                var Key = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
-                o.SaveToken = true;
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["JWT:Issuer"],
-                    ValidAudience = Configuration["JWT:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Key)
-                };
-                o.Events = new JwtBearerEvents()
-                {
-                    OnAuthenticationFailed = c =>
-                    {
-                        c.NoResult();
-                        c.Response.StatusCode = 500;
-                        c.Response.ContentType = "text/plain";
-                        return c.Response.WriteAsync(c.Exception.ToString());
-                    },
-                    OnChallenge = context =>
-                    {
-                        context.HandleResponse();
-                        context.Response.StatusCode = 401;
-                        context.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(("You are not Authorized"));
-                        return context.Response.WriteAsync(result);
-                    },
-                    OnForbidden = context =>
-                    {
-                        context.Response.StatusCode = 403;
-                        context.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(("You are not authorized to access this resource"));
-                        return context.Response.WriteAsync(result);
-                    },
-                };
-
-
-
-
-            });
-
-
-
+            services.AddSwaggerExtension();
 
             services.AddPersistence(Configuration);
-            #region Swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.IncludeXmlComments(string.Format(@"{0}\OnionArchitecture.xml", System.AppDomain.CurrentDomain.BaseDirectory));
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "OnionArchitecture",
-                });
-
-            });
-            #endregion
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -139,6 +75,7 @@ namespace WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "OnionArchitecture");
             });
             #endregion
+
         }
     }
 }

@@ -10,13 +10,15 @@ namespace Application.Services
     public class AccountService : IAccountService
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IJWTService _jwtService;
-
-        public AccountService(UserManager<IdentityUser> userManager,IJWTService service)
+       
+        public AccountService(UserManager<IdentityUser> userManager,SignInManager<IdentityUser> signInManager, IJWTService service)
         {
             
             _userManager = userManager;
             _jwtService = service;
+            _signInManager = signInManager;
         }
 
   
@@ -51,10 +53,20 @@ namespace Application.Services
             if (user == null)
                 throw new Exception($"User not be found");
 
-            if(await _userManager.CheckPasswordAsync(user, authenticationRequest.Password))
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, authenticationRequest.Password, false, lockoutOnFailure: false);
+            if (!result.Succeeded)
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var token= _jwtService.GetToken(authenticationRequest.Email, userRoles);
+                throw new Exception($"Invalid Credentials for '{authenticationRequest.Email}'.");
+            }
+            if (!user.EmailConfirmed)
+            {
+                throw new Exception($"Account Not Confirmed for '{authenticationRequest.Email}'.");
+            }
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+          //  var userRoles = await _userManager.GetRolesAsync(user);
+                JwtSecurityToken token= _jwtService.GetToken(userClaims,roles, user);
                 var handleToken = new JwtSecurityTokenHandler().WriteToken(token);
                 if (token != null)
                 {
@@ -71,9 +83,7 @@ namespace Application.Services
                 {
                     throw new Exception("Null Token");
                 }
-                 
-            }else
-                throw new Exception($"Your password and your email address do not match.");
+             
 
 
         }

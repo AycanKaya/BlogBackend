@@ -16,11 +16,11 @@ namespace WebApi.Controllers
         public UserController(IAccountService accountService)
         {
             _accountService = accountService;
-        } 
+        }
 
 
         [HttpPost("authenticate")]
-        
+
         public async Task<IActionResult> Login(AuthenticationRequest request)
         {
             return Ok(await _accountService.Login(request));

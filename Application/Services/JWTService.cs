@@ -8,16 +8,20 @@ using System.Threading.Tasks;
 using Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Application.Helpers;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Services
 {
     public class JWTService : IJWTService
     {
         private readonly IConfiguration _configuration;
-
-        public JWTService(IConfiguration configuration)
+        private readonly JWTSettings _jwtSettings;
+        public JWTService(IConfiguration configuration, IOptions<JWTSettings> jwtSettings)
         {
             _configuration = configuration;
+            _jwtSettings = jwtSettings.Value;
         }
 
         /*
@@ -34,30 +38,38 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public JwtSecurityToken GetToken(string userName, IList<string> roles)
+        public JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser user)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var roleClaims = new List<Claim>();
 
-            var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, userName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-            foreach (var userRole in roles)
+            for (int i = 0; i < roles.Count; i++)
             {
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                roleClaims.Add(new Claim("roles", roles[i]));
             }
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                expires: DateTime.Now.AddHours(3),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+            string ipAddress = IpHelper.GetIpAddress();
 
-            return token;
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("uid", user.Id),
+                new Claim("ip", ipAddress)
+            }
+            .Union(userClaim)
+            .Union(roleClaims);
+
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+                signingCredentials: signingCredentials);
+            return jwtSecurityToken;
         }
     }
 }

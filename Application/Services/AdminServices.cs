@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Application.DTO;
 
 namespace Application.Services
 {
@@ -44,6 +45,7 @@ namespace Application.Services
             return user;
 
         }
+       
 
     }
 }

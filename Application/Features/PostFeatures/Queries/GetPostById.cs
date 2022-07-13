@@ -21,7 +21,7 @@ namespace Application.Features.PostFeatures
             }
             public async Task<Post> Handle(GetPostById query,CancellationToken cancellation)
             {
-                var post = _context.Posts.Where(post => post.Id == query.Id).FirstOrDefault();
+                var post =  _context.Posts.Where(post => post.Id == query.Id).FirstOrDefault();
                 if (post == null)
                     throw new Exception("Please check the Id that your entered.");
                 return post;

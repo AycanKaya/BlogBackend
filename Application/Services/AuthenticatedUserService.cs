@@ -13,8 +13,10 @@ namespace Application.Services
         public AuthenticatedUserService(IHttpContextAccessor httpContextAccessor)
         {
             UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue("uid");
+            UserName = httpContextAccessor.HttpContext.User?.FindFirstValue("sub");
         }
 
         public string UserId { get; }
+        public string UserName { get; }
     }
 }

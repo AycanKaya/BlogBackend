@@ -12,6 +12,8 @@ namespace Domain.Entities
         public string Content { get; set; }
         public string AuthorName { get; set; }
         public int PostID { get; set; }
+        public string AuthorId { get; set; }
+
         public DateTime Created { get; set; }
        
 

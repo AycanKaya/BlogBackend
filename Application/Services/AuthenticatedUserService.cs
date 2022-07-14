@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace WebApi.Services
+namespace Application.Services
 {
     public class AuthenticatedUserService : IAuthenticatedUserService
     {

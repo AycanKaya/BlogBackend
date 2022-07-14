@@ -16,8 +16,8 @@ namespace Domain.Entities
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
 
-        [ForeignKey("AspNetUsers")]
-        public int AuthorID { get; set; }
+     
+        public string AuthorID { get; set; }
 
     }
 }

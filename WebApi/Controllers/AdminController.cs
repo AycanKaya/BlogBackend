@@ -11,7 +11,7 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    // [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         IAdminService _adminService;
@@ -20,10 +20,7 @@ namespace WebApi.Controllers
             _adminService = adminService;
         }
 
-
-
-         [HttpGet]
-         [Authorize]
+        [HttpGet("GetAllUsers")]
          public async Task<IActionResult> GetAllUsers()
         {
             var users = await _adminService.GetAllUsers();
@@ -31,14 +28,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("UserInRole")]
+        [Route("GetUserInRole")]
         public async Task<IActionResult> GetUsersInRoles()
         {
             var userWithRole = await _adminService.GetUsersWithRole();
              return Ok(userWithRole);
         }
          
-         [HttpPut]
+         [HttpPut("AddRoleToUser")]
          public async Task<IActionResult> AddRoleToUser(UserMatchRoleDTO userMatchRoleDTO)
         {
             return Ok(await _adminService.MatchingUserWtihRole(userMatchRoleDTO));

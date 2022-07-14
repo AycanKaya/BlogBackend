@@ -28,14 +28,20 @@ namespace Application.Services
          * DecodeToken ve GetJWT yapılacak.
          */
 
-        public string DecodeToken(string token)
+        public IList<Claim> DecodeToken(JwtSecurityToken token)
         {
-            throw new NotImplementedException();
+          /*  var token2 = token.ToString();
+            var handler = new JwtSecurityTokenHandler();
+            var tokenDecode = handler.ReadToken(token2) as JwtSecurityToken;
+            var listClaim = tokenDecode.Claims.ToList().AsReadOnly();
+          
+            */
+            return default;
         }
 
         public string GetJWT(string token) 
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         public JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser user)

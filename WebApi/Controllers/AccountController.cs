@@ -9,11 +9,11 @@ namespace WebApi.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AccountController : ControllerBase
     {
         IAccountService _accountService;
 
-        public UserController(IAccountService accountService)
+        public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -33,6 +33,7 @@ namespace WebApi.Controllers
         {
             return Ok(await _accountService.Register(request));
         }
+
         private string GenerateIPAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))
@@ -40,7 +41,5 @@ namespace WebApi.Controllers
             else
                 return HttpContext.Connection.RemoteIpAddress == null ? "127.0.0.1" : HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
-
-
     }
 }

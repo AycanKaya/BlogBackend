@@ -20,13 +20,9 @@ namespace Persistence.Context
         {
         }
         public DbSet<Post> Posts { get; set; }
-
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Permissions> Permissions { get; set; }
         public DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
-        public DbSet<UserWithRole> UserWithRoles { get; set; }
-
 
         public async Task<int> SaveChanges()
         {
@@ -58,12 +54,7 @@ namespace Persistence.Context
                 entity.ToTable(name: "Permissions");
 
             });
-            modelBuilder.Entity<UserWithRole>(entity =>
-            {
-                entity.HasNoKey();
-                entity.ToTable(name: "UserWithRole");
-
-            });
+        
 
             modelBuilder.Entity<RoleWithPermissions>(entity =>
             {

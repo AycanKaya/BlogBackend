@@ -11,7 +11,7 @@ namespace Application.Features.PostFeatures
         public string Content { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
-        public int AuthorID { get; set; }
+        public string AuthorID { get; set; }
 
         public class CreatePostHandler : IRequestHandler<CreatePostCommand, int>
         {
@@ -21,7 +21,7 @@ namespace Application.Features.PostFeatures
                 _context = dbContext;
             }
 
-            public async Task<int> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreatePostCommand request,CancellationToken cancellationToken)
             {
                 var post = new Post();
                 post.Title = request.Title;

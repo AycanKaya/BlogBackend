@@ -10,8 +10,8 @@ namespace Domain.Entities
     public class RoleWithPermissions
     {
         [ForeignKey("AspNetRoles")]
-        public int RoleId { get; set; } 
-        public int PermissionId { get; set; }
+        public string RoleId { get; set; } 
+        public string PermissionId { get; set; }
 
     }
 }

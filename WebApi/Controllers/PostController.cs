@@ -1,18 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Application.Features.PostFeatures;
+using Microsoft.AspNetCore.Authorization;
+using Application.Interfaces;
+using Application.DTO;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PostController : BaseApiController
-    {        
-        [HttpPost]
+    {
+        IUserService _userService;
+        IAuthenticatedUserService _authenticatedUserService;
+
+        public PostController(IUserService userService, IAuthenticatedUserService authenticatedUserService)
+        {
+            _userService = userService;
+            _authenticatedUserService = authenticatedUserService;
+        }
+
+        [HttpPost("PostUser")]
+        public async Task<IActionResult> Create(PostDTO postDTO)
+        {
+            return Ok(await _userService.SharePost(_authenticatedUserService.UserId.ToString(), postDTO));
+        }
+
+    /*    [HttpPost]
         public async Task<IActionResult> Create( CreatePostCommand createPostCommand)
         {
             return Ok(await Mediator.Send(createPostCommand));
-        }
+        } */
 
         [HttpPut("action")]
         public async Task<IActionResult> Update( UpdatePostCommand updatePostCommand)

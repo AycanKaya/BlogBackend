@@ -5,7 +5,7 @@ using Domain.Entities;
 using Application.Interfaces;
 using Application.DTO;
 using System.Security.Cryptography;
-
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services
 {
@@ -67,9 +67,8 @@ namespace Application.Services
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
 
-          //  var userRoles = await _userManager.GetRolesAsync(user);
-                JwtSecurityToken token= _jwtService.GetToken(userClaims,roles, user);
-            //  var handleToken = new JwtSecurityTokenHandler().WriteToken(token);
+            JwtSecurityToken token= _jwtService.GetToken(userClaims,roles, user);
+
 
             AuthenticationResponse response = new AuthenticationResponse();
             response.Id = user.Id;
@@ -86,6 +85,8 @@ namespace Application.Services
 
 
         }
+
+      
         private RefreshToken GenerateRefreshToken(string ipAddress)
         {
             return new RefreshToken

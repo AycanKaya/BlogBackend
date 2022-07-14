@@ -13,7 +13,7 @@ namespace Application.Interfaces
     {
         string GetJWT(string token);
         JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser users);
-        string DecodeToken(string token);
+        IList<Claim> DecodeToken(JwtSecurityToken token);
 
 
     }

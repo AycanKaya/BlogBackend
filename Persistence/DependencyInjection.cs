@@ -28,10 +28,12 @@ namespace Persistence
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
+            services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();
             services.AddTransient<IJWTService, JWTService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IAdminService, AdminServices>();
+            services.AddTransient<IUserService, UserService>();
+            
 
 
 

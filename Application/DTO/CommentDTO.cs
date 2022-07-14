@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Common;
 
-namespace Domain.Entities
+namespace Application.DTO
 {
-    public class Comment : BaseEntity
+    public class CommentDTO
     {
         public string Content { get; set; }
-        public string AuthorName { get; set; }
         public int PostID { get; set; }
-        public DateTime Created { get; set; }
        
-
     }
 }

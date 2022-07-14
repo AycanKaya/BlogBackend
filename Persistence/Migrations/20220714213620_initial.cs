@@ -94,6 +94,17 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PostWithComments",
+                columns: table => new
+                {
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleWithPermissions",
                 columns: table => new
                 {
@@ -275,6 +286,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Post");
+
+            migrationBuilder.DropTable(
+                name: "PostWithComments");
 
             migrationBuilder.DropTable(
                 name: "RoleWithPermissions");

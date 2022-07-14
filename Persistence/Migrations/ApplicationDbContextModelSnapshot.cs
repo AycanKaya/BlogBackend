@@ -94,6 +94,17 @@ namespace Persistence.Migrations
                     b.ToTable("Post", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.PostWithComments", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.ToTable("PostWithComments", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.RoleWithPermissions", b =>
                 {
                     b.Property<string>("PermissionId")

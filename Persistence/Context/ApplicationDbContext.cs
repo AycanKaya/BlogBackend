@@ -23,12 +23,12 @@ namespace Persistence.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Permissions> Permissions { get; set; }
         public DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
+        public DbSet<PostWithComments> PostWithComments { get; set; }
 
         public async Task<int> SaveChanges()
         {
             return await base.SaveChangesAsync();
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -62,7 +62,12 @@ namespace Persistence.Context
                 entity.ToTable(name: "RoleWithPermissions");
 
             });
+            modelBuilder.Entity<PostWithComments>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToTable(name: "PostWithComments");
 
+            });
         }
 
 

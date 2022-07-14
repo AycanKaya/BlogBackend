@@ -30,6 +30,54 @@ namespace Application.Services
             await _context.SaveChanges();
             return post;
         }
+        public async Task<int> DeletePost(int PostId)
+        {
+            var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
+            if (post == null)
+                throw new Exception("Post  did not found ! ");
+             _context.Posts.Remove(post);
+
+            var commentList= _context.PostWithComments.Where(x => x.PostId == PostId).ToList();
+            foreach(var comment in commentList)
+            {
+                _context.PostWithComments.Remove(comment);
+            }
+
+            await _context.SaveChanges();
+            return PostId;
+
+        }
+        public async Task<Post> UpdatePost(int PostId, PostDTO content)
+        {
+            var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
+            if (post == null)
+                throw new Exception("Post  did not found ! ");
+            post.Content = content.Content;
+            post.Title = content.Title;
+            post.UpdateTime= DateTime.Now;
+            await _context.SaveChanges();
+            return post;
+
+        }
+
+        public async Task<Comment> ShareComment(string userName,CommentDTO commentContent)
+        {
+            var comment = new Comment();
+            comment.AuthorName = userName;
+            comment.Content = commentContent.Content;
+            comment.PostID = commentContent.PostID;
+            comment.Created= DateTime.Now;
+            _context.Comments.Add(comment);
+
+            var commentToPost = new PostWithComments();
+            commentToPost.PostId = comment.PostID;
+            commentToPost.CommentId= comment.Id;
+            _context.PostWithComments.Add(commentToPost);
+          
+            await _context.SaveChanges();
+            return comment;
+            
+        }
 
 
     }

@@ -12,7 +12,7 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220714204208_initial")]
+    [Migration("20220714213620_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,17 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Post", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.PostWithComments", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.ToTable("PostWithComments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.RoleWithPermissions", b =>

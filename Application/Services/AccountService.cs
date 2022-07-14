@@ -38,6 +38,7 @@ namespace Application.Services
 
             };
             var result = await _userManager.CreateAsync(user, registerRequest.Password);
+            
             if (!result.Succeeded)
                 throw new Exception($"{result.Errors}");
 
@@ -60,10 +61,7 @@ namespace Application.Services
             {
                 throw new Exception($"Invalid Credentials for '{authenticationRequest.Email}'.");
             }
-            if (!user.EmailConfirmed)
-            {
-                throw new Exception($"Account Not Confirmed for '{authenticationRequest.Email}'.");
-            }
+            
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
 

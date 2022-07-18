@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.DTO;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -31,6 +25,14 @@ namespace Application.Services
             await _context.SaveChanges();
             return post;
         }
+
+        public async Task<List<Post>> GetPosts(string userId)
+        {
+            var postList = await _context.Posts.Where(x => x.AuthorID == userId).ToListAsync();
+            return postList;
+            
+        }
+
         public async Task<int> DeletePost(int PostId)
         {
             var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
@@ -111,6 +113,11 @@ namespace Application.Services
             await _context.SaveChanges();
             return comment;
             
+        }
+        public async Task<List<Comment>> GetComments(int postId)
+        {
+            var commentList =await _context.Comments.Where(x => x.PostID == postId).ToListAsync();
+            return commentList;
         }
 
 

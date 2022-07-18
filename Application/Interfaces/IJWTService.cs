@@ -11,9 +11,8 @@ namespace Application.Interfaces
 {
     public interface IJWTService
     {
-        string GetJWT(string token);
         JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser users);
-        IList<Claim> DecodeToken(JwtSecurityToken token);
+        Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token);
 
 
     }

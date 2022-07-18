@@ -25,14 +25,8 @@ public static class ServiceExtensions
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "WebApi List",
+                Title = "WebApi",
                 Description = "This Api will be responsible for overall data distribution and authorization.",
-                Contact = new OpenApiContact
-                {
-                    Name = "Software Engineering Lecture",
-                    Email = "info@info.com",
-                    Url = new Uri("https://linktowebsite.com"),
-                }
             });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {

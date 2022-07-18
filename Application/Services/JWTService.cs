@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,36 +8,23 @@ using Application.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 
+
 namespace Application.Services
 {
     public class JWTService : IJWTService
     {
-        private readonly IConfiguration _configuration;
         private readonly JWTSettings _jwtSettings;
-        public JWTService(IConfiguration configuration, IOptions<JWTSettings> jwtSettings)
+        public JWTService(IOptions<JWTSettings> jwtSettings)
         {
-            _configuration = configuration;
             _jwtSettings = jwtSettings.Value;
         }
 
-        /*
-         * DecodeToken ve GetJWT yapılacak.
-         */
 
-        public IList<Claim> DecodeToken(JwtSecurityToken token)
+        public async Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token) 
         {
-          /*  var token2 = token.ToString();
-            var handler = new JwtSecurityTokenHandler();
-            var tokenDecode = handler.ReadToken(token2) as JwtSecurityToken;
-            var listClaim = tokenDecode.Claims.ToList().AsReadOnly();
-          
-            */
-            return default;
-        }
+            var claims = token.Claims;
+            return claims;
 
-        public string GetJWT(string token) 
-        {
-            return default;
         }
 
         public JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser user)

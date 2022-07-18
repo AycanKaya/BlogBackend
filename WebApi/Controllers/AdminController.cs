@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using System.Threading.Tasks;
 using Application.DTO;
-using Microsoft.AspNetCore.Identity;
 
 namespace WebApi.Controllers
 {

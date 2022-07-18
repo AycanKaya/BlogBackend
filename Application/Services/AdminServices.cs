@@ -24,6 +24,9 @@ namespace Application.Services
                 throw new ArgumentNullException(nameof(UserList));
             return UserList;
         }
+        
+      
+
         public async Task<Dictionary<string, List<IdentityUser>>> GetUsersWithRole()
         {
             var roles = await _roleManager.Roles.ToListAsync();
@@ -45,6 +48,18 @@ namespace Application.Services
             return user;
 
         }
+        public async Task<IdentityRole> AddRole(string roleName)
+        {
+            if(_roleManager.Roles.Where(x => x.Name == roleName)!= null)
+                throw new Exception("This role already exist ");
+
+            await _roleManager.CreateAsync(new IdentityRole(roleName));
+            var role = _roleManager.Roles.FirstOrDefault(x => x.Name == roleName);
+            return role;
+
+        }
+        
+
        
 
     }

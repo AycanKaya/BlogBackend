@@ -11,6 +11,10 @@ namespace Application.Interfaces
         Task<Post> ChangeState(int PostId, string AuthorID, bool state);
         Task<PostWithComments> DeleteComment(int PostId, string AuthorID, int commentId);
         Task<Comment> ShareComment(string userName, string userId, CommentDTO commentContent);
+        Task<List<Post>> GetPosts(string userId);
+        Task<List<Comment>> GetComments(int postId);
+
+
 
     }
 }

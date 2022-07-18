@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Application.Features.PostFeatures;
 using Microsoft.AspNetCore.Authorization;
 using Application.Interfaces;
 using Application.DTO;
@@ -54,6 +53,16 @@ namespace WebApi.Controllers
         public async Task<IActionResult> ShareComment(CommentDTO commentDTO)
         {
             return Ok(await _userService.ShareComment(_authenticatedUserService.UserName,_authenticatedUserService.UserId,commentDTO));
+        }
+        [HttpGet("GetAllPosts")]
+        public async Task<IActionResult> GetAllPosts()
+        {
+            return Ok(await _userService.GetPosts(_authenticatedUserService.UserId));
+        }
+        [HttpGet("GetComments")]
+        public async Task<IActionResult> GetAllComments(int postId)
+        {
+            return Ok(await _userService.GetComments(postId));
         }
 
     }

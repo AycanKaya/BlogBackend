@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Application.Interfaces
 {
@@ -13,6 +15,7 @@ namespace Application.Interfaces
     {
         JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser users);
         Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token);
+        string? ValidateToken(string token);
 
 
     }

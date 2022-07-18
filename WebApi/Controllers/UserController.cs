@@ -21,9 +21,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("PostUser")]
-        public async Task<IActionResult> CreatePost(PostDTO postDTO)
+        public async Task<IActionResult> CreatePost(string token, PostDTO postDTO)
         {
-            return Ok(await _userService.SharePost(_authenticatedUserService.UserId.ToString(), postDTO));
+            return Ok(await _userService.SharePost(token, postDTO));
         }
 
         [HttpDelete("{id}")]

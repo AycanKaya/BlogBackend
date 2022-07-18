@@ -4,12 +4,15 @@ using System.Reflection;
 using Application.Interfaces;
 using Application.Services;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Protocols;
+
 public static class ServiceExtensions
 {
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddTransient<IAuthenticatedUserService, AuthenticatedUserService>();
+        
         services.AddTransient<IJWTService, JWTService>();
         services.AddTransient<IAccountService, AccountService>();
         services.AddTransient<IAdminService, AdminServices>();

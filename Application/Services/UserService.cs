@@ -2,28 +2,41 @@
 using Application.DTO;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IApplicationDbContext _context;
-        
-        public UserService(IApplicationDbContext context)
+        private readonly IJWTService _jWTService;
+        public UserService(IApplicationDbContext context, IJWTService jWTService)
         {
             _context = context;
+            _jWTService = jWTService;
+
         }
-        public async Task<Post> SharePost(string userId, PostDTO content)
+        public async Task<Post> SharePost(string accessToken, PostDTO content)
         {
-            var post = new Post();
-            post.AuthorID = userId;
-            post.isActive = true;
-            post.Content = content.Content;
-            post.Title = content.Title;
-            post.CreateTime= DateTime.Now;
-            _context.Posts.Add(post);
-            await _context.SaveChanges();
-            return post;
+            var userId = _jWTService.ValidateToken(accessToken);
+            if (userId != null)
+            {
+                var post = new Post();
+                post.AuthorID = userId;
+                post.isActive = true;
+                post.Content = content.Content;
+                post.Title = content.Title;
+                post.CreateTime = DateTime.Now;
+                _context.Posts.Add(post);
+                await _context.SaveChanges();
+                return post;
+            }
+            throw new SecurityTokenValidationException();
+
+
+
         }
 
         public async Task<List<Post>> GetPosts(string userId)

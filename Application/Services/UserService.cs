@@ -20,7 +20,9 @@ namespace Application.Services
         }
         public async Task<Post> SharePost(string accessToken, PostDTO content)
         {
-            var userId = _jWTService.ValidateToken(accessToken);
+            var jwt = _jWTService.ValidateToken(accessToken);
+            var userId = (jwt.Claims.First(x => x.Type == "uid").Value); 
+
             if (userId != null)
             {
                 var post = new Post();
@@ -39,28 +41,39 @@ namespace Application.Services
 
         }
 
-        public async Task<List<Post>> GetPosts(string userId)
+        public async Task<List<Post>> GetPosts(string token)
         {
+            var jwt = _jWTService.ValidateToken(token);
+            var userId = (jwt.Claims.First(x => x.Type == "uid").Value); 
+
             var postList = await _context.Posts.Where(x => x.AuthorID == userId).ToListAsync();
             return postList;
             
         }
 
-        public async Task<int> DeletePost(int PostId)
+        public async Task<int> DeletePost(int PostId, string token)
         {
-            var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
-            if (post == null)
-                throw new Exception("Post  did not found ! ");
-             _context.Posts.Remove(post);
+            var jwt = _jWTService.ValidateToken(token);
+            var userId = (jwt.Claims.First(x => x.Type == "uid").Value);
 
-            var commentList= _context.PostWithComments.Where(x => x.PostId == PostId).ToList();
-            foreach(var comment in commentList)
+            if (userId != null)
             {
-                _context.PostWithComments.Remove(comment);
-            }
+                var post = _context.Posts.Where(x => x.Id == PostId || x.AuthorID == userId).FirstOrDefault();
+                if (post == null)
+                    throw new Exception("Post  did not found ! ");
+                _context.Posts.Remove(post);
 
-            await _context.SaveChanges();
-            return PostId;
+                var commentList = _context.PostWithComments.Where(x => x.PostId == PostId).ToList();
+                foreach (var comment in commentList)
+                {
+                    _context.PostWithComments.Remove(comment);
+                }
+                await _context.SaveChanges();
+                return PostId;
+
+            }
+            else
+                throw new Exception("User not found !");
 
         }
         public async Task<Post> UpdatePost(int PostId, PostDTO content)
@@ -75,12 +88,17 @@ namespace Application.Services
             return post;
 
         }
-        public async Task<Post> ChangeState(int PostId , string AuthorID, bool state)
+        public async Task<Post> ChangeState(int PostId , string token, bool state)
         {
+            var jwt= _jWTService.ValidateToken(token);
+            var authorId = (jwt.Claims.First(x => x.Type == "uid").Value);
+            if (authorId == null)
+                throw new Exception("User not found ");
+
             var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
-            if (post.AuthorID == AuthorID)
+            if (post.AuthorID == authorId)
             {
                 post.isActive= state;
                 await _context.SaveChanges();
@@ -89,13 +107,18 @@ namespace Application.Services
             throw new Exception("Only users who share the post can change the post status!");
       
         }
-        public async Task<PostWithComments> DeleteComment(int PostId,string  AuthorID, int commentId)
+        public async Task<PostWithComments> DeleteComment(int PostId,string token, int commentId)
         {
+            var jwt = _jWTService.ValidateToken(token);
+            var authorId = (jwt.Claims.First(x => x.Type == "uid").Value);
+            if (authorId == null)
+                throw new Exception("User not found ");
+
             var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
             var comment = _context.Comments.Where(x => x.Id == commentId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
-            if(post.AuthorID == AuthorID || comment.AuthorId== AuthorID)
+            if(post.AuthorID == authorId || comment.AuthorId== authorId)
             {
                 _context.Comments.Remove(comment);
                 var postWithComment= _context.PostWithComments.Where(x => x.CommentId == commentId).FirstOrDefault();
@@ -108,10 +131,15 @@ namespace Application.Services
 
 
 
-        public async Task<Comment> ShareComment(string userName,string userId,CommentDTO commentContent)
+        public async Task<Comment> ShareComment(string token,CommentDTO commentContent)
         {
+            var jwt = _jWTService.ValidateToken(token);
+            var userId = (jwt.Claims.First(x => x.Type == "uid").Value);
+            if (userId == null)
+                throw new Exception("User not found ");
+
             var comment = new Comment();
-            comment.AuthorName = userName;
+            comment.AuthorName = jwt.Claims.First(x => x.Type == "sub").Value;
             comment.Content = commentContent.Content;
             comment.PostID = commentContent.PostID;
             comment.AuthorId = userId;

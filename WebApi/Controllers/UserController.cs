@@ -27,9 +27,9 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePost(int id)
+        public async Task<ActionResult> DeletePost(int id,string token)
         {
-            return Ok(await _userService.DeletePost(id));
+            return Ok(await _userService.DeletePost(id,  token));
         }
 
         [HttpPut]
@@ -39,9 +39,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("ChangeStatus")]
-        public async Task<IActionResult> ChangeState(int PostId, bool status)
+        public async Task<IActionResult> ChangeState(int PostId, string token,bool status)
         {
-            return  Ok(await _userService.ChangeState(PostId,_authenticatedUserService.UserId, status));
+            return  Ok(await _userService.ChangeState(PostId,token, status));
         }
 
         [HttpDelete("DeleteComment")]
@@ -50,14 +50,14 @@ namespace WebApi.Controllers
             return Ok(await _userService.DeleteComment(PostId,_authenticatedUserService.UserId, CommentId));
         }
         [HttpPost("ShareComment")]
-        public async Task<IActionResult> ShareComment(CommentDTO commentDTO)
+        public async Task<IActionResult> ShareComment(CommentDTO commentDTO, string token)
         {
-            return Ok(await _userService.ShareComment(_authenticatedUserService.UserName,_authenticatedUserService.UserId,commentDTO));
+            return Ok(await _userService.ShareComment(token,commentDTO));
         }
         [HttpGet("GetAllPosts")]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<IActionResult> GetAllPosts(string token)
         {
-            return Ok(await _userService.GetPosts(_authenticatedUserService.UserId));
+            return Ok(await _userService.GetPosts(token));
         }
         [HttpGet("GetComments")]
         public async Task<IActionResult> GetAllComments(int postId)

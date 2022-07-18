@@ -63,7 +63,7 @@ namespace Application.Services
             return jwtSecurityToken;
         }
 
-        public string? ValidateToken(string token)
+        public JwtSecurityToken? ValidateToken(string token)
         {
             if (token == null)
                 return null;
@@ -83,10 +83,10 @@ namespace Application.Services
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = (jwtToken.Claims.First(x => x.Type == "uid").Value);
+        //        var userId = (jwtToken.Claims.First(x => x.Type == "uid").Value);
+        //        var userName = (jwtToken.Claims.First(x => x.Type == "sub").Value);
 
-                // return user id from JWT token if validation successful
-                return userId;
+                return jwtToken;
             }
             catch
             {

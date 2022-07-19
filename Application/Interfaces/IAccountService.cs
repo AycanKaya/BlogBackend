@@ -8,7 +8,8 @@ namespace Application.Interfaces
         Task<ResponseModel> Register(RegisterRequest registerRequest);
 
  //       Task<Model.User> Register(RegsiterDTO dto);
-        Task<AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress);
+          Task<AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress);
+          bool isLogged(string token);
     }
 }
 

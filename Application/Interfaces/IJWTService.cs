@@ -16,6 +16,7 @@ namespace Application.Interfaces
         JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser users);
         Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token);
         JwtSecurityToken? ValidateToken(string token);
+        IEnumerable<Claim> GetTokenClaims(string tokenStr);
 
 
     }

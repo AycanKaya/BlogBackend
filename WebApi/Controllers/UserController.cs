@@ -21,14 +21,16 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("PostUser")]
-        public async Task<IActionResult> CreatePost(string token, PostDTO postDTO)
+        public async Task<IActionResult> CreatePost(PostDTO postDTO)
         {
+            var token = HttpContext.Request.Headers.Authorization.ToString();   
             return Ok(await _userService.SharePost(token, postDTO));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePost(int id,string token)
+        public async Task<ActionResult> DeletePost(int id)
         {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
             return Ok(await _userService.DeletePost(id,  token));
         }
 
@@ -39,8 +41,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("ChangeStatus")]
-        public async Task<IActionResult> ChangeState(int PostId, string token,bool status)
+        public async Task<IActionResult> ChangeState(int PostId,bool status)
         {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
             return  Ok(await _userService.ChangeState(PostId,token, status));
         }
 
@@ -50,13 +53,15 @@ namespace WebApi.Controllers
             return Ok(await _userService.DeleteComment(PostId,_authenticatedUserService.UserId, CommentId));
         }
         [HttpPost("ShareComment")]
-        public async Task<IActionResult> ShareComment(CommentDTO commentDTO, string token)
+        public async Task<IActionResult> ShareComment(CommentDTO commentDTO)
         {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
             return Ok(await _userService.ShareComment(token,commentDTO));
         }
         [HttpGet("GetAllPosts")]
-        public async Task<IActionResult> GetAllPosts(string token)
+        public async Task<IActionResult> GetAllPosts()
         {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
             return Ok(await _userService.GetPosts(token));
         }
         [HttpGet("GetComments")]

@@ -27,6 +27,14 @@ namespace WebApi.Controllers
             
         }
 
+        [HttpGet("isValid")]
+        public  IActionResult isLogged() { 
+            var token= HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            return Ok( _accountService.isLogged(token));
+        }
+        
+
+
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register(RegisterRequest request)

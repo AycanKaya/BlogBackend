@@ -104,6 +104,14 @@ namespace Application.Services
             return BitConverter.ToString(randomBytes).Replace("-", "");
         }
 
+        public  bool isLogged(string token)
+        {
+            var validateToken =  _jwtService.ValidateToken(token);
+            if (validateToken == null)
+                return false;
+            return true;
+        }
+
 
 
 

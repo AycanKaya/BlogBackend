@@ -1,14 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Application.Helpers;
-using Microsoft.Extensions.Options;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services
 {
@@ -21,13 +18,13 @@ namespace Application.Services
         }
 
 
-        public async Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token) 
+        public async Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token)
         {
             var claims = token.Claims;
             return claims;
 
         }
-      
+
 
         public JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser user)
         {
@@ -63,36 +60,33 @@ namespace Application.Services
             return jwtSecurityToken;
         }
 
-        public JwtSecurityToken? ValidateToken(string token)
+        public IEnumerable<Claim> GetTokenClaims(string tokenStr)
         {
-            if (token == null)
-                return null;
+            var token = ValidateToken(tokenStr);
+
+            return token.Claims;
+        }
+
+        public JwtSecurityToken ValidateToken(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentNullException(nameof(token));
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
-            try
-            {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
 
-                var jwtToken = (JwtSecurityToken)validatedToken;
-        //        var userId = (jwtToken.Claims.First(x => x.Type == "uid").Value);
-        //        var userName = (jwtToken.Claims.First(x => x.Type == "sub").Value);
-
-                return jwtToken;
-            }
-            catch
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
-                // return null if validation fails
-                return null;
-            }
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            return jwtToken;
+
         }
 
 

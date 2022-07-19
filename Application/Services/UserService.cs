@@ -20,8 +20,9 @@ namespace Application.Services
         }
         public async Task<Post> SharePost(string accessToken, PostDTO content)
         {
-            var jwt = _jWTService.ValidateToken(accessToken);
-            var userId = (jwt.Claims.First(x => x.Type == "uid").Value); 
+            
+            var jwt = _jWTService.GetTokenClaims(accessToken);
+            var userId = jwt.First(x => x.Type == "uid").Value; 
 
             if (userId != null)
             {
@@ -43,8 +44,8 @@ namespace Application.Services
 
         public async Task<List<Post>> GetPosts(string token)
         {
-            var jwt = _jWTService.ValidateToken(token);
-            var userId = (jwt.Claims.First(x => x.Type == "uid").Value); 
+            var jwt = _jWTService.GetTokenClaims(token);
+            var userId = (jwt.First(x => x.Type == "uid").Value); 
 
             var postList = await _context.Posts.Where(x => x.AuthorID == userId).ToListAsync();
             return postList;
@@ -90,8 +91,8 @@ namespace Application.Services
         }
         public async Task<Post> ChangeState(int PostId , string token, bool state)
         {
-            var jwt= _jWTService.ValidateToken(token);
-            var authorId = (jwt.Claims.First(x => x.Type == "uid").Value);
+            var jwt= _jWTService.GetTokenClaims(token);
+            var authorId = (jwt.First(x => x.Type == "uid").Value);
             if (authorId == null)
                 throw new Exception("User not found ");
 
@@ -109,8 +110,8 @@ namespace Application.Services
         }
         public async Task<PostWithComments> DeleteComment(int PostId,string token, int commentId)
         {
-            var jwt = _jWTService.ValidateToken(token);
-            var authorId = (jwt.Claims.First(x => x.Type == "uid").Value);
+            var jwt = _jWTService.GetTokenClaims(token);
+            var authorId = (jwt.First(x => x.Type == "uid").Value);
             if (authorId == null)
                 throw new Exception("User not found ");
 
@@ -133,13 +134,13 @@ namespace Application.Services
 
         public async Task<Comment> ShareComment(string token,CommentDTO commentContent)
         {
-            var jwt = _jWTService.ValidateToken(token);
-            var userId = (jwt.Claims.First(x => x.Type == "uid").Value);
+            var jwt = _jWTService.GetTokenClaims(token);
+            var userId = (jwt.First(x => x.Type == "uid").Value);
             if (userId == null)
                 throw new Exception("User not found ");
 
             var comment = new Comment();
-            comment.AuthorName = jwt.Claims.First(x => x.Type == "sub").Value;
+            comment.AuthorName = jwt.First(x => x.Type == "sub").Value;
             comment.Content = commentContent.Content;
             comment.PostID = commentContent.PostID;
             comment.AuthorId = userId;

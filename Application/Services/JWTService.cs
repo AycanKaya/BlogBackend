@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Application.Helpers;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -69,19 +70,21 @@ namespace Application.Services
 
         public JwtSecurityToken ValidateToken(string token)
         {
+
             if (string.IsNullOrEmpty(token))
                 throw new ArgumentNullException(nameof(token));
-
+            var jwt = token.Replace("Bearer ", string.Empty);
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
 
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            tokenHandler.ValidateToken(jwt, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ClockSkew = TimeSpan.Zero
+
             }, out SecurityToken validatedToken);
 
             var jwtToken = (JwtSecurityToken)validatedToken;

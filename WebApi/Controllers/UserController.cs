@@ -39,7 +39,10 @@ namespace WebApi.Controllers
         {
             return Ok(await _userService.UpdatePost(PostId, post));
         }
-
+/*
+        HTTPPOST ChangePostStatus
+            public ChangePostStatusResponse ChangePostStatus(ChangePostStatusRequest request) 
+*/
         [HttpPut("ChangeStatus")]
         public async Task<IActionResult> ChangeState(int PostId,bool status)
         {

@@ -19,14 +19,6 @@ namespace Application.Services
         }
 
 
-        public async Task<IEnumerable<Claim>> DecodeJWT(JwtSecurityToken token)
-        {
-            var claims = token.Claims;
-            return claims;
-
-        }
-
-
         public JwtSecurityToken GetToken(IList<Claim> userClaim, IList<string> roles, IdentityUser user)
         {
             var roleClaims = new List<Claim>();
@@ -92,7 +84,12 @@ namespace Application.Services
 
         }
 
-
+        public string GetUserIdFromJWT(string token)
+        {
+            var jwt =GetTokenClaims(token);
+            var userId = jwt.First(x => x.Type == "uid").Value;
+            return userId;
+        }
 
 
 

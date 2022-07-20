@@ -42,6 +42,14 @@ namespace WebApi.Controllers
             return Ok(await _accountService.Register(request));
         }
 
+    /*    BaseRequest
+            BaseResponse
+              IsError
+            ErrorMessage
+
+            RegisterResponse:BaseResponse
+     
+        */
         private string GenerateIPAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))

@@ -77,30 +77,30 @@ namespace Application.Services
                 throw new Exception("User not found !");
 
         }
-        public async Task<Post> UpdatePost(int PostId, PostDTO content)
+        public async Task<Post> UpdatePost(UpdatePostDTO updatePostDTO)
         {
-            var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
+            var post = _context.Posts.Where(x => x.Id == updatePostDTO.PostId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
-            post.Content = content.Content;
-            post.Title = content.Title;
+            post.Content = updatePostDTO.Content;
+            post.Title = updatePostDTO.Title;
             post.UpdateTime = DateTime.Now;
             await _context.SaveChanges();
             return post;
 
         }
-        public async Task<Post> ChangePostState(int PostId, string token, bool state)
+        public async Task<Post> ChangePostState(string token, UpdatePostDTO updatePostDTO)
         {
             var authorId = _jWTService.GetUserIdFromJWT(token);
             if (authorId == null)
                 throw new Exception("User not found ");
 
-            var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
+            var post = _context.Posts.Where(x => x.Id == updatePostDTO.PostId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
             if (post.AuthorID == authorId)
             {
-                post.isActive = state;
+                post.isActive = updatePostDTO.isActive;
                 await _context.SaveChanges();
                 return post;
             }

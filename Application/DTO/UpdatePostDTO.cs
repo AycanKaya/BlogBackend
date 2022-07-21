@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Application.DTO
 {
-    public class PostDTO
+    public class UpdatePostDTO
     {
+        public int PostId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        
+        public bool isActive { get; set; }
+
     }
 }

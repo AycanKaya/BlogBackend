@@ -37,15 +37,15 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<BaseResponse<Post>> UpdatePost(int PostId, PostDTO post){
-            return new BaseResponse<Post>(await _postService.UpdatePost(PostId, post));
+        public async Task<BaseResponse<Post>> UpdatePost(UpdatePostDTO updatePostDTO){
+            return new BaseResponse<Post>(await _postService.UpdatePost(updatePostDTO));
         }
         
         [HttpPost("ChangeStatus")]
-        public async Task<BaseResponse<Post>> ChangeState(int PostId, bool status)
+        public async Task<BaseResponse<Post>> ChangeState(UpdatePostDTO updatePostDTO)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return new BaseResponse<Post>(await _postService.ChangePostState(PostId, token, status));
+            return new BaseResponse<Post>(await _postService.ChangePostState(token, updatePostDTO));
         }
         [HttpGet("GetAllPosts")]
         public async Task<BaseResponse<List<Post>>> GetAllPosts()

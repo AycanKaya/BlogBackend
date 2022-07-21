@@ -47,14 +47,6 @@ namespace WebApi.Controllers
 
        
 
-        /*    BaseRequest
-                BaseResponse
-                  IsError
-                ErrorMessage
-
-                RegisterResponse:BaseResponse
-
-            */
         private string GenerateIPAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))

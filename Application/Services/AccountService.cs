@@ -66,7 +66,7 @@ namespace Application.Services
                     break;
                 }
             }
-            if (validConditions == 0) return false;
+            if (validConditions == 1) return false;
             foreach (char c in passWord)
             {
                 if (c >= '0' && c <= '9')
@@ -75,7 +75,7 @@ namespace Application.Services
                     break;
                 }
             }
-            if (validConditions == 0) return false;
+            if (validConditions == 2) return false;
             return true;
         }
 
@@ -103,7 +103,7 @@ namespace Application.Services
                 return new BaseResponse<string>(user.UserName, result.ToString());
             }
             else
-                return new BaseResponse<string>("Invalid email or passwprd !");
+                 throw new ExceptionResponse("Invalid email or passwprd !");
 
             
 

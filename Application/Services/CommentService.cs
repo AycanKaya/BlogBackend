@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.DTO;
 using Application.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -22,21 +23,21 @@ namespace Application.Services
             _context = context;
 
         }
-        public async Task<PostWithComments> DeleteComment(int PostId, string token, int commentId)
+        public async Task<PostWithComments> DeleteComment(PostWithCommentsDTO postWithComments, string token)
         {
-
+            
             var authorId = _jWTService.GetUserIdFromJWT(token);
             if (authorId == null)
                 throw new Exception("User not found ");
 
-            var post = _context.Posts.Where(x => x.Id == PostId).FirstOrDefault();
-            var comment = _context.Comments.Where(x => x.Id == commentId).FirstOrDefault();
+            var post = _context.Posts.Where(x => x.Id == postWithComments.PostId).FirstOrDefault();
+            var comment = _context.Comments.Where(x => x.Id == postWithComments.CommentId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
             if (post.AuthorID == authorId || comment.AuthorId == authorId)
             {
                 _context.Comments.Remove(comment);
-                var postWithComment = _context.PostWithComments.Where(x => x.CommentId == commentId).FirstOrDefault();
+                var postWithComment = _context.PostWithComments.Where(x => x.CommentId == postWithComments.CommentId).FirstOrDefault();
                 _context.PostWithComments.Remove(postWithComment);
                 await _context.SaveChanges();
                 return postWithComment;

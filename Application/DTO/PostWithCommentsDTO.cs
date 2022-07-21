@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTO
 {
-    public class PostDTO
+    public class PostWithCommentsDTO
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        
+        public int PostId { get; set; }
+        public int CommentId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Application.Interfaces
 {
     public interface  ICommentService
     {
-        Task<PostWithComments> DeleteComment(int PostId, string token, int commentId);
+        Task<PostWithComments> DeleteComment(PostWithCommentsDTO postWithComments, string token);
         Task<Comment> ShareComment(string token, CommentDTO commentContent);
         Task<List<Comment>> GetComments(int postId);
 

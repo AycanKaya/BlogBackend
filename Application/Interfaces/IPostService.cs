@@ -12,8 +12,8 @@ namespace Application.Interfaces
     {
         Task<Post> SharePost(string userId, PostDTO content);
         Task<Post> DeletePost(int PostId, string token);
-        Task<Post> UpdatePost(int PostId, PostDTO content);
-        Task<Post> ChangePostState(int PostId, string token, bool state);
+        Task<Post> UpdatePost(UpdatePostDTO updatePostDTO);
+        Task<Post> ChangePostState(string token, UpdatePostDTO updatePostDTO);
 
         Task<List<Post>> GetPosts(string token);
 

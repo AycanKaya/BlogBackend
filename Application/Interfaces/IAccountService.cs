@@ -1,14 +1,16 @@
 ﻿using Application.DTO;
 using Application.Model;
+using Application.Wrappers;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Interfaces
 {
     public interface IAccountService
     {
-        Task<ResponseModel> Register(RegisterRequest registerRequest);
+        Task<BaseResponse<string>> Register(RegisterRequest registerRequest);
 
  //       Task<Model.User> Register(RegsiterDTO dto);
-          Task<AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress);
+        Task<DTO.AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress);
           bool isLogged(string token);
     }
 }

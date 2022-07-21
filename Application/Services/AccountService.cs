@@ -5,7 +5,7 @@ using Domain.Entities;
 using Application.Interfaces;
 using Application.DTO;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Http;
+using Application.Wrappers;
 
 namespace Application.Services
 {
@@ -25,7 +25,7 @@ namespace Application.Services
 
   
 
-        public async Task<ResponseModel> Register(RegisterRequest registerRequest)
+        public async Task<BaseResponse<string>> Register(RegisterRequest registerRequest)
         {
             var exist_user = await _userManager.FindByEmailAsync(registerRequest.Email);
             if(exist_user != null)
@@ -42,12 +42,7 @@ namespace Application.Services
             if (!result.Succeeded)
                 throw new Exception($"{result.Errors}");
 
-            ResponseModel response = new ResponseModel();
-            response.UserName = user.UserName;
-            response.Email = user.Email;
-            response.Message = "User created successfully!";
-            response.Status = "Success";
-            return response;
+            return new BaseResponse<string>(user.UserName,result.ToString());
 
         }
         public async Task<AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress)
@@ -68,7 +63,7 @@ namespace Application.Services
             JwtSecurityToken token= _jwtService.GetToken(userClaims,roles, user);
 
 
-            AuthenticationResponse response = new AuthenticationResponse();
+            DTO.AuthenticationResponse response = new DTO.AuthenticationResponse();
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(token);
             response.Email = user.Email;

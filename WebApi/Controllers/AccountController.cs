@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using Application.DTO;
+using Application.Wrappers;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApi.Controllers
 {
@@ -39,17 +41,20 @@ namespace WebApi.Controllers
         [Route("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            return Ok(await _accountService.Register(request));
+            var response = Ok(await _accountService.Register(request));
+            return response;
         }
 
-    /*    BaseRequest
-            BaseResponse
-              IsError
-            ErrorMessage
+       
 
-            RegisterResponse:BaseResponse
-     
-        */
+        /*    BaseRequest
+                BaseResponse
+                  IsError
+                ErrorMessage
+
+                RegisterResponse:BaseResponse
+
+            */
         private string GenerateIPAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))

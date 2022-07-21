@@ -8,13 +8,13 @@ using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
+using Application.Wrappers;
 namespace Application.Services
 {
     public class PostService :IPostService
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IJWTService _jWTService;
+         IApplicationDbContext _context;
+         IJWTService _jWTService;
 
         public PostService(IApplicationDbContext context, IJWTService service)
         {
@@ -53,7 +53,7 @@ namespace Application.Services
 
         }
 
-        public async Task<int> DeletePost(int PostId, string token)
+        public async Task<Post> DeletePost(int PostId, string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
 
@@ -70,7 +70,7 @@ namespace Application.Services
                     _context.PostWithComments.Remove(comment);
                 }
                 await _context.SaveChanges();
-                return PostId;
+                return post;
 
             }
             else

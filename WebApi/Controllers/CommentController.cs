@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Application.Interfaces;
 using Application.DTO;
+using Application.Wrappers;
+using Domain.Entities;
+using System.Collections.Generic;
 
 namespace WebApi.Controllers
 {
@@ -20,22 +23,22 @@ namespace WebApi.Controllers
             _authenticatedUserService = authenticatedUserService;
         }
         [HttpDelete("DeleteComment")]
-        public async Task<IActionResult> DeleteComment(int CommentId, int PostId)
+        public async Task<BaseResponse> DeleteComment(int CommentId, int PostId)
         {
             return Ok(await _commentService.DeleteComment(PostId, _authenticatedUserService.UserId, CommentId));
         }
         [HttpPost("ShareComment")]
-        public async Task<IActionResult> ShareComment(CommentDTO commentDTO)
+        public async Task<BaseResponse<Comment>> ShareComment(CommentDTO commentDTO)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _commentService.ShareComment(token, commentDTO));
+            return new BaseResponse<Comment>(await _commentService.ShareComment(token, commentDTO));
         }
         
      
         [HttpGet("GetComments")]
-        public async Task<IActionResult> GetAllComments(int postId)
+        public async Task<BaseResponse<List<Comment>>> GetAllComments(int postId)
         {
-            return Ok(await _commentService.GetComments(postId));
+            return new BaseResponse<List<Comment>>(List<Comment>(await _commentService.GetComments(postId)));
         }
     }
 }

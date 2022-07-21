@@ -13,8 +13,8 @@ namespace Application.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IJWTService _jWTService;
+        IApplicationDbContext _context;
+        IJWTService _jWTService;
 
         public CommentService(IApplicationDbContext context, IJWTService service)
         {

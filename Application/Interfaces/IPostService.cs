@@ -11,7 +11,7 @@ namespace Application.Interfaces
     public  interface IPostService
     {
         Task<Post> SharePost(string userId, PostDTO content);
-        Task<int> DeletePost(int PostId, string token);
+        Task<Post> DeletePost(int PostId, string token);
         Task<Post> UpdatePost(int PostId, PostDTO content);
         Task<Post> ChangePostState(int PostId, string token, bool state);
 

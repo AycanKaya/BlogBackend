@@ -17,7 +17,9 @@ public static class ServiceExtensions
         services.AddTransient<IAccountService, AccountService>();
         services.AddTransient<IAdminService, AdminServices>();
         services.AddTransient<IUserService, UserService>();
-        
+        services.AddTransient<IPostService, PostService>();
+        services.AddTransient<ICommentService, CommentService>();
+
 
     }
     public static void AddSwaggerExtension(this IServiceCollection services)

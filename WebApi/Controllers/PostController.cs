@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Application.Interfaces;
 using Application.DTO;
-
+using Application.Wrappers;
+using Domain.Entities;
+using System.Collections.Generic;
 
 namespace WebApi.Controllers
 {
@@ -13,50 +15,49 @@ namespace WebApi.Controllers
     [Authorize]
     public class PostController :BaseApiController
     {
-        IPostService _postService;
-        IAuthenticatedUserService _authenticatedUserService;
-        public PostController(IPostService postService, IAuthenticatedUserService authenticatedUserService)
+        private readonly IPostService _postService;
+        public PostController(IPostService postService)
         {
             _postService = postService;
-            _authenticatedUserService = authenticatedUserService;
         }
 
         [HttpPost("PostUser")]
-        public async Task<IActionResult> CreatePost(PostDTO postDTO)
+        public async Task<BaseResponse<Post>> CreatePost(PostDTO postDTO)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _postService.SharePost(token, postDTO));
+            var res= await _postService.SharePost(token, postDTO);
+            return new BaseResponse<Post>(res);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePost(int id)
+        public async Task<BaseResponse<Post>> DeletePost(int id)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _postService.DeletePost(id, token));
+            return new BaseResponse<Post>(await _postService.DeletePost(id, token));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePost(int PostId, PostDTO post)
-        {
-            return Ok(await _postService.UpdatePost(PostId, post));
+        public async Task<BaseResponse<Post>> UpdatePost(int PostId, PostDTO post){
+            return new BaseResponse<Post>(await _postService.UpdatePost(PostId, post));
         }
-        /*
-                HTTPPOST ChangePostStatus
-                    public ChangePostStatusResponse ChangePostStatus(ChangePostStatusRequest request) 
-        */
-        [HttpPut("ChangeStatus")]
-        public async Task<IActionResult> ChangeState(int PostId, bool status)
+        
+        [HttpPost("ChangeStatus")]
+        public async Task<BaseResponse<Post>> ChangeState(int PostId, bool status)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _postService.ChangePostState(PostId, token, status));
+            return new BaseResponse<Post>(await _postService.ChangePostState(PostId, token, status));
         }
         [HttpGet("GetAllPosts")]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<BaseResponse<List<Post>>> GetAllPosts()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _postService.GetPosts(token));
+            var postList= await _postService.GetPosts(token);
+            return new BaseResponse<List<Post>>(postList);
         }
 
 
     }
 }
+
+
+

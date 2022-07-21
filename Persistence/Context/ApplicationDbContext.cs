@@ -25,6 +25,10 @@ namespace Persistence.Context
         public DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
         public DbSet<PostWithComments> PostWithComments { get; set; }
 
+        public DbSet<UserInfo> UserInfo { get; set; }
+
+
+
         public async Task<int> SaveChanges()
         {
             return await base.SaveChangesAsync();
@@ -66,6 +70,12 @@ namespace Persistence.Context
             {
                 entity.HasNoKey();
                 entity.ToTable(name: "PostWithComments");
+
+            });
+            modelBuilder.Entity<UserInfo>(entity =>
+            {
+                entity.HasKey(c => c.UserID);
+                entity.ToTable(name: "UserInfo");
 
             });
         }

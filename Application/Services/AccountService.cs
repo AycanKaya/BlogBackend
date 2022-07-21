@@ -126,7 +126,7 @@ namespace Application.Services
             JwtSecurityToken token= _jwtService.GetToken(userClaims,roles, user);
 
 
-            DTO.AuthenticationResponse response = new DTO.AuthenticationResponse();
+            AuthenticationResponse response = new AuthenticationResponse();
             response.Id = user.Id;
             response.JWToken = new JwtSecurityTokenHandler().WriteToken(token);
             response.Email = user.Email;

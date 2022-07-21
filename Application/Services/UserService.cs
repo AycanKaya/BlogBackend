@@ -21,7 +21,19 @@ namespace Application.Services
             _jWTService = jWTService;
           
         }
+        public string GetUserIdFromJWT(string token)
+        {
+            var jwt = _jWTService.GetTokenClaims(token);
+            var userId = jwt.First(x => x.Type == "uid").Value;
+            return userId;
+        }
+        public string GetUserName(string token)
+        {
+            var jwt = _jWTService.GetTokenClaims(token);
+            var userName = jwt.First(x => x.Type == "sub").Value;
+            return userName;
+        }
 
-        
+
     }
 }

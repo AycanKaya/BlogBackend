@@ -6,6 +6,7 @@ using Application.Interfaces;
 using Application.DTO;
 using System.Security.Cryptography;
 using Application.Wrappers;
+using System.Net.Mail;
 
 namespace Application.Services
 {
@@ -23,26 +24,88 @@ namespace Application.Services
             _signInManager = signInManager;
         }
 
-  
+        private bool isValidEmail(string email)
+        {
+            
+                var trimmedEmail = email.Trim();
+
+                if (trimmedEmail.EndsWith("."))
+                {
+                    return false; 
+                }
+                try
+                {
+                    var emailAddress = new MailAddress(email);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            
+        }
+
+        private bool isValidatePassword(string passWord)
+        {
+            if (string.IsNullOrEmpty(passWord) || passWord.Length < 8)
+                return false;
+            int validConditions = 0;
+            foreach (char c in passWord)
+            {
+                if (c >= 'a' && c <= 'z')
+                {
+                    validConditions++;
+                    break;
+                }
+            }
+            foreach (char c in passWord)
+            {
+                if (c >= 'A' && c <= 'Z')
+                {
+                    validConditions++;
+                    break;
+                }
+            }
+            if (validConditions == 0) return false;
+            foreach (char c in passWord)
+            {
+                if (c >= '0' && c <= '9')
+                {
+                    validConditions++;
+                    break;
+                }
+            }
+            if (validConditions == 0) return false;
+            return true;
+        }
+
 
         public async Task<BaseResponse<string>> Register(RegisterRequest registerRequest)
         {
             var exist_user = await _userManager.FindByEmailAsync(registerRequest.Email);
             if(exist_user != null)
                 throw new Exception($"Username '{registerRequest.Username}' is already taken.");
-            IdentityUser user = new()
+            if (isValidEmail(registerRequest.Email) && isValidatePassword(registerRequest.Password))
             {
-                Email = registerRequest.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerRequest.Username
 
-            };
-            var result = await _userManager.CreateAsync(user, registerRequest.Password);
+
+                IdentityUser user = new()
+                {
+                    Email = registerRequest.Email,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = registerRequest.Username
+
+                };
+                var result = await _userManager.CreateAsync(user, registerRequest.Password);
+
+                if (!result.Succeeded)
+                    throw new Exception($"{result.Errors}");
+                return new BaseResponse<string>(user.UserName, result.ToString());
+            }
+            else
+                return new BaseResponse<string>("Invalid email or passwprd !");
+
             
-            if (!result.Succeeded)
-                throw new Exception($"{result.Errors}");
-
-            return new BaseResponse<string>(user.UserName,result.ToString());
 
         }
         public async Task<AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress)

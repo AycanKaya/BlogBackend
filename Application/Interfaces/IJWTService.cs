@@ -17,6 +17,7 @@ namespace Application.Interfaces
         JwtSecurityToken? ValidateToken(string token);
         IEnumerable<Claim> GetTokenClaims(string tokenStr);
         string GetUserIdFromJWT(string token);
+        string GetUserName(string token);
 
 
     }

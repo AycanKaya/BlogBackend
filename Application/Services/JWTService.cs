@@ -90,7 +90,12 @@ namespace Application.Services
             var userId = jwt.First(x => x.Type == "uid").Value;
             return userId;
         }
-
+        public string GetUserName(string token)
+        {
+            var jwt = GetTokenClaims(token);
+            var userName= jwt.First(x => x.Type == "sub").Value;
+            return userName;
+        }
 
 
 

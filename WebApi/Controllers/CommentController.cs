@@ -23,9 +23,10 @@ namespace WebApi.Controllers
             _authenticatedUserService = authenticatedUserService;
         }
         [HttpDelete("DeleteComment")]
-        public async Task<BaseResponse> DeleteComment(int CommentId, int PostId)
+        public async Task<BaseResponse<string>> DeleteComment(int CommentId, int PostId)
         {
-            return Ok(await _commentService.DeleteComment(PostId, _authenticatedUserService.UserId, CommentId));
+            var deleteComment = await _commentService.DeleteComment(PostId, _authenticatedUserService.UserId, CommentId);
+            return new BaseResponse<string>("Comment Deleted.");
         }
         [HttpPost("ShareComment")]
         public async Task<BaseResponse<Comment>> ShareComment(CommentDTO commentDTO)
@@ -38,7 +39,7 @@ namespace WebApi.Controllers
         [HttpGet("GetComments")]
         public async Task<BaseResponse<List<Comment>>> GetAllComments(int postId)
         {
-            return new BaseResponse<List<Comment>>(List<Comment>(await _commentService.GetComments(postId)));
+            return new BaseResponse<List<Comment>>(await _commentService.GetComments(postId));
         }
     }
 }

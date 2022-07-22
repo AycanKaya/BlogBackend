@@ -180,6 +180,7 @@ namespace Application.Services
             {
                 var userInfo = new UserInfo();
                 userInfo.UserID = userId;
+                userInfo.Role = _jwtService.GetUserRole(token);
                 userInfo.UserName = dto.UserName;
                 userInfo.Surname = dto.Surname;
                 userInfo.Name = dto.Name;

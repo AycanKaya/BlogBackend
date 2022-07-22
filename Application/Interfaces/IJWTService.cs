@@ -18,6 +18,7 @@ namespace Application.Interfaces
         IEnumerable<Claim> GetTokenClaims(string tokenStr);
         string GetUserIdFromJWT(string token);
         string GetUserName(string token);
+        string GetUserRole(string token);
 
 
     }

@@ -96,7 +96,12 @@ namespace Application.Services
             var userName= jwt.First(x => x.Type == "sub").Value;
             return userName;
         }
-
+        public string GetUserRole(string token)
+        {
+            var jwt = GetTokenClaims(token);
+            var userRole = jwt.First(x => x.Type == "roles").Value;
+            return userRole;
+        }
 
 
     }

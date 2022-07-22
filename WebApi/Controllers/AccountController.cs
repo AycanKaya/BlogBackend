@@ -45,7 +45,21 @@ namespace WebApi.Controllers
             return response;
         }
 
-       
+        [HttpPost]
+        [Route("UserInfo")]
+        public async Task<IActionResult> UserInfo(UserInfoDTO userInfoDTO)
+        {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            return Ok(await _accountService.SettingUserInfo(userInfoDTO, token));
+
+        }
+        [HttpGet]
+        [Route("GetUserInfo")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            return Ok(await _accountService.GetUserInfoAsync(token));
+        }
 
         private string GenerateIPAddress()
         {

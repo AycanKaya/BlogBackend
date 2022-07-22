@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Domain.Enum;
 
-namespace Domain.Entities
+namespace Application.DTO
 {
-    public class UserInfo
+    public class UserInfoDTO
     {
-        public string UserID { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -15,6 +18,5 @@ namespace Domain.Entities
         public string PhoneNumber { get; set; }
         public DateTime BirthDay { get; set; }
         public int Age { get; set; }
-
     }
 }

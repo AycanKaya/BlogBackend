@@ -17,7 +17,7 @@ namespace Application.Interfaces
         DbSet<Permissions>  Permissions { get; set; }
         DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
         DbSet<PostWithComments> PostWithComments { get; set; }
-
+         DbSet<UserInfo> UserInfo { get; set; }
         Task<int> SaveChanges();
 
 

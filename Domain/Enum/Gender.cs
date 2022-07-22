@@ -9,6 +9,6 @@ namespace Domain.Enum
     public enum Gender
     {
         Woman,
-        Man
+        Mans
     }
 }

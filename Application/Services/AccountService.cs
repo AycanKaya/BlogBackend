@@ -7,7 +7,7 @@ using Application.DTO;
 using System.Security.Cryptography;
 using Application.Wrappers;
 using System.Net.Mail;
-
+using Domain.Enum;
 namespace Application.Services
 {
     public class AccountService : IAccountService
@@ -15,13 +15,15 @@ namespace Application.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IJWTService _jwtService;
+        private readonly IApplicationDbContext _context;
        
-        public AccountService(UserManager<IdentityUser> userManager,SignInManager<IdentityUser> signInManager, IJWTService service)
+        public AccountService(UserManager<IdentityUser> userManager,SignInManager<IdentityUser> signInManager, IJWTService service, IApplicationDbContext context)
         {
             
             _userManager = userManager;
             _jwtService = service;
             _signInManager = signInManager;
+            _context = context;
         }
 
         private bool isValidEmail(string email)
@@ -170,10 +172,53 @@ namespace Application.Services
             return true;
         }
 
+        public async Task<BaseResponse<UserInfo>> SettingUserInfo(UserInfoDTO dto, string token)
+        {
+            var userId = _jwtService.GetUserIdFromJWT(token);
+            var existInfo = _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
+            if(existInfo == null)
+            {
+                var userInfo = new UserInfo();
+                userInfo.UserID = userId;
+                userInfo.UserName = dto.UserName;
+                userInfo.Surname = dto.Surname;
+                userInfo.Name = dto.Name;
+                userInfo.Gender = dto.Gender;
+                userInfo.Contry = dto.Contry;
+                userInfo.BirthDay = dto.BirthDay;
+                userInfo.Address = dto.Address;
+                userInfo.PhoneNumber = dto.PhoneNumber; 
+                userInfo.Age = dto.Age;
+                _context.UserInfo.Add(userInfo);
+                await _context.SaveChanges();
+                return new BaseResponse<UserInfo>(userInfo);
+            }
+                existInfo.UserName = dto.UserName;
+                existInfo.Surname = dto.Surname;
+                existInfo.Name = dto.Name;
+                existInfo.Gender = dto.Gender;
+                existInfo.Contry = dto.Contry;
+                existInfo.BirthDay = dto.BirthDay;
+                existInfo.Address = dto.Address;
+                existInfo.PhoneNumber = dto.PhoneNumber;
+                existInfo.Age = dto.Age;
+                await _context.SaveChanges();
+                return new BaseResponse<UserInfo>(existInfo);
+
+            
 
 
+        }
+        public async Task<BaseResponse<UserInfo>> GetUserInfoAsync(string token)
+        {
+            var userId = _jwtService.GetUserIdFromJWT(token);
+            var userInfo = _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
+            if (userInfo == null)
+                throw new ExceptionResponse("User Not Found");
+            return new BaseResponse<UserInfo>(userInfo);
 
 
+        }
 
 
 

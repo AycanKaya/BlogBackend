@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using Application.Wrappers;
 using System.Net.Mail;
 using Domain.Enum;
+using Microsoft.EntityFrameworkCore;
+
 namespace Application.Services
 {
     public class AccountService : IAccountService
@@ -172,7 +174,7 @@ namespace Application.Services
             return true;
         }
 
-        public async Task<BaseResponse<UserInfo>> SettingUserInfo(UserInfoDTO dto, string token)
+        public async Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string token)
         {
             var userId = _jwtService.GetUserIdFromJWT(token);
             var existInfo = _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
@@ -192,7 +194,7 @@ namespace Application.Services
                 userInfo.Age = dto.Age;
                 _context.UserInfo.Add(userInfo);
                 await _context.SaveChanges();
-                return new BaseResponse<UserInfo>(userInfo);
+                return userInfo;
             }
                 existInfo.UserName = dto.UserName;
                 existInfo.Surname = dto.Surname;
@@ -204,21 +206,31 @@ namespace Application.Services
                 existInfo.PhoneNumber = dto.PhoneNumber;
                 existInfo.Age = dto.Age;
                 await _context.SaveChanges();
-                return new BaseResponse<UserInfo>(existInfo);
+            return existInfo;
 
             
 
 
         }
-        public async Task<BaseResponse<UserInfo>> GetUserInfoAsync(string token)
+        public async Task<UserInfo> GetUserInfoAsync(string token)
         {
             var userId = _jwtService.GetUserIdFromJWT(token);
             var userInfo = _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
             if (userInfo == null)
                 throw new ExceptionResponse("User Not Found");
-            return new BaseResponse<UserInfo>(userInfo);
+            return (userInfo);
 
 
+        }
+        public async Task<List<UserInfo>> GetAllUserInfo()
+        {
+            var userList = await _context.UserInfo.ToListAsync();
+            return userList;
+        }
+        public async Task<string> GetCurrentUserRole(string token)
+        {
+            var userRole =  _jwtService.GetUserRole(token);
+            return userRole;
         }
 
 

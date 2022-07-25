@@ -60,6 +60,22 @@ namespace WebApi.Controllers
             var token = HttpContext.Request.Headers.Authorization.ToString();
             return Ok(await _accountService.GetUserInfoAsync(token));
         }
+        [HttpGet]
+        [Route("GetAllUserInfo")]
+        public async Task<IActionResult> GetAllUserInfo()
+        {
+            return Ok(await _accountService.GetAllUserInfo());
+        }
+
+
+        [HttpGet]
+        [Route("GetCurrentUserRole")]
+        public async Task<IActionResult> GetCurrentUserRole()
+        {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            return Ok(await _accountService.GetCurrentUserRole(token));
+        }
+
 
         private string GenerateIPAddress()
         {
@@ -68,5 +84,7 @@ namespace WebApi.Controllers
             else
                 return HttpContext.Connection.RemoteIpAddress == null ? "127.0.0.1" : HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
+
+
     }
 }

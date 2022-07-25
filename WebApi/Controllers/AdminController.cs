@@ -39,6 +39,12 @@ namespace WebApi.Controllers
         {
             return Ok(await _adminService.MatchingUserWtihRole(userMatchRoleDTO));
         }
+         [HttpPut("Dashboard")]
+         public async Task<IActionResult> SettingUsers(UserInfoDTO userInfo,string id)
+        {
+            return Ok(await _adminService.SettingUserInfo(userInfo, id));
+
+        }
 
     }
 }

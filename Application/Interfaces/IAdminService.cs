@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Application.DTO;
+using Domain.Entities;
+
 namespace Application.Interfaces
 {
     public interface IAdminService
@@ -12,5 +14,7 @@ namespace Application.Interfaces
         Task<List<IdentityUser>> GetAllUsers();
         Task<IdentityUser> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO);
         Task<Dictionary<string, List<IdentityUser>>> GetUsersWithRole();
+        Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string userId);
+
     }
 }

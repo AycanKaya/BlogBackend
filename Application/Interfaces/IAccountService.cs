@@ -11,8 +11,10 @@ namespace Application.Interfaces
         Task<BaseResponse<string>> Register(RegisterRequest registerRequest);
         Task<DTO.AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress);
          bool isLogged(string token);
-         Task<BaseResponse<UserInfo>> SettingUserInfo(UserInfoDTO dto, string token);
-         Task<BaseResponse<UserInfo>> GetUserInfoAsync(string token);
+        Task<UserInfo> GetUserInfoAsync(string token);
+        Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string token);
+        Task<List<UserInfo>> GetAllUserInfo();
+        Task<string> GetCurrentUserRole(string token);
     }
 }
 

@@ -12,7 +12,8 @@ namespace WebApi.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
+    [Authorize(Roles = "Editor")]
     public class PostController :BaseApiController
     {
         private readonly IPostService _postService;

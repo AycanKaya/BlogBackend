@@ -49,16 +49,24 @@ namespace Application.Services
             await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
 
             var userInfo = await _context.UserInfo.Where(x => x.UserID == userMatchRoleDTO.UserId).FirstOrDefaultAsync();
-            
-            userInfo.Role = userMatchRoleDTO.RoleName;
+            if(userInfo != null)
+            {
+                userInfo.Role = userMatchRoleDTO.RoleName;
+                await _context.SaveChanges();
+                return user;
+            }              
+            var userInfoNew = new UserInfo();
+            userInfoNew.UserID = userMatchRoleDTO.UserId;
+            userInfoNew.Role = userMatchRoleDTO.RoleName;
+            _context.UserInfo.Add(userInfoNew);
             await _context.SaveChanges();
-
             return user;
 
         }
         public async Task<IdentityRole> AddRole(string roleName)
         {
-            if(_roleManager.Roles.Where(x => x.Name == roleName)!= null)
+            var roles = await (_roleManager.Roles.Where(x => x.Name == roleName)).FirstOrDefaultAsync();
+            if (roles != null)
                 throw new Exception("This role already exist ");
 
             await _roleManager.CreateAsync(new IdentityRole(roleName));
@@ -71,6 +79,20 @@ namespace Application.Services
         {
             
             var existInfo =  _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
+
+            var user = await _userManager.Users.Where(x => x.Id == userId).FirstOrDefaultAsync();
+            if (user == null)
+                throw new ArgumentNullException();
+
+            var role = await _userManager.GetRolesAsync(user);
+            if(role != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user, role.ToString());
+            }
+           
+            await _userManager.AddToRoleAsync(user, dto.Role);
+            
+
             if (existInfo != null)
             {
                 existInfo.UserName = dto.UserName;
@@ -84,6 +106,9 @@ namespace Application.Services
                 existInfo.PhoneNumber = dto.PhoneNumber;
                 existInfo.Age = dto.Age;
                 await _context.SaveChanges();
+
+               
+
                 return existInfo;
             }
             var userInfo = new UserInfo();

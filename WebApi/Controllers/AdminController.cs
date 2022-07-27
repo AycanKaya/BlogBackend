@@ -33,6 +33,14 @@ namespace WebApi.Controllers
             var userWithRole = await _adminService.GetUsersWithRole();
              return Ok(userWithRole);
         }
+
+        [HttpPost]
+        [Route("NewUserRole")]
+        public async Task<IActionResult> AddNewRole(string RoleName)
+        {
+            return Ok(await _adminService.AddRole(RoleName));
+        }
+
          
          [HttpPut("AddRoleToUser")]
          public async Task<IActionResult> AddRoleToUser(UserMatchRoleDTO userMatchRoleDTO)

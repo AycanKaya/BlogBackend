@@ -15,6 +15,7 @@ namespace Application.Interfaces
         Task<IdentityUser> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO);
         Task<Dictionary<string, List<IdentityUser>>> GetUsersWithRole();
         Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string userId);
+        Task<IdentityRole> AddRole(string roleName);
 
     }
 }

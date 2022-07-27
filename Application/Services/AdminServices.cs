@@ -44,14 +44,16 @@ namespace Application.Services
         public async Task<IdentityUser> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO)
         {           
             var user =   await _userManager.Users.Where(x => x.Id == userMatchRoleDTO.UserId).FirstOrDefaultAsync();
+            
             if (user == null)
                 throw new ArgumentNullException();
-            await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
 
             var userInfo = await _context.UserInfo.Where(x => x.UserID == userMatchRoleDTO.UserId).FirstOrDefaultAsync();
-            if(userInfo != null)
+            if (userInfo != null)
             {
+                await _userManager.RemoveFromRoleAsync(user,userInfo.Role);
                 userInfo.Role = userMatchRoleDTO.RoleName;
+                await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
                 await _context.SaveChanges();
                 return user;
             }              
@@ -59,6 +61,7 @@ namespace Application.Services
             userInfoNew.UserID = userMatchRoleDTO.UserId;
             userInfoNew.Role = userMatchRoleDTO.RoleName;
             _context.UserInfo.Add(userInfoNew);
+            await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
             await _context.SaveChanges();
             return user;
 

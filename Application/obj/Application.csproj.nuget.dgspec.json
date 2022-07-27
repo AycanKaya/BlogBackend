@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[6.0.6, )"
             },
+            "Microsoft.Extensions.Identity.Core": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
             "SFX.Random": {
               "target": "Package",
               "version": "[1.0.35, )"

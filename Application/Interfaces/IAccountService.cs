@@ -15,6 +15,8 @@ namespace Application.Interfaces
         Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string token);
         Task<List<UserInfo>> GetAllUserInfo();
         Task<string> GetCurrentUserRole(string token);
+        Task<BaseResponse<IdentityUser>> ResetPassword(ResetPasswordDTO resetPassword);
+
     }
 }
 

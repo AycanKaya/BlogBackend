@@ -46,6 +46,15 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDTO request)
+        {
+            return Ok(await _accountService.ResetPassword(request));
+        }
+
+
+
+        [HttpPost]
         [Route("UserInfo")]
         public async Task<IActionResult> UserInfo(UserInfoDTO userInfoDTO)
         {

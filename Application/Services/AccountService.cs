@@ -233,6 +233,22 @@ namespace Application.Services
             return userRole;
         }
 
+        public async Task<BaseResponse<IdentityUser>> ResetPassword(ResetPasswordDTO resetPassword)
+        {
+            var account = await _userManager.FindByEmailAsync(resetPassword.Email);
+            if (account == null) throw new Exception($"No Accounts Registered with {resetPassword.Email}.");
+            if (resetPassword.Password != resetPassword.ConfirmPassword)
+                throw new Exception("Passwords not match ! ");
+
+            var result = await _userManager.ChangePasswordAsync(account, resetPassword.OldPassword, resetPassword.Password);
+            if (!result.Succeeded)
+                throw new Exception("Old password not match!");
+            return new BaseResponse<IdentityUser>(account, "Password Resetted!");
+           
+           
+
+        }
+
 
 
 

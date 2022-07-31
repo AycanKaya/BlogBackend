@@ -178,7 +178,11 @@ namespace Application.Services
         {
             var userId = _jwtService.GetUserIdFromJWT(token);
             var existInfo = _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
-            if(existInfo == null)
+            var user = await _userManager.FindByIdAsync(userId);
+            var userEmail = await _userManager.GetEmailAsync(user);
+            await _userManager.SetEmailAsync(user, dto.Email);
+           
+            if (existInfo == null)
             {
                 var userInfo = new UserInfo();
                 userInfo.UserID = userId;
@@ -186,6 +190,7 @@ namespace Application.Services
                 userInfo.UserName = dto.UserName;
                 userInfo.Surname = dto.Surname;
                 userInfo.Name = dto.Name;
+                userInfo.Email = dto.Email;
                 userInfo.Gender = dto.Gender;
                 userInfo.Contry = dto.Contry;
                 userInfo.BirthDay = dto.BirthDay;
@@ -199,6 +204,7 @@ namespace Application.Services
                 existInfo.UserName = dto.UserName;
                 existInfo.Surname = dto.Surname;
                 existInfo.Name = dto.Name;
+                existInfo.Email = dto.Email;
                 existInfo.Gender = dto.Gender;
                 existInfo.Contry = dto.Contry;
                 existInfo.BirthDay = dto.BirthDay;
@@ -215,9 +221,14 @@ namespace Application.Services
         public async Task<UserInfo> GetUserInfoAsync(string token)
         {
             var userId = _jwtService.GetUserIdFromJWT(token);
+            var user = await _userManager.FindByIdAsync(userId);
+            var userEmail = await _userManager.GetEmailAsync(user);
             var userInfo = _context.UserInfo.Where(x => x.UserID == userId).FirstOrDefault();
+            userInfo.Email=userEmail;
+            await _context.SaveChanges();
             if (userInfo == null)
                 throw new ExceptionResponse("User Not Found");
+        
             return (userInfo);
 
 

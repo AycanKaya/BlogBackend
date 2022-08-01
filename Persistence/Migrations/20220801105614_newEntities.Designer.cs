@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Context;
 
@@ -11,9 +12,10 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220801105614_newEntities")]
+    partial class newEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,26 +23,6 @@ namespace Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Domain.Entities.AccountLevel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountLevel", (string)null);
-                });
 
             modelBuilder.Entity("Domain.Entities.Comment", b =>
                 {
@@ -121,17 +103,6 @@ namespace Persistence.Migrations
                     b.ToTable("Post", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.PostTag", b =>
-                {
-                    b.Property<int>("PostID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagID")
-                        .HasColumnType("int");
-
-                    b.ToTable("PostTag", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Entities.PostWithComments", b =>
                 {
                     b.Property<int>("CommentId")
@@ -154,35 +125,6 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.ToTable("RoleWithPermissions", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("TagName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserAccountLevel", b =>
-                {
-                    b.Property<int>("AccountLevelID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("UserAccountLevel", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.UserInfo", b =>

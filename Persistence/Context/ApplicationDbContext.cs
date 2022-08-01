@@ -26,6 +26,11 @@ namespace Persistence.Context
         public DbSet<PostWithComments> PostWithComments { get; set; }
 
         public DbSet<UserInfo> UserInfo { get; set; }
+        public DbSet<AccountLevel> AccountLevel { get; set; }
+        public DbSet<UserAccountLevel> UserAccountLevels { get; set; }
+        public DbSet<Tag> Tags { get; set; }   
+        public DbSet<PostTag> PostTags { get; set; }
+
 
 
 
@@ -78,9 +83,36 @@ namespace Persistence.Context
                 entity.ToTable(name: "UserInfo");
 
             });
+
+            modelBuilder.Entity<AccountLevel>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.ToTable(name: "AccountLevel");
+
+            });
+            modelBuilder.Entity<UserAccountLevel>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToTable(name: "UserAccountLevel");
+
+            });
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.ToTable(name: "Tag");
+
+            });
+            modelBuilder.Entity<PostTag>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToTable(name: "PostTag");
+
+            });
+
+
         }
 
 
 
-        }
+    }
 }

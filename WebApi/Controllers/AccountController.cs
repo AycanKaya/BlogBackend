@@ -51,7 +51,7 @@ namespace WebApi.Controllers
         {
             return Ok(await _accountService.ResetPassword(request));
         }
-
+        
 
 
         [HttpPost]
@@ -60,7 +60,7 @@ namespace WebApi.Controllers
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
             return Ok(await _accountService.SettingUserInfo(userInfoDTO, token));
-
+            
         }
         [HttpGet]
         [Route("GetUserInfo")]

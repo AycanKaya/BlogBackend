@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Application.DTO;
 using Domain.Entities;
+using Application.Wrappers;
 
 namespace Application.Interfaces
 {
@@ -16,6 +17,9 @@ namespace Application.Interfaces
         Task<Dictionary<string, List<IdentityUser>>> GetUsersWithRole();
         Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string userId);
         Task<IdentityRole> AddRole(string roleName);
+        Task<BaseResponse<AccountLevel>> AddAccountLevel(AccountLevelDTO accountLevelDTO);
+        Task<BaseResponse<AccountLevel>> AccountLevelUp(AccountLevelUpDTO dto);
+
 
     }
 }

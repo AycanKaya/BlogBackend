@@ -22,6 +22,8 @@ namespace Application.Interfaces
         DbSet<UserAccountLevel> UserAccountLevels { get; set; }
         DbSet<Tag> Tags { get; set; }
         DbSet<PostTag> PostTags { get; set; }
+     
+
         Task<int> SaveChanges();
 
 

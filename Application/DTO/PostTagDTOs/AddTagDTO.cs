@@ -8,7 +8,7 @@ namespace Application.DTO.PostTagDTOs
 {
     public class AddTagDTO
     {
-        public int TagID { get; set; }
+        public string TagName { get; set; }
 
 
         public int PostID { get; set; }

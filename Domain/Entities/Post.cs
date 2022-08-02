@@ -14,12 +14,13 @@ namespace Domain.Entities
         public string Title { get; set; }
         public string Content { get; set; }
         public bool isActive { get; set; }
-
         public DateTime CreateTime { get; set; }
-        public DateTime UpdateTime { get; set; }
-
-     
+        public DateTime UpdateTime { get; set; }     
         public string AuthorID { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsApprove { get; set; }
+
+
 
     }
 }

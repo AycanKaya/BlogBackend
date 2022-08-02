@@ -9,6 +9,10 @@ namespace Domain.Entities
     public class PostTag
     {
         public int TagID { get; set; }
+   
+
         public int PostID { get; set; }
+    
+
     }
 }

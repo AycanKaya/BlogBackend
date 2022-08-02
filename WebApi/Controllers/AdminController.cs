@@ -54,5 +54,22 @@ namespace WebApi.Controllers
 
         }
 
+
+        [HttpPost]
+        [Route("AddAccountLevel")]
+        public async Task<IActionResult> AddAccountLevel(AccountLevelDTO dto)
+        {
+            return Ok(await _adminService.AddAccountLevel(dto));
+        }
+
+
+        [HttpPost]
+        [Route("UserAccountLevelUP")]
+
+        public async Task<IActionResult> AccountLevelUp(AccountLevelUpDTO levelUpDTO)
+        {
+            return Ok(await _adminService.AccountLevelUp(levelUpDTO));
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.DTO;
 using Application.Interfaces;
+using Application.Wrappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -23,24 +24,20 @@ namespace Application.Services
             _context = context;
 
         }
-        public async Task<PostWithComments> DeleteComment(PostWithCommentsDTO postWithComments, string token)
+        public async Task<BaseResponse<string>> DeleteComment(int commentID, string token)
         {
             
             var authorId = _jWTService.GetUserIdFromJWT(token);
             if (authorId == null)
                 throw new Exception("User not found ");
 
-            var post = _context.Posts.Where(x => x.Id == postWithComments.PostId).FirstOrDefault();
-            var comment = _context.Comments.Where(x => x.Id == postWithComments.CommentId).FirstOrDefault();
-            if (post == null)
-                throw new Exception("Post  did not found ! ");
-            if (post.AuthorID == authorId || comment.AuthorId == authorId)
+            var comment = _context.Comments.Where(x => x.Id == commentID).FirstOrDefault();
+           
+            if ( comment.AuthorId == authorId)
             {
-                _context.Comments.Remove(comment);
-                var postWithComment = _context.PostWithComments.Where(x => x.CommentId == postWithComments.CommentId).FirstOrDefault();
-                _context.PostWithComments.Remove(postWithComment);
+                comment.IsDeleted = true;
                 await _context.SaveChanges();
-                return postWithComment;
+                return new BaseResponse<string>{ Message="Comment Deleted.", Succeeded=true,Errors=null,Data= comment.Id.ToString() };
             }
             throw new Exception("Only users who share the post or comment can delete the comment !");
         }
@@ -59,12 +56,8 @@ namespace Application.Services
             comment.PostID = commentContent.PostID;
             comment.AuthorId = userId;
             comment.Created = DateTime.Now;
+            comment.IsDeleted = false;
             _context.Comments.Add(comment);
-
-            var commentToPost = new PostWithComments();
-            commentToPost.PostId = comment.PostID;
-            commentToPost.CommentId = comment.Id;
-            _context.PostWithComments.Add(commentToPost);
 
             await _context.SaveChanges();
             return comment;
@@ -74,6 +67,18 @@ namespace Application.Services
         {
             var commentList = await _context.Comments.Where(x => x.PostID == postId).ToListAsync();
             return commentList;
+        }
+
+        public async Task<BaseResponse<Comment>> UpdateComment(UpdateCommentDTO updateComment)
+        {
+            var comment = _context.Comments.Where(x => x.Id == updateComment.CommentID).FirstOrDefault();
+            if (comment == null)
+                throw new ExceptionResponse("Comment not found!");
+            comment.Content = updateComment.Content;
+            return new BaseResponse<Comment>(comment);
+
+
+
         }
 
     }

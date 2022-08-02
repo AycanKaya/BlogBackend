@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.DTO;
 using Application.Interfaces;
 using Domain.Entities;
@@ -34,26 +31,33 @@ namespace Application.Services
                 post.Content = content.Content;
                 post.Title = content.Title;
                 post.CreateTime = DateTime.Now;
+                post.IsApprove = true;
+                post.IsDeleted = false;
                 _context.Posts.Add(post);
                 await _context.SaveChanges();
                 return post;
             }
             throw new SecurityTokenValidationException();
-
-
+        }
+        
+        public async Task<List<Post>> GetRecentFivePosts()
+        {
+           var postList = _context.Posts.OrderBy(post => post.CreateTime).TakeLast(5);
+            if (postList == null)
+                throw new ExceptionResponse("Post not found !");
+            return postList.ToList();                                          
 
         }
 
-        public async Task<List<Post>> GetPosts(string token)
+        public async Task<List<Post>> GetUserPost(string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
-
-            var postList = await _context.Posts.Where(x => x.AuthorID == userId).ToListAsync();
+            var postList = await _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive==true).ToListAsync();
             return postList;
 
         }
 
-        public async Task<Post> DeletePost(int PostId, string token)
+        public async Task<BaseResponse<string>> DeletePost(int PostId, string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
 
@@ -61,16 +65,10 @@ namespace Application.Services
             {
                 var post = _context.Posts.Where(x => x.Id == PostId || x.AuthorID == userId).FirstOrDefault();
                 if (post == null)
-                    throw new Exception("Post  did not found ! ");
-                _context.Posts.Remove(post);
-
-                var commentList = _context.PostWithComments.Where(x => x.PostId == PostId).ToList();
-                foreach (var comment in commentList)
-                {
-                    _context.PostWithComments.Remove(comment);
-                }
-                await _context.SaveChanges();
-                return post;
+                    throw new Exception("Post did not found ! ");
+                post.IsDeleted = true;
+                _context.SaveChanges();
+                return new BaseResponse<string> { Message= "Post deleted " };
 
             }
             else
@@ -106,6 +104,12 @@ namespace Application.Services
             }
             throw new Exception("Only users who share the post can change the post status!");
 
+        }
+
+        public async Task<List<Post>> GelAllPosts()
+        {
+            var postList = _context.Posts.ToList();
+            return postList;
         }
     }
 }

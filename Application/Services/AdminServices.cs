@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Interfaces;
+using Application.Wrappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -130,12 +131,38 @@ namespace Application.Services
             await _context.SaveChanges();
             return userInfo;
 
+        }
 
-
+        public async Task<BaseResponse<AccountLevel>> AddAccountLevel(AccountLevelDTO accountLevelDTO)
+        {
+            var isContain = _context.AccountLevel.Where(c => c.Name == accountLevelDTO.Name).FirstOrDefault();
+            if (isContain != null)
+            {
+                throw new Exception("Already exist!");
+            }
+            var accountLevel = new AccountLevel();
+            accountLevel.Name = accountLevelDTO.Name;
+            accountLevel.Level = accountLevelDTO.Level;
+            _context.AccountLevel.Add(accountLevel);
+            await _context.SaveChanges();
+            return new BaseResponse<AccountLevel>(accountLevel,"Success!");
 
 
         }
 
+        public async Task<BaseResponse<AccountLevel>> AccountLevelUp(AccountLevelUpDTO dto)
+        {
+            var accountLevel = _context.AccountLevel.Where(c => c.Name == dto.LevelName).FirstOrDefault();
+            var userAccountLevel = _context.UserAccountLevels.Where(c => c.UserID == dto.UserID).FirstOrDefault();
+            if (userAccountLevel == null)
+                throw new Exception("Account Level not found");
+
+            userAccountLevel.AccountLevelID = accountLevel.Id;
+            return new BaseResponse<AccountLevel>(accountLevel, "User Level Updated to " + (accountLevel.Name));
+
+
+
+        }
 
 
 

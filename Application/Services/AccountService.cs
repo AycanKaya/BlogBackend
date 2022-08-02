@@ -83,16 +83,26 @@ namespace Application.Services
             return true;
         }
 
-
+        private async Task<bool> initalLevel(string userID)
+        {
+            var userLevel = new UserAccountLevel();
+            userLevel.AccountLevelID = 1;
+            userLevel.UserID = userID;
+            _context.UserAccountLevels.Add(userLevel);
+          
+            await _context.SaveChanges();
+            return true;
+               
+}
         public async Task<BaseResponse<string>> Register(RegisterRequest registerRequest)
         {
             var exist_user = await _userManager.FindByEmailAsync(registerRequest.Email);
             if(exist_user != null)
                 throw new Exception($"Username '{registerRequest.Username}' is already taken.");
+
+
             if (isValidEmail(registerRequest.Email) && isValidatePassword(registerRequest.Password))
             {
-
-
                 IdentityUser user = new()
                 {
                     Email = registerRequest.Email,
@@ -101,9 +111,11 @@ namespace Application.Services
 
                 };
                 var result = await _userManager.CreateAsync(user, registerRequest.Password);
-
+      
                 if (!result.Succeeded)
                     throw new Exception($"{result.Errors}");
+
+                await initalLevel(user.Id);
                 return new BaseResponse<string>(user.UserName, result.ToString());
             }
             else
@@ -256,9 +268,9 @@ namespace Application.Services
                 throw new Exception("Old password not match!");
             return new BaseResponse<IdentityUser>(account, "Password Resetted!");
            
-           
-
         }
+
+        
 
 
 

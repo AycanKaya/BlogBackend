@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.DTO.PostTagDTOs;
 using Application.Wrappers;
+using Domain.Entities;
 
 namespace Application.Interfaces
 {
     public  interface IPostTagService
     {
-        Task<BaseResponse<string>> AddTagToPost(AddTagDTO addTagDTO);
+        Task<BaseResponse<string>> AddTagToPost(AddTagDTO addTag);
+        Task<List<Tag>> GetPostWithTag(int postID);
 
     }
 }

@@ -23,12 +23,5 @@ namespace WebApi.Controllers
         {
             return Ok(await _postTagService.AddTagToPost(addTagDTO));
         }
-
-        [HttpGet]
-        [Route("GetPostTags")]
-        public async Task<IActionResult> GetPostTags(int postId)
-        {
-            return Ok(await _postTagService.GetPostWithTag(postId));
-        }
     }
 }

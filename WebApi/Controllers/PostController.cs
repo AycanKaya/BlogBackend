@@ -13,7 +13,7 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    [Authorize(Roles = "Editor")]
+
     public class PostController :BaseApiController
     {
         private readonly IPostService _postService;
@@ -31,10 +31,10 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<BaseResponse<Post>> DeletePost(int id)
+        public async Task<BaseResponse<string>> DeletePost(int id)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return new BaseResponse<Post>(await _postService.DeletePost(id, token));
+            return await _postService.DeletePost(id, token);
         }
 
         [HttpPut]
@@ -48,11 +48,17 @@ namespace WebApi.Controllers
             var token = HttpContext.Request.Headers.Authorization.ToString();
             return new BaseResponse<Post>(await _postService.ChangePostState(token, updatePostDTO));
         }
-        [HttpGet("GetAllPosts")]
-        public async Task<BaseResponse<List<Post>>> GetAllPosts()
+        [HttpGet("GetUserPosts")]
+        public async Task<BaseResponse<List<Post>>> GetUserPosts()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            var postList= await _postService.GetPosts(token);
+            var postList= await _postService.GetUserPost(token);
+            return new BaseResponse<List<Post>>(postList);
+        }
+        [HttpGet("AllPosts")]
+        public async Task<BaseResponse<List<Post>>> GetAllPosts()
+        {
+            var postList = await _postService.GelAllPosts();
             return new BaseResponse<List<Post>>(postList);
         }
 

@@ -24,12 +24,12 @@ namespace Persistence.Context
         public DbSet<Permissions> Permissions { get; set; }
         public DbSet<RoleWithPermissions> RoleWithPermissions { get; set; }
         public DbSet<PostWithComments> PostWithComments { get; set; }
-
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<AccountLevel> AccountLevel { get; set; }
         public DbSet<UserAccountLevel> UserAccountLevels { get; set; }
         public DbSet<Tag> Tags { get; set; }   
         public DbSet<PostTag> PostTags { get; set; }
+      
 
 
 
@@ -75,7 +75,8 @@ namespace Persistence.Context
             {
                 entity.HasNoKey();
                 entity.ToTable(name: "PostWithComments");
-
+             
+                
             });
             modelBuilder.Entity<UserInfo>(entity =>
             {
@@ -92,8 +93,9 @@ namespace Persistence.Context
             });
             modelBuilder.Entity<UserAccountLevel>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(c => c.UserID);
                 entity.ToTable(name: "UserAccountLevel");
+               
 
             });
             modelBuilder.Entity<Tag>(entity =>
@@ -106,8 +108,12 @@ namespace Persistence.Context
             {
                 entity.HasNoKey();
                 entity.ToTable(name: "PostTag");
+                entity.HasOne<Tag>().WithMany().HasForeignKey(p => p.TagID);
+                entity.HasOne<Post>().WithMany().HasForeignKey(p => p.PostID);
 
             });
+
+           
 
 
         }

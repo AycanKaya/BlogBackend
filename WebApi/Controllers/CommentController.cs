@@ -23,11 +23,11 @@ namespace WebApi.Controllers
             _authenticatedUserService = authenticatedUserService;
         }
         [HttpDelete("DeleteComment")]
-        public async Task<BaseResponse<PostWithComments>> DeleteComment(PostWithCommentsDTO postWithCommentsDTO)
+        public async Task<BaseResponse<string>> DeleteComment(int commentID)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            var deleteComment = await _commentService.DeleteComment(postWithCommentsDTO, token);
-            return new BaseResponse<PostWithComments>(deleteComment,"Comment Deleted.");
+            var deleteComment = await _commentService.DeleteComment(commentID, token);
+            return deleteComment;
         }
         [HttpPost("ShareComment")]
         public async Task<BaseResponse<Comment>> ShareComment(CommentDTO commentDTO)

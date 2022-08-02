@@ -84,8 +84,7 @@ namespace WebApi.Controllers
             var token = HttpContext.Request.Headers.Authorization.ToString();
             return Ok(await _accountService.GetCurrentUserRole(token));
         }
-
-
+       
         private string GenerateIPAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))

@@ -31,7 +31,7 @@ namespace Application.Services
                 post.Content = content.Content;
                 post.Title = content.Title;
                 post.CreateTime = DateTime.Now;
-                post.IsApprove = true;
+                post.IsApprove = false;
                 post.IsDeleted = false;
                 _context.Posts.Add(post);
                 await _context.SaveChanges();
@@ -67,7 +67,7 @@ namespace Application.Services
                 if (post == null)
                     throw new Exception("Post did not found ! ");
                 post.IsDeleted = true;
-                _context.SaveChanges();
+                await _context.SaveChanges();
                 return new BaseResponse<string> { Message= "Post deleted " };
 
             }

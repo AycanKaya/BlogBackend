@@ -106,7 +106,7 @@ namespace Persistence.Context
             });
             modelBuilder.Entity<PostTag>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(c => c.Id);
                 entity.ToTable(name: "PostTag");
                 entity.HasOne<Tag>().WithMany().HasForeignKey(p => p.TagID);
                 entity.HasOne<Post>().WithMany().HasForeignKey(p => p.PostID);

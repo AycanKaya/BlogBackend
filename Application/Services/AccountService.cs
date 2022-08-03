@@ -9,6 +9,7 @@ using Application.Wrappers;
 using System.Net.Mail;
 using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
+using Application.DTO.AccountServiceDTOs;
 
 namespace Application.Services
 {
@@ -113,10 +114,11 @@ namespace Application.Services
 
                 };
                 var result = await _userManager.CreateAsync(user, registerRequest.Password);
-      
+                
                 if (!result.Succeeded)
                     throw new Exception($"{result.Errors}");
 
+                await _userManager.AddToRoleAsync(user, "Basic");
                 await initalLevel(user.Id);
                 return new BaseResponse<string>(user.UserName, result.ToString());
             }
@@ -178,9 +180,25 @@ namespace Application.Services
             return BitConverter.ToString(randomBytes).Replace("-", "");
         }
 
-        public  bool isLogged(string token)
+        private UserInfo SetUserInfo(UserInfoDTO dto, UserInfo userInfo, string token,string userId)
         {
-            var validateToken =  _jwtService.ValidateToken(token);
+            userInfo.UserID = userId;
+            userInfo.Role = _jwtService.GetUserRole(token);
+            userInfo.UserName = dto.UserName;
+            userInfo.Surname = dto.Surname;
+            userInfo.Name = dto.Name;
+            userInfo.Email = dto.Email;
+            userInfo.Gender = dto.Gender;
+            userInfo.Contry = dto.Contry;
+            userInfo.BirthDay = dto.BirthDay;
+            userInfo.Address = dto.Address;
+            userInfo.PhoneNumber = dto.PhoneNumber;
+            userInfo.Age = dto.Age;
+            return userInfo;
+        }
+        public bool isLogged(string token)
+        {
+            var validateToken = _jwtService.ValidateToken(token);
             if (validateToken == null)
                 return false;
             return true;
@@ -197,39 +215,16 @@ namespace Application.Services
             if (existInfo == null)
             {
                 var userInfo = new UserInfo();
-                userInfo.UserID = userId;
-                userInfo.Role = _jwtService.GetUserRole(token);
-                userInfo.UserName = dto.UserName;
-                userInfo.Surname = dto.Surname;
-                userInfo.Name = dto.Name;
-                userInfo.Email = dto.Email;
-                userInfo.Gender = dto.Gender;
-                userInfo.Contry = dto.Contry;
-                userInfo.BirthDay = dto.BirthDay;
-                userInfo.Address = dto.Address;
-                userInfo.PhoneNumber = dto.PhoneNumber; 
-                userInfo.Age = dto.Age;
+                userInfo = SetUserInfo(dto, userInfo, token, userId);
                 _context.UserInfo.Add(userInfo);
                 await _context.SaveChanges();
                 return userInfo;
             }
-                existInfo.UserName = dto.UserName;
-                existInfo.Surname = dto.Surname;
-                existInfo.Name = dto.Name;
-                existInfo.Email = dto.Email;
-                existInfo.Gender = dto.Gender;
-                existInfo.Contry = dto.Contry;
-                existInfo.BirthDay = dto.BirthDay;
-                existInfo.Address = dto.Address;
-                existInfo.PhoneNumber = dto.PhoneNumber;
-                existInfo.Age = dto.Age;
-                await _context.SaveChanges();
+            existInfo = SetUserInfo(dto, existInfo, token, userId);
+            await _context.SaveChanges();
             return existInfo;
-
-            
-
-
-        }
+                       
+          }
         public async Task<UserInfo> GetUserInfoAsync(string token)
         {
             var userId = _jwtService.GetUserIdFromJWT(token);

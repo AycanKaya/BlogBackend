@@ -37,7 +37,6 @@ C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\WebApi.GeneratedMSBui
 C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\WebApi.AssemblyInfoInputs.cache
 C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\WebApi.AssemblyInfo.cs
 C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\WebApi.csproj.CoreCompileInputs.cache
-C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\WebApi.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\Aycan\Desktop\BlogBackend\WebApi\obj\Debug\net6.0\staticwebassets.development.json

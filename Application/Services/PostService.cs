@@ -12,11 +12,23 @@ namespace Application.Services
     {
          IApplicationDbContext _context;
          IJWTService _jWTService;
-
+   
         public PostService(IApplicationDbContext context, IJWTService service)
         {
             _jWTService = service;
             _context = context;
+            
+        }
+        private int GetTotalPostNumber(string userId)
+        {
+            var number= _context.Posts.Where(x => x.AuthorID == userId).Count();
+            return number;
+        }
+        private int GetAccountLevel(string userID)
+        {
+            var userAccountLevel = _context.UserAccountLevels.Where(x => x.UserID == userID).FirstOrDefault();
+            var accountLevel = _context.AccountLevel.Where(x => x.Id == userAccountLevel.AccountLevelID).FirstOrDefault();
+            return accountLevel.Level;
         }
         public async Task<Post> SharePost(string accessToken, PostDTO content)
         {
@@ -25,17 +37,24 @@ namespace Application.Services
 
             if (userId != null)
             {
-                var post = new Post();
-                post.AuthorID = userId;
-                post.isActive = true;
-                post.Content = content.Content;
-                post.Title = content.Title;
-                post.CreateTime = DateTime.Now;
-                post.IsApprove = true;
-                post.IsDeleted = false;
-                _context.Posts.Add(post);
-                await _context.SaveChanges();
-                return post;
+               
+                if (GetAccountLevel(userId) > GetTotalPostNumber(userId))
+                {
+                    var post = new Post();
+                    post.AuthorID = userId;
+                    post.isActive = true;
+                    post.Content = content.Content;
+                    post.Title = content.Title;
+                    post.CreateTime = DateTime.Now;
+                    post.IsApprove = false;
+                    post.IsDeleted = false;
+                    _context.Posts.Add(post);
+                    await _context.SaveChanges();
+                    return post;
+
+                }
+                throw new ExceptionResponse("You arrived the maximum count of post !");
+               
             }
             throw new SecurityTokenValidationException();
         }

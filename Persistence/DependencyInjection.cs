@@ -35,7 +35,9 @@ namespace Persistence
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<ICommentService, CommentService>();
-            
+            services.AddTransient<ITagService, TagService>();
+            services.AddTransient<IPostTagService, PostTagService>();
+
 
 
 

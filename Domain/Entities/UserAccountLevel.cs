@@ -11,9 +11,9 @@ namespace Domain.Entities
     
     public class UserAccountLevel
     {
-        [Required]
+       
         public string UserID { get; set; }
-        [Required]
+        
         public int AccountLevelID { get; set; }
     }
 }

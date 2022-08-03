@@ -85,6 +85,16 @@ namespace WebApi.Controllers
             return Ok(await _accountService.GetCurrentUserRole(token));
         }
        
+        [HttpGet]
+        [Route("GetAccountLevel")]
+        public async Task<IActionResult> GetUserLevel()
+        {
+            return Ok(_accountService.GetUserLevel(GetToken()));
+        }
+        private string GetToken()
+        {
+            return HttpContext.Request.Headers.Authorization.ToString();
+        }
         private string GenerateIPAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))

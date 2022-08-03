@@ -108,10 +108,9 @@ namespace Application.Services
                 existInfo.BirthDay = dto.BirthDay;
                 existInfo.Address = dto.Address;
                 existInfo.PhoneNumber = dto.PhoneNumber;
+                existInfo.Email = dto.Email;
                 existInfo.Age = dto.Age;
-                await _context.SaveChanges();
-
-               
+                await _context.SaveChanges();             
 
                 return existInfo;
             }
@@ -125,6 +124,7 @@ namespace Application.Services
             userInfo.Contry = dto.Contry;
             userInfo.BirthDay = dto.BirthDay;
             userInfo.Address = dto.Address;
+            userInfo.Email = dto.Email;
             userInfo.PhoneNumber = dto.PhoneNumber;
             userInfo.Age = dto.Age;
             _context.UserInfo.Add(userInfo);

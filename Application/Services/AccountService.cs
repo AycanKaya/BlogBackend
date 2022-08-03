@@ -93,7 +93,9 @@ namespace Application.Services
             await _context.SaveChanges();
             return true;
                
-}
+            
+        }
+
         public async Task<BaseResponse<string>> Register(RegisterRequest registerRequest)
         {
             var exist_user = await _userManager.FindByEmailAsync(registerRequest.Email);
@@ -153,8 +155,6 @@ namespace Application.Services
             var refreshToken = GenerateRefreshToken(ipAddress);
             response.RefreshToken = refreshToken.Token;
             return response;
-
-
 
         }
 
@@ -268,6 +268,13 @@ namespace Application.Services
                 throw new Exception("Old password not match!");
             return new BaseResponse<IdentityUser>(account, "Password Resetted!");
            
+        }
+        public  BaseResponse<AccountLevel> GetUserLevel(string token)
+        {
+            var userID = _jwtService.GetUserIdFromJWT(token);
+            var userAndLevelID = _context.UserAccountLevels.Where(x => x.UserID == userID).FirstOrDefault();
+            var accountLevel = _context.AccountLevel.Where(x => x.Id == userAndLevelID.AccountLevelID).FirstOrDefault();
+            return new BaseResponse<AccountLevel>(accountLevel);
         }
 
         

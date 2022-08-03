@@ -11,6 +11,6 @@ namespace Application.Interfaces
     {
         Task<BaseResponse<string>> DeleteComment(int commentID);
         Task<BaseResponse<string>> ActivatePost(ApproveControlDTO dto);
-        Task<List<Post>> GetPassivePosts();
+        Task<List<PostResponse>> GetPassivePosts();
     }
 }

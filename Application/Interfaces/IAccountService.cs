@@ -3,6 +3,7 @@ using Application.Model;
 using Application.Wrappers;
 using Microsoft.AspNetCore.Identity;
 using Domain.Entities;
+using Application.DTO.AccountServiceDTOs;
 
 namespace Application.Interfaces
 {

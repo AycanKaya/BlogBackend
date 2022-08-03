@@ -30,6 +30,7 @@ namespace Application.Services
             var accountLevel = _context.AccountLevel.Where(x => x.Id == userAccountLevel.AccountLevelID).FirstOrDefault();
             return accountLevel.Level;
         }
+
         public async Task<Post> SharePost(string accessToken, PostDTO content)
         {
 

@@ -61,7 +61,12 @@ namespace WebApi.Controllers
             var postList = await _postService.GelAllPosts();
             return new BaseResponse<List<Post>>(postList);
         }
-
+        [HttpGet]
+        [Route("GetRecentFivePosts")]
+        public async Task<IActionResult> GetRecentFivePosts()
+        {
+            return Ok(await _postService.GetRecentFivePosts());
+        }
 
     }
 }

@@ -37,7 +37,7 @@ namespace Persistence
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<IPostTagService, PostTagService>();
-
+            services.AddTransient<IEditorUserService, EditorUserService>();
 
 
 

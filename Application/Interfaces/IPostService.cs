@@ -17,7 +17,7 @@ namespace Application.Interfaces
         Task<Post> ChangePostState(string token, UpdatePostDTO updatePostDTO);
 
         Task<List<Post>> GetUserPost(string token);
-        Task<List<Post>> GetRecentFivePosts();
+        Task<IEnumerable<Post>> GetRecentFivePosts();
         Task<List<Post>> GelAllPosts();
 
     }

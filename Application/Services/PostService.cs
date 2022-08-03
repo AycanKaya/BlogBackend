@@ -60,12 +60,12 @@ namespace Application.Services
             throw new SecurityTokenValidationException();
         }
         
-        public async Task<List<Post>> GetRecentFivePosts()
+        public async Task<IEnumerable<Post>> GetRecentFivePosts()
         {
-           var postList = _context.Posts.OrderBy(post => post.CreateTime).TakeLast(5);
+           var postList = _context.Posts.ToList().OrderBy(post => post.CreateTime).TakeLast(5);
             if (postList == null)
                 throw new ExceptionResponse("Post not found !");
-            return postList.ToList();                                          
+            return postList;                                          
 
         }
 

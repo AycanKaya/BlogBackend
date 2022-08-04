@@ -12,11 +12,12 @@ namespace Application.Services
     {
          IApplicationDbContext _context;
          IJWTService _jWTService;
-   
+       
         public PostService(IApplicationDbContext context, IJWTService service)
         {
             _jWTService = service;
             _context = context;
+        
             
         }
         private int GetTotalPostNumber(string userId)
@@ -30,7 +31,7 @@ namespace Application.Services
             var accountLevel = _context.AccountLevel.Where(x => x.Id == userAccountLevel.AccountLevelID).FirstOrDefault();
             return accountLevel.Level;
         }
-
+        
         public async Task<Post> SharePost(string accessToken, PostDTO content)
         {
 
@@ -59,21 +60,54 @@ namespace Application.Services
             }
             throw new SecurityTokenValidationException();
         }
-        
-        public async Task<IEnumerable<Post>> GetRecentFivePosts()
+      
+
+        public async Task<BaseResponse<PostResponseDTO[]>> GetRecentFivePosts()
         {
-           var postList = _context.Posts.ToList().OrderBy(post => post.CreateTime).TakeLast(5);
-            if (postList == null)
-                throw new ExceptionResponse("Post not found !");
-            return postList;                                          
+            // Post ve User joinleyip her ikisinden select ile DTO oluşturup client a döneceksin
+            var response = _context.Posts
+                .Join(_context.UserInfo,
+                post => post.AuthorID,
+                userInfo => userInfo.UserID,
+                (post, userInfo) => new PostResponseDTO
+                {
+                    AuthorName = userInfo.Name,
+                    AuthorEmail = userInfo.Email,
+                    Title = post.Title,
+                    Content = post.Content,
+                    IsApprove = post.IsApprove,
+                    IsDeleted = post.IsDeleted,
+                    CreateTime = post.CreateTime,
+                    UpdateTime = post.UpdateTime,
+                }).ToArray();
+
+            return new BaseResponse<PostResponseDTO[]>(response,"Successful");
+            // ResponseObject
+            // ResultMessage
+            // HasError
+            // Body
 
         }
 
-        public async Task<List<Post>> GetUserPost(string token)
+        public async Task<PostResponseDTO[]> GetUserPost(string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
-            var postList = await _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive==true).ToListAsync();
-            return postList;
+            var postList =  _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
+            return postList
+               .Join(_context.UserInfo,
+               post => post.AuthorID,
+               userInfo => userInfo.UserID,
+               (post, userInfo) => new PostResponseDTO
+               {
+                   AuthorName = userInfo.Name,
+                   AuthorEmail = userInfo.Email,
+                   Title = post.Title,
+                   Content = post.Content,
+                   IsApprove = post.IsApprove,
+                   IsDeleted = post.IsDeleted,
+                   CreateTime = post.CreateTime,
+                   UpdateTime = post.UpdateTime,
+               }).ToArray();
 
         }
 
@@ -87,8 +121,9 @@ namespace Application.Services
                 if (post == null)
                     throw new Exception("Post did not found ! ");
                 post.IsDeleted = true;
+                post.isActive = false;
                 _context.SaveChanges();
-                return new BaseResponse<string> { Message= "Post deleted " };
+                return new BaseResponse<string> { Message= "Post deleted ", Succeeded= true, Body=null, Errors=null };
 
             }
             else
@@ -126,10 +161,24 @@ namespace Application.Services
 
         }
 
-        public async Task<List<Post>> GelAllPosts()
+        public async Task<PostResponseDTO[]> GelAllPosts()
         {
-            var postList = _context.Posts.ToList();
-            return postList;
+            var postList = _context.Posts;
+            return postList
+               .Join(_context.UserInfo,
+               post => post.AuthorID,
+               userInfo => userInfo.UserID,
+               (post, userInfo) => new PostResponseDTO
+               {
+                   AuthorName = userInfo.Name,
+                   AuthorEmail = userInfo.Email,
+                   Title = post.Title,
+                   Content = post.Content,
+                   IsApprove = post.IsApprove,
+                   IsDeleted = post.IsDeleted,
+                   CreateTime = post.CreateTime,
+                   UpdateTime = post.UpdateTime,
+               }).ToArray();
         }
     }
 }

@@ -22,7 +22,7 @@ public static class ServiceExtensions
         services.AddTransient<ITagService, TagService>();
         services.AddTransient<IPostTagService , PostTagService>();  
         services.AddTransient<IEditorUserService, EditorUserService>();
-
+   
     }
     public static void AddSwaggerExtension(this IServiceCollection services)
     {

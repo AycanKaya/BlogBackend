@@ -38,8 +38,7 @@ namespace Persistence
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<IPostTagService, PostTagService>();
             services.AddTransient<IEditorUserService, EditorUserService>();
-
-
+     
 
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
             services.AddAuthentication(options =>

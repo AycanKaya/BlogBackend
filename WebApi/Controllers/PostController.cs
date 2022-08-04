@@ -49,18 +49,19 @@ namespace WebApi.Controllers
             return new BaseResponse<Post>(await _postService.ChangePostState(token, updatePostDTO));
         }
         [HttpGet("GetUserPosts")]
-        public async Task<BaseResponse<List<Post>>> GetUserPosts()
+        public async Task<BaseResponse<PostResponseDTO[]>> GetUserPosts()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
             var postList= await _postService.GetUserPost(token);
-            return new BaseResponse<List<Post>>(postList);
+            return new BaseResponse<PostResponseDTO[]>(postList,"successful");
         }
         [HttpGet("AllPosts")]
-        public async Task<BaseResponse<List<Post>>> GetAllPosts()
+        public async Task<BaseResponse<PostResponseDTO[]>> GetAllPosts()
         {
             var postList = await _postService.GelAllPosts();
-            return new BaseResponse<List<Post>>(postList);
+            return new BaseResponse<PostResponseDTO[]>(postList, "Successful");
         }
+        //silincek
         [HttpGet]
         [Route("GetRecentFivePosts")]
         public async Task<IActionResult> GetRecentFivePosts()

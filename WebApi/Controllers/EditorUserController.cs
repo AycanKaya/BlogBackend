@@ -25,6 +25,7 @@ namespace WebApi.Controllers
         {
             return Ok(await _editorUserService.GetPassivePosts());
         }
+       
 
         [HttpPost]
         [Route("ActivateControl")]

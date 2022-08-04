@@ -13,11 +13,11 @@ namespace Application.Wrappers
             public BaseResponse()
             {
             }
-            public BaseResponse(T data, string message = null)
+            public BaseResponse(T body, string message = null)
             {
                 Succeeded = true;
                 Message = message;
-                Data = data;
+                Body = body;
             }
             public BaseResponse(string message)
             {
@@ -27,8 +27,8 @@ namespace Application.Wrappers
          
             public bool Succeeded { get; set; }
             public string Message { get; set; }
-            public List<string> Errors { get; set; }
-            public T Data { get; set; }
+            public string Errors { get; set; }
+            public T Body { get; set; }
         }
     
 }

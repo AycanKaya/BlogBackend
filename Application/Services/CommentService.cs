@@ -37,7 +37,7 @@ namespace Application.Services
             {
                 comment.IsDeleted = true;
                 await _context.SaveChanges();
-                return new BaseResponse<string>{ Message="Comment Deleted.", Succeeded=true,Errors=null,Data= comment.Id.ToString() };
+                return new BaseResponse<string>{ Message="Comment Deleted.", Succeeded=true,Errors=null,Body= comment.Id.ToString() };
             }
             throw new Exception("Only users who share the post or comment can delete the comment !");
         }

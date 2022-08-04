@@ -182,6 +182,7 @@ namespace Application.Services
 
         private UserInfo SetUserInfo(UserInfoDTO dto, UserInfo userInfo, string token,string userId)
         {
+
             userInfo.UserID = userId;
             userInfo.Role = _jwtService.GetUserRole(token);
             userInfo.UserName = dto.UserName;

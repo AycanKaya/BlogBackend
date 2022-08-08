@@ -93,11 +93,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("GetUserPosts")]
-        public async Task<PostsResponseModel> GetUserPosts()
+        public async Task<PostCommentsResponseModel> GetUserPosts()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
             var postList = await _postService.GetUserPost(token);
-            return new PostsResponseModel(postList, true, "successful", 200);
+            return new PostCommentsResponseModel(postList, true, "successful", 200);
         }
 
         [HttpGet("AllPosts")]

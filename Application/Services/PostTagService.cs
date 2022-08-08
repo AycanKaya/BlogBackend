@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.DTO.PostServiceDTOs;
 using Application.DTO.PostTagDTOs;
 using Application.Interfaces;
 using Application.Wrappers;
@@ -22,7 +23,7 @@ namespace Application.Services
         }
 
       
-        public async Task<BaseResponse<string>> AddTagToPost(AddTagDTO addTag)
+        public async Task<bool> AddTagToPost(AddTagDTO addTag)
         {
             var isTagExists= _context.Tags.Where(x => x.TagName == addTag.TagName).FirstOrDefault();
             if(isTagExists == null)
@@ -37,7 +38,7 @@ namespace Application.Services
                 tagPost.PostID=addTag.PostID;
                 _context.PostTags.Add(tagPost);
                 await _context.SaveChanges();
-                return new BaseResponse<string> { Message = "Tag added to Post", Succeeded = true };
+                return true;
 
             }
             var tag_post = new PostTag();
@@ -45,21 +46,22 @@ namespace Application.Services
             tag_post.TagID= isTagExists.Id;
             _context.PostTags.Add(tag_post);
             await _context.SaveChanges();
-            return new BaseResponse<string> { Message = "Tag added to Post", Succeeded = true };
+            return true;
 
         }
-        public async Task<List<Tag>> GetPostWithTag(int postID)
+        public async Task<Tag[]> GetPostWithTag(int postID)
         {
             
-            var tagPost= _context.PostTags.Where(c => c.PostID==postID).ToList();
+            var tagPost= _context.PostTags.Where(c => c.PostID==postID).ToArray();
             var tagList = new List<Tag>();
             foreach (var tag in tagPost)
             {
                 tagList.Add(_context.Tags.Where(c => c.Id == tag.TagID).FirstOrDefault());
             }
-            return tagList;
+            return tagList.ToArray();
            
         }
 
+     
     }
 }

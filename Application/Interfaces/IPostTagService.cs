@@ -11,8 +11,8 @@ namespace Application.Interfaces
 {
     public  interface IPostTagService
     {
-        Task<BaseResponse<string>> AddTagToPost(AddTagDTO addTag);
-        Task<List<Tag>> GetPostWithTag(int postID);
+        Task<bool> AddTagToPost(AddTagDTO addTag);
+        Task<Tag[]> GetPostWithTag(int postID);
 
     }
 }

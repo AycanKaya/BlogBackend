@@ -9,15 +9,15 @@ namespace Application.Interfaces
 {
     public interface IAccountService
     {
-        Task<BaseResponse<string>> Register(RegisterRequest registerRequest);
-        Task<DTO.AuthenticationResponse> Login(AuthenticationRequest authenticationRequest, string ipAddress);
+        Task<bool> Register(RegisterRequest registerRequest);
+        Task<DTO.AuthenticationResponseDTO> Login(AuthenticationRequest authenticationRequest, string ipAddress);
          bool isLogged(string token);
         Task<UserInfo> GetUserInfoAsync(string token);
         Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string token);
-        Task<List<UserInfo>> GetAllUserInfo();
+        Task<UserInfo[]> GetAllUserInfo();
         Task<string> GetCurrentUserRole(string token);
-        Task<BaseResponse<IdentityUser>> ResetPassword(ResetPasswordDTO resetPassword);
-        BaseResponse<AccountLevel> GetUserLevel(string token);
+        Task<bool> ResetPassword(ResetPasswordDTO resetPassword);
+        AccountLevelResponseDTO GetUserLevel(string token);
 
     }
 }

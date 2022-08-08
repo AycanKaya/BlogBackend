@@ -12,13 +12,13 @@ namespace Application.Interfaces
 {
     public interface IAdminService
     {
-        Task<List<IdentityUser>> GetAllUsers();
-        Task<IdentityUser> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO);
-        Task<Dictionary<string, List<IdentityUser>>> GetUsersWithRole();
+        Task<IdentityUser[]> GetAllUsers();
+        Task<bool> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO);
+        Task<Dictionary<string, IdentityUser[]>> GetUsersWithRole();
         Task<UserInfo> SettingUserInfo(UserInfoDTO dto, string userId);
         Task<IdentityRole> AddRole(string roleName);
-        Task<BaseResponse<AccountLevel>> AddAccountLevel(AccountLevelDTO accountLevelDTO);
-        Task<BaseResponse<AccountLevel>> AccountLevelUp(AccountLevelUpDTO dto);
+        Task<AccountLevel> AddAccountLevel(AccountLevelDTO accountLevelDTO);
+        Task<AccountLevel> AccountLevelUp(AccountLevelUpDTO dto);
 
 
     }

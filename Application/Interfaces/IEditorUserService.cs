@@ -9,8 +9,8 @@ namespace Application.Interfaces
 {
     public interface IEditorUserService
     {
-        Task<BaseResponse<string>> DeleteComment(int commentID);
-        Task<BaseResponse<string>> ActivatePost(ApproveControlDTO dto);
-        Task<List<PostResponse>> GetPassivePosts();
+        Task<bool> DeleteComment(int commentID);
+        Task<bool> ActivatePost(ApproveControlDTO dto);
+        Task<PostResponseDTO[]> GetPassivePosts();
     }
 }

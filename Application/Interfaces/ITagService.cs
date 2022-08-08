@@ -11,8 +11,8 @@ namespace Application.Interfaces
 {
     public interface ITagService
     {
-        Task<BaseResponse<Tag>> CreateTag(CreateTagDTO createTag);
-        Task<List<Tag>> GetAllTags();
+        Task<bool> CreateTag(CreateTagDTO createTag);
+        Task<Tag[]> GetAllTags();
 
     }
 }

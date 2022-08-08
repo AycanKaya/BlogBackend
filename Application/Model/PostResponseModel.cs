@@ -11,6 +11,10 @@ namespace Application.Model
     public class PostResponseModel : ResponseBase
     {   
         public PostResponseDTO? Post { get; set; }
+        public PostResponseModel()
+        {
+
+        }
         public PostResponseModel(PostResponseDTO post,bool succeed, string message, int code)
         {
             Post = post;
@@ -18,6 +22,7 @@ namespace Application.Model
             Message = message;
             StatusCode = code;
         }
+
 
     }
 }

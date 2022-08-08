@@ -5,6 +5,8 @@ using Application.DTO;
 using Application.Wrappers;
 using Microsoft.AspNetCore.Identity;
 using Application.DTO.AccountServiceDTOs;
+using System.Net;
+using WebApi.Model;
 
 namespace WebApi.Controllers
 {
@@ -24,73 +26,141 @@ namespace WebApi.Controllers
 
         [HttpPost("authenticate")]
 
-        public async Task<IActionResult> Login(AuthenticationRequest request)
+        public async Task<LoginResponseModel> Login(AuthenticationRequest request)
         {
-            return Ok(await _accountService.Login(request, GenerateIPAddress()));
+            var user = await _accountService.Login(request, GenerateIPAddress());
+            var result = new LoginResponseModel(user);
+            result.StatusCode = 200;
+            result.Message = "Logged in";
+            result.Succeeded = true;
+            return result;
+
+            
             
         }
 
         [HttpGet("isValid")]
-        public  IActionResult isLogged() { 
+        public  async Task<ResponseBase> isLogged() { 
             var token= HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-            return Ok( _accountService.isLogged(token));
+            var isSuccedd =  _accountService.isLogged(token);
+            var result = new ResponseBase();
+            result.Succeeded = isSuccedd;
+            if (isSuccedd)
+            {
+                result.Message = "Successfull";
+                result.StatusCode = 200;
+            }
+            else
+            {
+               result.StatusCode= (int)HttpStatusCode.Unauthorized;
+                result.Message = "İnvalid Token";
+                result.Error = "Unauthorized";
+            }             
+            return result;
+            
         }
-        
+
 
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<ResponseBase> Register(RegisterRequest request)
         {
-            var response = Ok(await _accountService.Register(request));
+            var isSuccedd = await _accountService.Register(request);
+            var response = new ResponseBase();
+            if (isSuccedd)
+            {
+                response.Succeeded = true;
+                response.StatusCode = (int)HttpStatusCode.Created;
+                response.Message = "User registered . ";
+                response.Error = "No error";
+                    
+            }
             return response;
         }
 
         [HttpPost]
         [Route("reset-password")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDTO request)
+        public async Task<ResponseBase> ResetPassword(ResetPasswordDTO request)
         {
-            return Ok(await _accountService.ResetPassword(request));
+            var response = new ResponseBase();
+            var isSucced = await _accountService.ResetPassword(request);
+            if (isSucced)
+            {
+                response.Succeeded = isSucced;
+                response.StatusCode = (int)HttpStatusCode.OK;
+                response.Message = "Password Change Successful. ";
+                response.Error = "No error";
+            }
+            return response;
         }
         
 
 
         [HttpPost]
         [Route("UserInfo")]
-        public async Task<IActionResult> UserInfo(UserInfoDTO userInfoDTO)
+        public async Task<UserInfoResponseModel> UserInfo(UserInfoDTO userInfoDTO)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _accountService.SettingUserInfo(userInfoDTO, token));
+            var userInfo = await _accountService.SettingUserInfo(userInfoDTO, token);
+            return new UserInfoResponseModel(userInfo,true, "User info edited.",200);
+            
             
         }
         [HttpGet]
         [Route("GetUserInfo")]
-        public async Task<IActionResult> GetUserInfo()
+        public async Task<UserInfoResponseModel> GetUserInfo()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _accountService.GetUserInfoAsync(token));
+            var userInfo = await _accountService.GetUserInfoAsync(token);
+            return new UserInfoResponseModel(userInfo,true, "User Info ready",200);
+            
+
         }
         [HttpGet]
         [Route("GetAllUserInfo")]
-        public async Task<IActionResult> GetAllUserInfo()
+        public async Task<AllUserInfoResponseModel> GetAllUserInfo()
         {
-            return Ok(await _accountService.GetAllUserInfo());
+            var userInfos = await _accountService.GetAllUserInfo();
+            return  new AllUserInfoResponseModel() {
+                Succeeded = true,
+                StatusCode = 200,
+                Message = "Successful !",
+                Error = "No Errors",
+                userInfos = userInfos
+            };
         }
 
 
         [HttpGet]
         [Route("GetCurrentUserRole")]
-        public async Task<IActionResult> GetCurrentUserRole()
+        public async Task<UserRoleResponseModel> GetCurrentUserRole()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
-            return Ok(await _accountService.GetCurrentUserRole(token));
+            var userRole = await _accountService.GetCurrentUserRole(token);
+            return new UserRoleResponseModel()
+            {
+                Role = userRole,
+                Succeeded = true,
+                StatusCode = 200,
+                Error = "No error",
+                Message = "This user role : "+userRole,
+            };
         }
        
         [HttpGet]
         [Route("GetAccountLevel")]
-        public async Task<IActionResult> GetUserLevel()
+        public async Task<AccountLevelResponseModel> GetUserLevel()
         {
-            return Ok(_accountService.GetUserLevel(GetToken()));
+            var accountLevel = _accountService.GetUserLevel(GetToken());
+            var result = new AccountLevelResponseModel(accountLevel.Level- accountLevel.SumOfPosts);
+            result.LevelName = accountLevel.LevelName;
+            result.Level = accountLevel.Level;
+            result.Succeeded = true;
+            result.Message = "Here User Level";
+            result.StatusCode=200;
+            return result;
+
         }
         private string GetToken()
         {

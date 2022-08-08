@@ -20,9 +20,9 @@ namespace Application.Services
             _context = context;
         }
 
-        public async Task<List<IdentityUser>> GetAllUsers()
+        public async Task<IdentityUser[]> GetAllUsers()
         {
-            var UserList = await _userManager.Users.ToListAsync();
+            var UserList = await _userManager.Users.ToArrayAsync();
             if (UserList == null)
                 throw new ArgumentNullException(nameof(UserList));
             return UserList;
@@ -30,19 +30,19 @@ namespace Application.Services
         
       
 
-        public async Task<Dictionary<string, List<IdentityUser>>> GetUsersWithRole()
+        public async Task<Dictionary<string, IdentityUser[]>> GetUsersWithRole()
         {
             var roles = await _roleManager.Roles.ToListAsync();
-            Dictionary<string, List<IdentityUser>> hash = new Dictionary<string, List<IdentityUser>>();
+            Dictionary<string, IdentityUser[]> hash = new Dictionary<string, IdentityUser[]>();
             foreach (var role in roles)
             {
                 var userInRole = await _userManager.GetUsersInRoleAsync(role.ToString());
-                hash.Add(role.ToString(), (List<IdentityUser>)userInRole);
+                hash.Add(role.ToString(), userInRole.ToArray());
             }
             return hash;
         }
 
-        public async Task<IdentityUser> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO)
+        public async Task<bool> MatchingUserWtihRole(UserMatchRoleDTO userMatchRoleDTO)
         {           
             var user =   await _userManager.Users.Where(x => x.Id == userMatchRoleDTO.UserId).FirstOrDefaultAsync();
             
@@ -56,7 +56,7 @@ namespace Application.Services
                 userInfo.Role = userMatchRoleDTO.RoleName;
                 await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
                 await _context.SaveChanges();
-                return user;
+                return true;
             }              
             var userInfoNew = new UserInfo();
             userInfoNew.UserID = userMatchRoleDTO.UserId;
@@ -64,7 +64,7 @@ namespace Application.Services
             _context.UserInfo.Add(userInfoNew);
             await _userManager.AddToRoleAsync(user, userMatchRoleDTO.RoleName);
             await _context.SaveChanges();
-            return user;
+            return true;
 
         }
         public async Task<IdentityRole> AddRole(string roleName)
@@ -133,7 +133,7 @@ namespace Application.Services
 
         }
 
-        public async Task<BaseResponse<AccountLevel>> AddAccountLevel(AccountLevelDTO accountLevelDTO)
+        public async Task<AccountLevel> AddAccountLevel(AccountLevelDTO accountLevelDTO)
         {
             var isContain = _context.AccountLevel.Where(c => c.Name == accountLevelDTO.Name).FirstOrDefault();
             if (isContain != null)
@@ -145,12 +145,12 @@ namespace Application.Services
             accountLevel.Level = accountLevelDTO.Level;
             _context.AccountLevel.Add(accountLevel);
             await _context.SaveChanges();
-            return new BaseResponse<AccountLevel>(accountLevel,"Success!");
+            return accountLevel;
 
 
         }
 
-        public async Task<BaseResponse<AccountLevel>> AccountLevelUp(AccountLevelUpDTO dto)
+        public async Task<AccountLevel> AccountLevelUp(AccountLevelUpDTO dto)
         {
             var accountLevel = _context.AccountLevel.Where(c => c.Name == dto.LevelName).FirstOrDefault();
             var userAccountLevel = _context.UserAccountLevels.Where(c => c.UserID == dto.UserID).FirstOrDefault();
@@ -158,7 +158,7 @@ namespace Application.Services
                 throw new Exception("Account Level not found");
 
             userAccountLevel.AccountLevelID = accountLevel.Id;
-            return new BaseResponse<AccountLevel>(accountLevel, "User Level Updated to " + (accountLevel.Name));
+            return accountLevel;
 
 
 

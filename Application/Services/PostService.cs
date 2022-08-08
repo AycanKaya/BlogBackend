@@ -6,23 +6,25 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Application.Wrappers;
+using Application.DTO.PostServiceDTOs;
+
 namespace Application.Services
 {
-    public class PostService :IPostService
+    public class PostService : IPostService
     {
-         IApplicationDbContext _context;
-         IJWTService _jWTService;
-       
+        IApplicationDbContext _context;
+        IJWTService _jWTService;
+
         public PostService(IApplicationDbContext context, IJWTService service)
         {
             _jWTService = service;
             _context = context;
-        
-            
+
+
         }
         private int GetTotalPostNumber(string userId)
         {
-            var number= _context.Posts.Where(x => x.AuthorID == userId).Count();
+            var number = _context.Posts.Where(x => x.AuthorID == userId).Count();
             return number;
         }
         private int GetAccountLevel(string userID)
@@ -31,15 +33,13 @@ namespace Application.Services
             var accountLevel = _context.AccountLevel.Where(x => x.Id == userAccountLevel.AccountLevelID).FirstOrDefault();
             return accountLevel.Level;
         }
-        
-        public async Task<Post> SharePost(string accessToken, PostDTO content)
+
+        public async Task<PostResponseDTO> SharePost(string accessToken, PostDTO content)
         {
-
             var userId = _jWTService.GetUserIdFromJWT(accessToken);
-
             if (userId != null)
             {
-               
+
                 if (GetAccountLevel(userId) > GetTotalPostNumber(userId))
                 {
                     var post = new Post();
@@ -52,47 +52,32 @@ namespace Application.Services
                     post.IsDeleted = false;
                     _context.Posts.Add(post);
                     await _context.SaveChanges();
-                    return post;
 
+                    var author = _context.UserInfo.Where(x => x.UserID == post.AuthorID).FirstOrDefault();
+                    return new PostResponseDTO
+                    {
+                        AuthorName = author.Name,
+                        AuthorEmail = author.Email,
+                        Title = post.Title,
+                        Content = post.Content,
+                        IsApprove = post.IsApprove,
+                        IsDeleted = post.IsDeleted,
+                        CreateTime = post.CreateTime,
+                        UpdateTime = post.UpdateTime,
+                    };
                 }
                 throw new ExceptionResponse("You arrived the maximum count of post !");
-               
+
             }
             throw new SecurityTokenValidationException();
         }
-      
 
-        public async Task<BaseResponse<PostResponseDTO[]>> GetRecentFivePosts()
-        {
-            // Post ve User joinleyip her ikisinden select ile DTO oluşturup client a döneceksin
-            var response = _context.Posts
-                .Join(_context.UserInfo,
-                post => post.AuthorID,
-                userInfo => userInfo.UserID,
-                (post, userInfo) => new PostResponseDTO
-                {
-                    AuthorName = userInfo.Name,
-                    AuthorEmail = userInfo.Email,
-                    Title = post.Title,
-                    Content = post.Content,
-                    IsApprove = post.IsApprove,
-                    IsDeleted = post.IsDeleted,
-                    CreateTime = post.CreateTime,
-                    UpdateTime = post.UpdateTime,
-                }).ToArray();
 
-            return new BaseResponse<PostResponseDTO[]>(response,"Successful");
-            // ResponseObject
-            // ResultMessage
-            // HasError
-            // Body
-
-        }
 
         public async Task<PostResponseDTO[]> GetUserPost(string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
-            var postList =  _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
+            var postList = _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
             return postList
                .Join(_context.UserInfo,
                post => post.AuthorID,
@@ -111,43 +96,41 @@ namespace Application.Services
 
         }
 
-        public async Task<BaseResponse<string>> DeletePost(int PostId, string token)
+        public async Task<bool> DeletePost(int PostId, string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
+            var post = _context.Posts.Where(x => x.Id == PostId || x.AuthorID == userId).FirstOrDefault();
+            if (post == null)
+                return false;
+            post.IsDeleted = true;
+            post.isActive = false;
+            await _context.SaveChanges();
+            return true;
 
-            if (userId != null)
-            {
-                var post = _context.Posts.Where(x => x.Id == PostId || x.AuthorID == userId).FirstOrDefault();
-                if (post == null)
-                    throw new Exception("Post did not found ! ");
-                post.IsDeleted = true;
-                post.isActive = false;
-                _context.SaveChanges();
-                return new BaseResponse<string> { Message= "Post deleted ", Succeeded= true, Body=null, Errors=null };
-
-            }
-            else
-                throw new Exception("User not found !");
 
         }
-        public async Task<Post> UpdatePost(UpdatePostDTO updatePostDTO)
+        public async Task<bool> UpdatePost(UpdatePostDTO updatePostDTO, string token)
         {
+            var authorId = _jWTService.GetUserIdFromJWT(token);
             var post = _context.Posts.Where(x => x.Id == updatePostDTO.PostId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
-            post.Content = updatePostDTO.Content;
-            post.Title = updatePostDTO.Title;
-            post.UpdateTime = DateTime.Now;
-            await _context.SaveChanges();
-            return post;
+            if(authorId == post.AuthorID)
+            {
+                post.Content = updatePostDTO.Content;
+                post.Title = updatePostDTO.Title;
+                post.UpdateTime = DateTime.Now;
+                await _context.SaveChanges();
+                return true;
+            }
+            return false;
+            
 
         }
-        public async Task<Post> ChangePostState(string token, UpdatePostDTO updatePostDTO)
+        public async Task<bool> ChangePostState(string token, UpdatePostDTO updatePostDTO)
         {
             var authorId = _jWTService.GetUserIdFromJWT(token);
-            if (authorId == null)
-                throw new Exception("User not found ");
-
+        
             var post = _context.Posts.Where(x => x.Id == updatePostDTO.PostId).FirstOrDefault();
             if (post == null)
                 throw new Exception("Post  did not found ! ");
@@ -155,7 +138,7 @@ namespace Application.Services
             {
                 post.isActive = updatePostDTO.isActive;
                 await _context.SaveChanges();
-                return post;
+                return true;
             }
             throw new Exception("Only users who share the post can change the post status!");
 
@@ -163,13 +146,36 @@ namespace Application.Services
 
         public async Task<PostResponseDTO[]> GelAllPosts()
         {
+            return await PostList();
+        }
+
+        public async Task<PostCommentsDTO[]> GetPostWithComments()
+        {
+
+            var postList = await PostList();
+            List<PostCommentsDTO> list = new List<PostCommentsDTO>();
+            foreach (var post in postList)
+            {
+                var comments = await _context.Comments.Where(x => x.PostID == post.PostId).ToArrayAsync();
+                var postComments = new PostCommentsDTO();
+                postComments.Post = post;
+                postComments.Comments = comments;
+                list.Add(postComments);
+            }
+            return list.ToArray();
+
+        }
+
+        private async Task<PostResponseDTO[]> PostList()
+        {
             var postList = _context.Posts;
-            return postList
+            return await postList
                .Join(_context.UserInfo,
                post => post.AuthorID,
                userInfo => userInfo.UserID,
                (post, userInfo) => new PostResponseDTO
                {
+                   PostId = post.Id,
                    AuthorName = userInfo.Name,
                    AuthorEmail = userInfo.Email,
                    Title = post.Title,
@@ -178,7 +184,7 @@ namespace Application.Services
                    IsDeleted = post.IsDeleted,
                    CreateTime = post.CreateTime,
                    UpdateTime = post.UpdateTime,
-               }).ToArray();
+               }).ToArrayAsync();
         }
     }
 }

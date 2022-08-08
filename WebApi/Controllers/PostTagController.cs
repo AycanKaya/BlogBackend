@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.DTO.PostTagDTOs;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Application.Wrappers;
 
 namespace WebApi.Controllers
 {
@@ -19,9 +20,17 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("AddTagToPost")]
-        public async Task<IActionResult> AddTagToPost(AddTagDTO addTagDTO)
+        public async Task<ResponseBase> AddTagToPost(AddTagDTO addTagDTO)
         {
-            return Ok(await _postTagService.AddTagToPost(addTagDTO));
+            var isSucceed = await _postTagService.AddTagToPost(addTagDTO);
+            if (!isSucceed)
+                throw new System.Exception();
+            return new ResponseBase()
+            {
+                Succeeded = isSucceed,
+                Message = "This tag added to post.",
+                StatusCode = 200
+            };
         }
     }
 }

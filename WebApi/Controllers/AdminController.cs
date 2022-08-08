@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Wrappers;
+using WebApi.Model;
+using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace WebApi.Controllers
 {
@@ -14,61 +18,86 @@ namespace WebApi.Controllers
     public class AdminController : ControllerBase
     {
         IAdminService _adminService;
-        public AdminController(IAdminService adminService)
+        private readonly ILogger<PostController> _logger;
+        public AdminController(IAdminService adminService, ILogger<PostController> logger)
         {
             _adminService = adminService;
+            _logger = logger;
         }
 
         [HttpGet("GetAllUsers")]
-         public async Task<IActionResult> GetAllUsers()
+        public async Task<GetUsersResponseModel> GetAllUsers()
         {
+            _logger.LogInformation("Only Admin can see ");
             var users = await _adminService.GetAllUsers();
-            return Ok(users);
+            var response = new GetUsersResponseModel(users,true,"All users here",200);
+            return response;
+
         }
 
         [HttpGet]
         [Route("GetUserInRole")]
-        public async Task<IActionResult> GetUsersInRoles()
+        public async Task<UsersInRoleResponseModel> GetUsersInRoles()
         {
-            var userWithRole = await _adminService.GetUsersWithRole();
-             return Ok(userWithRole);
+            var userRole = await _adminService.GetUsersWithRole();
+            return new UsersInRoleResponseModel(userRole, "Successfull", true, 200);
         }
 
         [HttpPost]
         [Route("NewUserRole")]
-        public async Task<IActionResult> AddNewRole(string RoleName)
+        public async Task<ResponseBase> AddNewRole(string RoleName)
         {
-            return Ok(await _adminService.AddRole(RoleName));
+            var role = await _adminService.AddRole(RoleName);
+            var response = new ResponseBase();
+            response.setResponseMessage(true, role.Name + " added.", (int)HttpStatusCode.Created);
+            return response;
         }
 
-         
-         [HttpPut("AddRoleToUser")]
-         public async Task<IActionResult> AddRoleToUser(UserMatchRoleDTO userMatchRoleDTO)
+
+        [HttpPut("AddRoleToUser")]
+        public async Task<ResponseBase> AddRoleToUser(UserMatchRoleDTO userMatchRoleDTO)
         {
-            return Ok(await _adminService.MatchingUserWtihRole(userMatchRoleDTO));
+            var status = await _adminService.MatchingUserWtihRole(userMatchRoleDTO);
+            return new ResponseBase()
+            {
+                Succeeded = status,
+                Message = userMatchRoleDTO.RoleName + " added to user.",
+                StatusCode = (int)HttpStatusCode.OK
+            };
         }
-         [HttpPut("Dashboard")]
-         public async Task<IActionResult> SettingUsers(UserInfoDTO userInfo,string id)
+
+
+
+        [HttpPut("Dashboard")]
+        public async Task<UserInfoResponseModel> SettingUsers(UserInfoDTO dto, string id)
         {
-            return Ok(await _adminService.SettingUserInfo(userInfo, id));
+            var userInfo = await _adminService.SettingUserInfo(dto, id);
+            return  new UserInfoResponseModel(userInfo, true, "User Info ready", 200);
+           
 
         }
 
 
         [HttpPost]
         [Route("AddAccountLevel")]
-        public async Task<IActionResult> AddAccountLevel(AccountLevelDTO dto)
+        public async Task<ResponseBase> AddAccountLevel(AccountLevelDTO dto)
         {
-            return Ok(await _adminService.AddAccountLevel(dto));
+            var accountLevel = await _adminService.AddAccountLevel(dto);
+            var response = new ResponseBase();
+            response.setResponseMessage(true, accountLevel.Name + " created successfully.", 200);
+            return response;
         }
 
 
         [HttpPost]
         [Route("UserAccountLevelUP")]
 
-        public async Task<IActionResult> AccountLevelUp(AccountLevelUpDTO levelUpDTO)
+        public async Task<ResponseBase> AccountLevelUp(AccountLevelUpDTO levelUpDTO)
         {
-            return Ok(await _adminService.AccountLevelUp(levelUpDTO));
+            var accountLevel = await _adminService.AccountLevelUp(levelUpDTO);
+            var response = new ResponseBase();
+            response.setResponseMessage(true, "User Level Updated to " + accountLevel.Name, 200);
+            return response;
         }
 
     }

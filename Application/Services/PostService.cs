@@ -178,7 +178,7 @@ namespace Application.Services
 
         public async Task<PostCommentsDTO[]> GetPostWithComments()
         {
-            var posts = _context.Posts;
+            var posts = _context.Posts.Where(c => c.IsDeleted ==false & c.IsApprove==true & c.isActive==true);
             var postList = await PostList(posts);
             List<PostCommentsDTO> list = new List<PostCommentsDTO>();
             foreach (var post in postList)
@@ -194,7 +194,7 @@ namespace Application.Services
         }
       
 
-        private async Task<PostResponseDTO[]> PostList(DbSet<Post> postList)
+        private async Task<PostResponseDTO[]> PostList(IQueryable<Post> postList)
         {            
             return await postList
                .Join(_context.UserInfo,

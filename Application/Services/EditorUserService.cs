@@ -20,13 +20,14 @@ namespace Application.Services
         }
         public async Task<PostResponseDTO[]> GetPassivePosts()
         {
-            var passivePosts = _context.Posts.Where(c => c.IsApprove == false);
+            var passivePosts = _context.Posts.Where(c => c.IsApprove == false && c.IsDeleted == false);
             return passivePosts
                 .Join(_context.UserInfo,
                 post => post.AuthorID,
                 userInfo => userInfo.UserID,
                 (post, userInfo) => new PostResponseDTO
                 {
+                    PostId= post.Id,
                     AuthorName = userInfo.Name,
                     AuthorEmail = userInfo.Email,
                     Title = post.Title,
@@ -42,7 +43,12 @@ namespace Application.Services
             var post = _context.Posts.Where(c => c.Id == dto.PostID).FirstOrDefault();
             post.IsApprove = dto.isApprove;
             if (dto.isApprove == false)
+            {
                 post.IsDeleted = true;
+                post.isActive = false;
+            }
+                
+
             await _context.SaveChanges();
             return true;
         }

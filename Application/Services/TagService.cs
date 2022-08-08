@@ -15,20 +15,20 @@ namespace Application.Services
             _context = context;
         }
 
-        public async Task<BaseResponse<Tag>> CreateTag(CreateTagDTO createTag) 
+        public async Task<bool> CreateTag(CreateTagDTO createTag) 
         {
             var tag = new Tag();
             tag.TagName = createTag.TagName;
             var isTagExists = _context.Tags.Contains(tag);
-            if (isTagExists) 
-                throw new Exception("Already exists");
+            if (isTagExists)
+                return false;
             _context.Tags.Add(tag);
             await _context.SaveChanges();
-            return new BaseResponse<Tag>(tag);  
+            return true;
         }
-        public async Task<List<Tag>> GetAllTags()
+        public async Task<Tag[]> GetAllTags()
         {
-            var tagList = _context.Tags.ToList();
+            var tagList =  _context.Tags.ToArray();
             if (tagList == null)
                 throw new ExceptionResponse("There are not exists.");
             return tagList;

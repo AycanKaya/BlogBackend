@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Application.Model;
 using System.Net;
 using WebApi.Model;
+using System;
 
 namespace WebApi.Controllers
 {
@@ -31,6 +32,10 @@ namespace WebApi.Controllers
         [HttpPost("PostUser")]
         public async Task<PostResponseModel> CreatePost(PostDTO postDTO)
         {
+            if(postDTO.Content.Equals("") || postDTO.Title.Equals(""))
+            {
+                throw new  Exception("Values cannot be null!");
+            }
             var token = HttpContext.Request.Headers.Authorization.ToString();
             var post = await _postService.SharePost(token, postDTO);
             return new PostResponseModel(post, true, "succeed", 200);

@@ -24,7 +24,7 @@ namespace Application.Services
             _context = context;
 
         }
-        public async Task<BaseResponse<string>> DeleteComment(int commentID, string token)
+        public async Task<bool> DeleteComment(int commentID, string token)
         {
             
             var authorId = _jWTService.GetUserIdFromJWT(token);
@@ -37,7 +37,7 @@ namespace Application.Services
             {
                 comment.IsDeleted = true;
                 await _context.SaveChanges();
-                return new BaseResponse<string>{ Message="Comment Deleted.", Succeeded=true,Errors=null,Body= comment.Id.ToString() };
+                return true;
             }
             throw new Exception("Only users who share the post or comment can delete the comment !");
         }
@@ -63,21 +63,20 @@ namespace Application.Services
             return comment;
 
         }
-        public async Task<List<Comment>> GetComments(int postId)
+        public async Task<Comment[]> GetComments(int postId)
         {
-            var commentList = await _context.Comments.Where(x => x.PostID == postId).ToListAsync();
+            var commentList = await _context.Comments.Where(x => x.PostID == postId).ToArrayAsync();
             return commentList;
         }
 
-        public async Task<BaseResponse<Comment>> UpdateComment(UpdateCommentDTO updateComment)
+        public async Task<bool> UpdateComment(UpdateCommentDTO updateComment)
         {
             var comment = _context.Comments.Where(x => x.Id == updateComment.CommentID).FirstOrDefault();
             if (comment == null)
                 throw new ExceptionResponse("Comment not found!");
             comment.Content = updateComment.Content;
-            return new BaseResponse<Comment>(comment);
-
-
+            await _context.SaveChanges();
+            return true;
 
         }
 

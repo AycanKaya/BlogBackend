@@ -9,6 +9,7 @@ namespace Application.DTO
 {
     public class PostResponseDTO
     {
+        public int? PostId { get; set; }
 
         public string AuthorName { get; set; }
         public string AuthorEmail { get; set; }

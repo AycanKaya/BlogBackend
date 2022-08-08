@@ -17,7 +17,7 @@ namespace Application.Interfaces
         Task<bool> UpdatePost(UpdatePostDTO updatePostDTO, string token);
         Task<bool> ChangePostState(string token, UpdatePostDTO updatePostDTO);
 
-        Task<PostResponseDTO[]> GetUserPost(string token);
+        Task<PostCommentsDTO[]> GetUserPost(string token);
         
         Task<PostResponseDTO[]> GelAllPosts();
         Task<PostCommentsDTO[]> GetPostWithComments();

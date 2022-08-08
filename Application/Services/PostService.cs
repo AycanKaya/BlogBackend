@@ -74,16 +74,16 @@ namespace Application.Services
 
 
 
-        public async Task<PostResponseDTO[]> GetUserPost(string token)
+        public async Task<PostCommentsDTO[]> GetUserPost(string token)
         {
             var userId = _jWTService.GetUserIdFromJWT(token);
-            var postList = _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
-            return postList
-               .Join(_context.UserInfo,
+            var posts = _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
+            var postList = await posts.Join(_context.UserInfo,
                post => post.AuthorID,
                userInfo => userInfo.UserID,
                (post, userInfo) => new PostResponseDTO
                {
+                   PostId = post.Id,
                    AuthorName = userInfo.Name,
                    AuthorEmail = userInfo.Email,
                    Title = post.Title,
@@ -92,7 +92,18 @@ namespace Application.Services
                    IsDeleted = post.IsDeleted,
                    CreateTime = post.CreateTime,
                    UpdateTime = post.UpdateTime,
-               }).ToArray();
+               }).ToArrayAsync();
+            List<PostCommentsDTO> list = new List<PostCommentsDTO>();
+            foreach (var post in postList)
+            {
+                var comments = await _context.Comments.Where(x => x.PostID == post.PostId).ToArrayAsync();
+                var postComments = new PostCommentsDTO();
+                postComments.Post = post;
+                postComments.Comments = comments;
+                list.Add(postComments);
+            }
+            return list.ToArray();
+
 
         }
 
@@ -146,13 +157,29 @@ namespace Application.Services
 
         public async Task<PostResponseDTO[]> GelAllPosts()
         {
-            return await PostList();
+            var postList = _context.Posts;
+            return await postList
+               .Join(_context.UserInfo,
+               post => post.AuthorID,
+               userInfo => userInfo.UserID,
+               (post, userInfo) => new PostResponseDTO
+               {
+                   PostId = post.Id,
+                   AuthorName = userInfo.Name,
+                   AuthorEmail = userInfo.Email,
+                   Title = post.Title,
+                   Content = post.Content,
+                   IsApprove = post.IsApprove,
+                   IsDeleted = post.IsDeleted,
+                   CreateTime = post.CreateTime,
+                   UpdateTime = post.UpdateTime,
+               }).ToArrayAsync();
         }
 
         public async Task<PostCommentsDTO[]> GetPostWithComments()
         {
-
-            var postList = await PostList();
+            var posts = _context.Posts;
+            var postList = await PostList(posts);
             List<PostCommentsDTO> list = new List<PostCommentsDTO>();
             foreach (var post in postList)
             {
@@ -165,10 +192,10 @@ namespace Application.Services
             return list.ToArray();
 
         }
+      
 
-        private async Task<PostResponseDTO[]> PostList()
-        {
-            var postList = _context.Posts;
+        private async Task<PostResponseDTO[]> PostList(DbSet<Post> postList)
+        {            
             return await postList
                .Join(_context.UserInfo,
                post => post.AuthorID,

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
-
+using WebApi.Middleware;
 
 namespace WebApi
 {
@@ -51,11 +51,15 @@ namespace WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<ExceptionMiddleware>();
+           
             app.UseHttpsRedirection();
             app.UseCors();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+           
+
            
             app.UseEndpoints(endpoints =>
             {
@@ -65,7 +69,7 @@ namespace WebApi
             #region Swagger
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
+           
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
@@ -73,6 +77,8 @@ namespace WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "OnionArchitecture");
             });
             #endregion
+
+            
 
         }
     }

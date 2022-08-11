@@ -41,7 +41,8 @@ namespace WebApi.Controllers
             return new PostResponseModel(post, true, "succeed", 200);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("DeletePost")]
         public async Task<ResponseBase> DeletePost(int id)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
@@ -62,7 +63,7 @@ namespace WebApi.Controllers
             return response;
         }
 
-        [HttpPut]
+        [HttpPut("UpdatePost")]
         public async Task<ResponseBase> UpdatePost(UpdatePostDTO updatePostDTO)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
@@ -119,7 +120,20 @@ namespace WebApi.Controllers
             return new PostCommentsResponseModel(posts, true, "All posts and comments", 200);
         }
 
-
+        [HttpGet("WaitingPosts")]
+        public async Task<PostsResponseModel> WaitingPosts()
+        {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            var posts = await _postService.WaitingUserPost(token);
+            return new PostsResponseModel(posts, true, "Waiting posts here.", 200);
+        }
+        [HttpGet("CancelledPosts")]
+        public async Task<PostsResponseModel> CancelledPosts()
+        {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            var posts = await _postService.CancelledUserPosts(token);
+            return new PostsResponseModel(posts, true, "Cancelled posts here.", 200);
+        }
     }
 
 

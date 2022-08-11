@@ -9,6 +9,8 @@ using WebApi.Model;
 
 namespace WebApi.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class TagController : ControllerBase
     {
         ITagService _tagService;

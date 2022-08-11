@@ -4,6 +4,9 @@ using Application.Wrappers;
 using Domain.Entities;
 using Application.DTO.TagDTOs;
 using System.Linq;
+using Application.DTO.PostServiceDTOs;
+using Application.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -33,5 +36,32 @@ namespace Application.Services
                 throw new ExceptionResponse("There are not exists.");
             return tagList;
         }
+
+        /*
+        public async Task<PostAndTagsDTO[]> PostsInTags(string[] tagName)
+        {
+            var tagList = _context.Tags.Where(x => tagName.Contains(x.TagName));
+            var tagPost = tagList.Join(
+                _context.PostTags,
+                tag => tag.Id,
+                postTag => postTag.TagID,
+                (tag, postTag) => new PostInTagsDTO
+                {
+                    TagName = tag.TagName,
+                    PostID = postTag.PostID,
+                }).ToArray();
+               List<Post> postList =new List<Post>();
+
+            foreach(var tag in tagPost)
+            {
+                var post = _context.Posts.Where(x => x.Id == tag.PostID).FirstOrDefault();
+                postList.Add(post);
+            }
+            var posts = await PostList(postList);        
+                  
+         }  */
+
+    
+
     }
 }

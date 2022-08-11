@@ -21,6 +21,7 @@ namespace Application.Interfaces
         
         Task<PostResponseDTO[]> GelAllPosts();
         Task<PostCommentsDTO[]> GetPostWithComments();
-
+        Task<PostResponseDTO[]> WaitingUserPost(string token);
+        Task<PostResponseDTO[]> CancelledUserPosts(string token);
     }
 }

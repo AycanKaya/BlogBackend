@@ -61,7 +61,7 @@ namespace Persistence
                     o.RequireHttpsMetadata = false;
                     o.SaveToken = false;
                     o.Authority = "https://dev-y-mn-g3v.us.auth0.com/";
-                    o.Audience = "https://blogserver.com"; //değişti
+                    o.Audience = "https://blogserver.com";
                     o.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,

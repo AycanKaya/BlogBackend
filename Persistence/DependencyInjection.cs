@@ -14,13 +14,17 @@ using Microsoft.IdentityModel.Tokens;
 using Persistence.Context;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Persistence
 {
-    public  static class DependencyInjection
+    public static class DependencyInjection
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
@@ -38,30 +42,38 @@ namespace Persistence
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<IPostTagService, PostTagService>();
             services.AddTransient<IEditorUserService, EditorUserService>();
-     
+
+
+           
 
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
+
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+               
             })
+             
                 .AddJwtBearer(o =>
                 {
                     o.RequireHttpsMetadata = false;
                     o.SaveToken = false;
+                    o.Authority = "https://dev-y-mn-g3v.us.auth0.com/";
+                    o.Audience = "https://blogserver.com"; //değişti
                     o.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero,
+                        ClockSkew = TimeSpan.Zero,                       
                         ValidIssuer = configuration["JWTSettings:Issuer"],
                         ValidAudience = configuration["JWTSettings:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]))
                     };
-                    o.Events = new JwtBearerEvents()
+                   o.Events = new JwtBearerEvents()
                     {
                         OnAuthenticationFailed = c =>
                         {
@@ -85,8 +97,13 @@ namespace Persistence
                             var result = JsonConvert.SerializeObject(("You are not authorized to access this resource"));
                             return context.Response.WriteAsync(result);
                         },
-                    };
+                    }; 
+
                 });
+
+           
+
+
         }
     }
 }

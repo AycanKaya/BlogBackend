@@ -174,7 +174,9 @@ namespace Application.Services
             {
                 Level = accountLevel.Level,
                 LevelName = accountLevel.Name,
-                SumOfPosts = sumOfPosts
+                SumOfPosts = sumOfPosts,
+                RightToPost = (accountLevel.Level - sumOfPosts)
+
             };
         }
 

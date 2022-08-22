@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Identity;
 using Application.DTO.AccountServiceDTOs;
 using System.Net;
 using WebApi.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Auth0.AspNetCore.Authentication;
+using System.Linq;
+using System.Net.Http;
 
 namespace WebApi.Controllers
 {
@@ -24,8 +30,10 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpPost("authenticate")]
+     
 
+
+        [HttpPost("authenticate")]
         public async Task<LoginResponseModel> Login(AuthenticationRequest request)
         {
             var user = await _accountService.Login(request, GenerateIPAddress());
@@ -153,13 +161,7 @@ namespace WebApi.Controllers
         public async Task<AccountLevelResponseModel> GetUserLevel()
         {
             var accountLevel = _accountService.GetUserLevel(GetToken());
-            var result = new AccountLevelResponseModel(accountLevel.Level- accountLevel.SumOfPosts);
-            result.LevelName = accountLevel.LevelName;
-            result.Level = accountLevel.Level;
-            result.Succeeded = true;
-            result.Message = "Here User Level";
-            result.StatusCode=200;
-            return result;
+            return new AccountLevelResponseModel(accountLevel, true, "here", 2000);
 
         }
         private string GetToken()

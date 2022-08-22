@@ -28,7 +28,7 @@ public static class ServiceExtensions
     {
         services.AddSwaggerGen(c =>
         {
-            //c.IncludeXmlComments(string.Format(@"{0}\CleanArchitecture.WebApi.xml", System.AppDomain.CurrentDomain.BaseDirectory));
+            
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",

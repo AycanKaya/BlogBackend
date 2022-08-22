@@ -65,15 +65,21 @@ namespace Application.Services
         }
         public async Task<Comment[]> GetComments(int postId)
         {
-            var commentList = await _context.Comments.Where(x => x.PostID == postId).ToArrayAsync();
+            var commentList = await _context.Comments.Where(x => x.PostID == postId && x.IsDeleted==false).ToArrayAsync();
             return commentList;
         }
 
-        public async Task<bool> UpdateComment(UpdateCommentDTO updateComment)
+        public async Task<bool> UpdateComment(UpdateCommentDTO updateComment, string token)
         {
-            var comment = _context.Comments.Where(x => x.Id == updateComment.CommentID).FirstOrDefault();
+            var userId = _jWTService.GetUserIdFromJWT(token);
+            if (userId == null)
+                throw new Exception("User not found ");
+
+            var comment = _context.Comments.Where(x => x.Id == updateComment.CommentID && x.AuthorId==userId).FirstOrDefault();
+
             if (comment == null)
-                throw new ExceptionResponse("Comment not found!");
+                throw new BadHttpRequestException("Only the commenter can update the comment");
+
             comment.Content = updateComment.Content;
             await _context.SaveChanges();
             return true;

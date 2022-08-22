@@ -6,6 +6,8 @@ using Application.DTO.TagDTOs;
 using Application.Wrappers;
 using System.Net;
 using WebApi.Model;
+using Application.Model;
+using Domain.Entities;
 
 namespace WebApi.Controllers
 {
@@ -41,5 +43,24 @@ namespace WebApi.Controllers
             var tags = await _tagService.GetAllTags();
             return new TagsResponseModel(tags, true, "All tags here", 200);
         }
+
+        [HttpGet]
+        [Route("GetPostsInTags")]
+        public async Task<PostCommentsResponseModel> GetPostsInTags(string tags)
+        {
+            var posts = await _tagService.PostsInTags(tags);
+            var response = new PostCommentsResponseModel(posts, true, "Posts in tags here", 200);
+            return response;
+
+        }
+        [HttpGet]
+        [Route("GetTagsInPost")]
+        public async Task<TagsResponseModel> GetTagsInPost(int PostID)
+        {
+            var tags= await _tagService.GetTagsInPost(PostID);
+            var response = new TagsResponseModel(tags, true, "succeeded", 200);
+            return response;
+        }
+
     }
 }

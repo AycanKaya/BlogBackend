@@ -1,4 +1,5 @@
 C:\Users\Aycan\Desktop\BlogBackend\Domain\bin\Debug\net6.0\Domain.deps.json
+C:\Users\Aycan\Desktop\BlogBackend\Domain\bin\Debug\net6.0\Domain.runtimeconfig.json
 C:\Users\Aycan\Desktop\BlogBackend\Domain\bin\Debug\net6.0\Domain.dll
 C:\Users\Aycan\Desktop\BlogBackend\Domain\bin\Debug\net6.0\Domain.pdb
 C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\Domain.csproj.AssemblyReference.cache
@@ -9,6 +10,5 @@ C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\Domain.csproj.CoreCom
 C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\Domain.dll
 C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\refint\Domain.dll
 C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\Domain.pdb
-C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\ref\Domain.dll
-C:\Users\Aycan\Desktop\BlogBackend\Domain\bin\Debug\net6.0\Domain.runtimeconfig.json
 C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\Domain.genruntimeconfig.cache
+C:\Users\Aycan\Desktop\BlogBackend\Domain\obj\Debug\net6.0\ref\Domain.dll

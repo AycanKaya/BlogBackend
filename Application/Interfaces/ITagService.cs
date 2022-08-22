@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.DTO;
+using Application.DTO.PostServiceDTOs;
 using Application.DTO.TagDTOs;
 using Application.Wrappers;
 using Domain.Entities;
@@ -13,6 +15,9 @@ namespace Application.Interfaces
     {
         Task<bool> CreateTag(CreateTagDTO createTag);
         Task<Tag[]> GetAllTags();
+        Task<PostCommentsDTO[]> PostsInTags(string tagNames);
+        Task<Tag[]> GetTagsInPost(int postID);
+
 
     }
 }

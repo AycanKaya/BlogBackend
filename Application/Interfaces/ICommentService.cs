@@ -9,7 +9,7 @@ namespace Application.Interfaces
         Task<bool> DeleteComment(int commentID, string token);
         Task<Comment> ShareComment(string token, CommentDTO commentContent);
         Task<Comment[]> GetComments(int postId);
-        Task<bool> UpdateComment(UpdateCommentDTO updateComment);
+        Task<bool> UpdateComment(UpdateCommentDTO updateComment,string token);
 
     }
 }

@@ -54,6 +54,7 @@ namespace Application.Services
                     var author = _context.UserInfo.Where(x => x.UserID == post.AuthorID).FirstOrDefault();
                     return new PostResponseDTO
                     {
+                        PostId=post.Id,
                         AuthorName = author.Name,
                         AuthorEmail = author.Email,
                         Title = post.Title,

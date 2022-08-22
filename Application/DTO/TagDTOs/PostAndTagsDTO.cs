@@ -10,7 +10,9 @@ namespace Application.DTO.TagDTOs
 {
     public class PostAndTagsDTO
     {
-        public PostCommentsDTO Post { get; set; }
+        public PostResponseDTO post{ get; set; }
+        
+        public Comment[] comments { get; set; }
         public Tag[] Tags { get; set; }
     }
 }

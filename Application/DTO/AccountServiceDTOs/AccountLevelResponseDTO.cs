@@ -11,5 +11,8 @@ namespace Application.DTO.AccountServiceDTOs
         public int Level { get; set; }
         public string LevelName { get; set; }
         public int SumOfPosts { get; set; }
+
+        public int RightToPost { get; set; }
+        
     }
 }

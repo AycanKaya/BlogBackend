@@ -7,6 +7,7 @@ using Application.Wrappers;
 
 namespace WebApi.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class PostTagController : ControllerBase

@@ -1,22 +1,18 @@
-﻿using Application.Wrappers;
+﻿using Application.DTO.AccountServiceDTOs;
+using Application.Wrappers;
 
 namespace WebApi.Model
 {
     public class AccountLevelResponseModel :ResponseBase
     {
-        public int Level { get; set; }
-        public string LevelName { get; set; }
-        private int x;
+        public AccountLevelResponseDTO Level { get; set; }
 
-        public int RightToPost {
-
-            get { return x; }   
-            set { x = value; }
-        } 
-
-        public AccountLevelResponseModel(int sumOfPost)
+        public AccountLevelResponseModel(AccountLevelResponseDTO level, bool succeed, string message,int code)
         {
-            x = sumOfPost;
+            Level = level;
+            Succeeded = succeed;
+            Message = message;
+            StatusCode = code;
         }
     }
 }

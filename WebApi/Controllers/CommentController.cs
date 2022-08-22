@@ -45,6 +45,8 @@ namespace WebApi.Controllers
         public async Task<ResponseBase> ShareComment(CommentDTO commentDTO)
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
+        
+
             var comment = await _commentService.ShareComment(token, commentDTO);
             return new ResponseBase()
             {
@@ -66,7 +68,8 @@ namespace WebApi.Controllers
         [HttpPut("UpdateComment")]
         public async Task<ResponseBase> UpdateComment(UpdateCommentDTO updateComment)
         {
-            var isUpdate = await _commentService.UpdateComment(updateComment);
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            var isUpdate = await _commentService.UpdateComment(updateComment,token);      
             return new ResponseBase()
             {
                 Succeeded = isUpdate,

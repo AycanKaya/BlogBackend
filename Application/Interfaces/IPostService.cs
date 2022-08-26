@@ -23,5 +23,7 @@ namespace Application.Interfaces
         Task<PostCommentsDTO[]> GetPostWithComments();
         Task<PostResponseDTO[]> WaitingUserPost(string token);
         Task<PostResponseDTO[]> CancelledUserPosts(string token);
+        Task<PostResponseDTO> GetPost(int postId);
+        Task<PostResponseDTO[]> GetSharedPost(string token);
     }
 }

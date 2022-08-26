@@ -31,6 +31,27 @@ namespace Application.Services
             var accountLevel = _context.AccountLevel.Where(x => x.Id == userAccountLevel.AccountLevelID).FirstOrDefault();
             return accountLevel.Level;
         }
+        public async Task<PostResponseDTO> GetPost(int postId)
+        {
+            var post = _context.Posts.Where(x => x.Id == postId);
+            return await post
+              .Join(_context.UserInfo,
+              post => post.AuthorID,
+              userInfo => userInfo.UserID,
+              (post, userInfo) => new PostResponseDTO
+              {
+                  PostId = post.Id,
+                  AuthorName = userInfo.Name,
+                  AuthorEmail = userInfo.Email,
+                  Title = post.Title,
+                  Content = post.Content,
+                  IsApprove = post.IsApprove,
+                  IsDeleted = post.IsDeleted,
+                  CreateTime = post.CreateTime,
+                  UpdateTime = post.UpdateTime,
+              }).FirstOrDefaultAsync();
+
+        }
 
         public async Task<PostResponseDTO> SharePost(string accessToken, PostDTO content)
         {
@@ -71,7 +92,27 @@ namespace Application.Services
             throw new SecurityTokenValidationException();
         }
 
+        public async Task<PostResponseDTO[]> GetSharedPost(string token)
+        {
+            var userId = _jWTService.GetUserIdFromJWT(token);
+            var posts = _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
+            return await posts.Join(_context.UserInfo,
+               post => post.AuthorID,
+               userInfo => userInfo.UserID,
+               (post, userInfo) => new PostResponseDTO
+               {
+                   PostId = post.Id,
+                   AuthorName = userInfo.Name,
+                   AuthorEmail = userInfo.Email,
+                   Title = post.Title,
+                   Content = post.Content,
+                   IsApprove = post.IsApprove,
+                   IsDeleted = post.IsDeleted,
+                   CreateTime = post.CreateTime,
+                   UpdateTime = post.UpdateTime,
+               }).ToArrayAsync();
 
+        }
 
         public async Task<PostCommentsDTO[]> GetUserPost(string token)
         {

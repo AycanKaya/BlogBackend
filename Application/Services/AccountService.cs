@@ -97,7 +97,21 @@ namespace Application.Services
 
         public bool isLogged(string token)
         {
+            Console.WriteLine("TOKEN : ", token);
+            
+            if(token == null || token == String.Empty)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(token)) {
+
+                Console.WriteLine("null or empty", string.IsNullOrEmpty(token));
+
+                return false; }
+
             var validateToken = _jwtService.ValidateToken(token);
+
             if (validateToken == null)
                 return false;
             return true;

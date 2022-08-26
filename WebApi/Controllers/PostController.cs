@@ -41,6 +41,13 @@ namespace WebApi.Controllers
             return new PostResponseModel(post, true, "succeed", 200);
         }
 
+        [HttpGet("id")]
+        public async Task<PostResponseModel> GetPost(int id)
+        {
+            var post = await _postService.GetPost(id);
+            return new PostResponseModel(post, true, "succeed" , 200);
+        }
+
         [HttpDelete]
         [Route("DeletePost")]
         public async Task<ResponseBase> DeletePost(int id)
@@ -119,6 +126,15 @@ namespace WebApi.Controllers
             var posts = await _postService.GetPostWithComments();
             return new PostCommentsResponseModel(posts, true, "All posts and comments", 200);
         }
+
+        [HttpGet("SharedPosts")]
+        public async Task<PostsResponseModel> SharedPosts()
+        {
+            var token = HttpContext.Request.Headers.Authorization.ToString();
+            var posts = await _postService.GetSharedPost(token);
+            return new PostsResponseModel(posts, true, "Shared posts here.", 200);
+        }
+
 
         [HttpGet("WaitingPosts")]
         public async Task<PostsResponseModel> WaitingPosts()

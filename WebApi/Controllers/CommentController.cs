@@ -13,15 +13,15 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CommentController : BaseApiController
+    public class CommentController : ControllerBase
     {
         ICommentService _commentService;
-        IAuthenticatedUserService _authenticatedUserService;
+       
 
-        public CommentController(ICommentService commentService, IAuthenticatedUserService authenticatedUserService)
+        public CommentController(ICommentService commentService)
         {
             _commentService = commentService;
-            _authenticatedUserService = authenticatedUserService;
+            
         }
         [HttpDelete("DeleteComment")]
         public async Task<ResponseBase> DeleteComment(int commentID)

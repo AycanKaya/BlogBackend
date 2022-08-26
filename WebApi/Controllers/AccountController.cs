@@ -3,16 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using Application.DTO;
 using Application.Wrappers;
-using Microsoft.AspNetCore.Identity;
-using Application.DTO.AccountServiceDTOs;
 using System.Net;
 using WebApi.Model;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Auth0.AspNetCore.Authentication;
-using System.Linq;
-using System.Net.Http;
+
 
 namespace WebApi.Controllers
 {

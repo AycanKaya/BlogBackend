@@ -2,7 +2,6 @@
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RestSharp;
 using System;
 using WebApi.Model;
 using System.Text.Json;
@@ -55,11 +54,6 @@ namespace WebApi.Controllers
             string resultContent = await result.Content.ReadAsStringAsync();
             Console.WriteLine(resultContent);
 
-
-            var client = new RestClient("https://dev-y-mn-g3v.us.auth0.com/oauth/token");
-            var request = new RestRequest("POST");
-            request.AddHeader("content-type", "application/json");
-            request.AddParameter("application/json", "{\"client_id\":\"GHex6lI47lr8Dje8xtQAK5szb32eUY8E\",\"client_secret\":\"DlgdfOPMMRgFD2LLY9YS_jF-J52pEwKlRqM8hNy-r0pnIPYTpIP_9O8CQ508v_Xh\",\"audience\":\"https://blogserver.com\",\"grant_type\":\"client_credentials\"}", ParameterType.RequestBody);
            
             return Ok(resultContent);
         }

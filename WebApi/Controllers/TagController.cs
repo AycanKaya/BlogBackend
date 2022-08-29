@@ -46,10 +46,10 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("GetPostsInTags")]
-        public async Task<PostCommentsResponseModel> GetPostsInTags(string tags)
+        public async Task<PostsResponseModel> GetPostsInTags(string tags)
         {
             var posts = await _tagService.PostsInTags(tags);
-            var response = new PostCommentsResponseModel(posts, true, "Posts in tags here", 200);
+            var response = new PostsResponseModel(posts, true, "Posts in tags here", 200);
             return response;
 
         }

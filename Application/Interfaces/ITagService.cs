@@ -15,7 +15,7 @@ namespace Application.Interfaces
     {
         Task<bool> CreateTag(CreateTagDTO createTag);
         Task<Tag[]> GetAllTags();
-        Task<PostCommentsDTO[]> PostsInTags(string tagNames);
+        Task<PostResponseDTO[]> PostsInTags(string tagNames);
         Task<Tag[]> GetTagsInPost(int postID);
 
 

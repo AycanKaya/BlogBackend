@@ -68,6 +68,7 @@ namespace Application.Services
                   PostId = post.Id,
                   AuthorName = userInfo.Name,
                   AuthorEmail = userInfo.Email,
+                   
                   Title = post.Title,
                   Content = post.Content,
                   IsApprove = post.IsApprove,
@@ -77,7 +78,7 @@ namespace Application.Services
               }).ToArray();
             return postResponseDto;
         }
-        public async Task<PostCommentsDTO[]> PostsInTags(string tagNames)
+        public async Task<PostResponseDTO[]> PostsInTags(string tagNames)
         {
             string[] tagNameList = tagNames.Split("-");
 
@@ -93,7 +94,7 @@ namespace Application.Services
                 throw new NullReferenceException("No posts");
             var postResponseDto = await convertPostToPostResponseDTO(posts);
 
-            var list = new List<PostCommentsDTO>();
+          /*  var list = new List<PostCommentsDTO>();
             foreach (var post in postResponseDto)
             {
                 var comments = await _context.Comments.Where(x => x.PostID == post.PostId).ToArrayAsync();
@@ -101,11 +102,11 @@ namespace Application.Services
                 postComments.Post = post;
                 postComments.Comments = comments;
                 list.Add(postComments);
-            }
+            } */
           
 
 
-            return list.ToArray();
+            return postResponseDto;
 
         }
       

@@ -17,7 +17,8 @@ namespace Application.Interfaces
         Task<UserInfo[]> GetAllUserInfo();
         Task<string> GetCurrentUserRole(string token);
         Task<bool> ResetPassword(ResetPasswordDTO resetPassword);
-        AccountLevelResponseDTO GetUserLevel(string token);
+        AccountLevelResponseDTO GetUserLevel(string email);
+        Task<UserInfo> GetUserInfo(string email);
 
     }
 }

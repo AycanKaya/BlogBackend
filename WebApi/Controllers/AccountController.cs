@@ -9,7 +9,7 @@ using WebApi.Model;
 
 namespace WebApi.Controllers
 {
-    
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -23,7 +23,7 @@ namespace WebApi.Controllers
         }
 
 
-     
+
 
 
         [HttpPost("authenticate")]
@@ -36,14 +36,14 @@ namespace WebApi.Controllers
             result.Succeeded = true;
             return result;
 
-            
-            
+
+
         }
 
         [HttpGet("isValid")]
-        public  async Task<ResponseBase> isLogged() { 
-            var token= HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-            var isSuccedd =  _accountService.isLogged(token);
+        public async Task<ResponseBase> isLogged() {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            var isSuccedd = _accountService.isLogged(token);
             var result = new ResponseBase();
             result.Succeeded = isSuccedd;
             if (isSuccedd)
@@ -53,12 +53,12 @@ namespace WebApi.Controllers
             }
             else
             {
-               result.StatusCode= (int)HttpStatusCode.Unauthorized;
+                result.StatusCode = (int)HttpStatusCode.Unauthorized;
                 result.Message = "İnvalid Token";
                 result.Error = "Unauthorized";
-            }             
+            }
             return result;
-            
+
         }
 
 
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
                 response.StatusCode = (int)HttpStatusCode.Created;
                 response.Message = "User registered . ";
                 response.Error = "No error";
-                    
+
             }
             return response;
         }
@@ -95,7 +95,7 @@ namespace WebApi.Controllers
             }
             return response;
         }
-        
+
 
 
         [HttpPost]
@@ -104,20 +104,29 @@ namespace WebApi.Controllers
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
             var userInfo = await _accountService.SettingUserInfo(userInfoDTO, token);
-            return new UserInfoResponseModel(userInfo,true, "User info edited.",200);
-            
-            
+            return new UserInfoResponseModel(userInfo, true, "User info edited.", 200);
+
+
         }
         [HttpGet]
-        [Route("GetUserInfo")]
-        public async Task<UserInfoResponseModel> GetUserInfo()
+        [Route("GetCurrentUserInfo")]
+        public async Task<UserInfoResponseModel> GetCurrentUserInfo()
         {
             var token = HttpContext.Request.Headers.Authorization.ToString();
             var userInfo = await _accountService.GetUserInfoAsync(token);
-            return new UserInfoResponseModel(userInfo,true, "User Info ready",200);
-            
+            return new UserInfoResponseModel(userInfo,true, "User Info ready",200);            
 
         }
+
+        [HttpGet]
+        [Route("GetUserInfo")]
+        public async Task<UserInfoResponseModel> GetUserInfo(string email)
+        {            
+            var userInfo = await _accountService.GetUserInfo(email);
+            return new UserInfoResponseModel(userInfo, true, "User Info ready", 200);
+
+        }
+
         [HttpGet]
         [Route("GetAllUserInfo")]
         public async Task<AllUserInfoResponseModel> GetAllUserInfo()
@@ -151,9 +160,9 @@ namespace WebApi.Controllers
        
         [HttpGet]
         [Route("GetAccountLevel")]
-        public async Task<AccountLevelResponseModel> GetUserLevel()
+        public async Task<AccountLevelResponseModel> GetUserLevel(string email)
         {
-            var accountLevel = _accountService.GetUserLevel(GetToken());
+            var accountLevel = _accountService.GetUserLevel(email);
             return new AccountLevelResponseModel(accountLevel, true, "here", 2000);
 
         }

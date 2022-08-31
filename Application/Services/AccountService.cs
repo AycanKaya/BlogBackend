@@ -151,7 +151,16 @@ namespace Application.Services
 
             return (userInfo);
 
+        }
 
+        public async Task<UserInfo> GetUserInfo(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var userInfo = _context.UserInfo.Where(x => x.UserID == user.Id).FirstOrDefault();
+            if (userInfo == null)
+                throw new ExceptionResponse("User not found");
+            return userInfo;
+            
         }
         public async Task<UserInfo[]> GetAllUserInfo()
         {
@@ -177,9 +186,10 @@ namespace Application.Services
             return true;
 
         }
-        public AccountLevelResponseDTO GetUserLevel(string token)
+        public AccountLevelResponseDTO GetUserLevel(string email)
         {
-            var userID = _jwtService.GetUserIdFromJWT(token);
+            var user = _context.UserInfo.Where(x => x.Email == email).FirstOrDefault();
+            var userID = user.UserID;
             var userAndLevelID = _context.UserAccountLevels.Where(x => x.UserID == userID).FirstOrDefault();
             var accountLevel = _context.AccountLevel.Where(x => x.Id == userAndLevelID.AccountLevelID).FirstOrDefault();
             var sumOfPosts = _context.Posts.Where(x => x.AuthorID == userID).Count();

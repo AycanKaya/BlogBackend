@@ -128,19 +128,19 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("SharedPosts")]
-        public async Task<PostsResponseModel> SharedPosts()
+        public async Task<PostsResponseModel> SharedPosts(string email)
         {
-            var token = HttpContext.Request.Headers.Authorization.ToString();
-            var posts = await _postService.GetSharedPost(token);
+           // var token = HttpContext.Request.Headers.Authorization.ToString();
+            var posts = await _postService.GetSharedPost(email);
             return new PostsResponseModel(posts, true, "Shared posts here.", 200);
         }
 
 
         [HttpGet("WaitingPosts")]
-        public async Task<PostsResponseModel> WaitingPosts()
+        public async Task<PostsResponseModel> WaitingPosts(string email)
         {
-            var token = HttpContext.Request.Headers.Authorization.ToString();
-            var posts = await _postService.WaitingUserPost(token);
+          //   var token = HttpContext.Request.Headers.Authorization.ToString();
+            var posts = await _postService.WaitingUserPost(email);
             return new PostsResponseModel(posts, true, "Waiting posts here.", 200);
         }
         [HttpGet("CancelledPosts")]

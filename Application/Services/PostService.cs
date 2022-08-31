@@ -92,10 +92,11 @@ namespace Application.Services
             throw new SecurityTokenValidationException();
         }
 
-        public async Task<PostResponseDTO[]> GetSharedPost(string token)
+        public async Task<PostResponseDTO[]> GetSharedPost(string email)
         {
-            var userId = _jWTService.GetUserIdFromJWT(token);
-            var posts = _context.Posts.Where(x => x.AuthorID == userId & x.IsApprove == true & x.isActive == true);
+            //  var userId = _jWTService.GetUserIdFromJWT(token);
+            var user = _context.UserInfo.Where(c => c.Email == email).FirstOrDefault();
+            var posts = _context.Posts.Where(c => c.AuthorID == user.UserID & c.IsDeleted == false & c.IsApprove == true);
             return await posts.Join(_context.UserInfo,
                post => post.AuthorID,
                userInfo => userInfo.UserID,
@@ -203,7 +204,7 @@ namespace Application.Services
 
         public async Task<PostResponseDTO[]> GelAllPosts()
         {
-            var postList = _context.Posts;
+            var postList = _context.Posts.Where(x=> x.isActive==true && x.IsApprove==true && x.IsDeleted == false);
             return await postList
                .Join(_context.UserInfo,
                post => post.AuthorID,
@@ -238,10 +239,11 @@ namespace Application.Services
             return list.ToArray();
 
         }
-        public async Task<PostResponseDTO[]> WaitingUserPost(string token)
+        public async Task<PostResponseDTO[]> WaitingUserPost(string email)
         {
-            var userId = _jWTService.GetUserIdFromJWT(token);
-            var postList = _context.Posts.Where(c => c.AuthorID == userId & c.IsDeleted == false & c.IsApprove == false);
+            // var userId = _jWTService.GetUserIdFromJWT(token);
+            var user = _context.UserInfo.Where(c => c.Email == email).FirstOrDefault();
+            var postList = _context.Posts.Where(c => c.AuthorID == user.UserID & c.IsDeleted == false & c.IsApprove == false);
             return postList
                .Join(_context.UserInfo,
                post => post.AuthorID,

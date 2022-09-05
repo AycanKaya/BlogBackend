@@ -32,13 +32,11 @@ namespace WebApi
                     builder =>
                     {
                         builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                        builder.WithOrigins("http://localhost:3000")
-                .WithHeaders("Authorization");
+
+
                     });
 
             });
-
-      
 
 
             services.ConfigureSameSiteNoneCookies();
@@ -48,15 +46,15 @@ namespace WebApi
                 options.MinimumSameSitePolicy = SameSiteMode.None;
              });
 
-            services.AddAuth0WebAppAuthentication(options =>
+        /*    services.AddAuth0WebAppAuthentication(options =>
             {
                 options.Domain = Configuration["Auth0:Domain"];
                 options.ClientId = Configuration["Auth0:ClientId"];               
                 
 
-            });
+            }); */
            
-            services.AddControllersWithViews();
+       //     services.AddControllersWithViews();
 
 
 

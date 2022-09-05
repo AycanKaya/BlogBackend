@@ -41,6 +41,7 @@ namespace Application.Services
               (post, userInfo) => new PostResponseDTO
               {
                   PostId = post.Id,
+                  AuthorID=post.AuthorID,
                   AuthorName = userInfo.Name,
                   AuthorEmail = userInfo.Email,
                   Title = post.Title,
@@ -92,11 +93,10 @@ namespace Application.Services
             throw new SecurityTokenValidationException();
         }
 
-        public async Task<PostResponseDTO[]> GetSharedPost(string email)
+        public async Task<PostResponseDTO[]> GetSharedPost(string id)
         {
-            //  var userId = _jWTService.GetUserIdFromJWT(token);
-            var user = _context.UserInfo.Where(c => c.Email == email).FirstOrDefault();
-            var posts = _context.Posts.Where(c => c.AuthorID == user.UserID & c.IsDeleted == false & c.IsApprove == true);
+          
+            var posts = _context.Posts.Where(c => c.AuthorID == id & c.IsDeleted == false & c.IsApprove == true);
             return await posts.Join(_context.UserInfo,
                post => post.AuthorID,
                userInfo => userInfo.UserID,
@@ -125,6 +125,7 @@ namespace Application.Services
                (post, userInfo) => new PostResponseDTO
                {
                    PostId = post.Id,
+                   AuthorID = userInfo.UserID,
                    AuthorName = userInfo.Name,
                    AuthorEmail = userInfo.Email,
                    Title = post.Title,
@@ -212,6 +213,7 @@ namespace Application.Services
                (post, userInfo) => new PostResponseDTO
                {
                    PostId = post.Id,
+                   AuthorID = userInfo.UserID,
                    AuthorName = userInfo.Name,
                    AuthorEmail = userInfo.Email,
                    Title = post.Title,
@@ -239,11 +241,10 @@ namespace Application.Services
             return list.ToArray();
 
         }
-        public async Task<PostResponseDTO[]> WaitingUserPost(string email)
+        public async Task<PostResponseDTO[]> WaitingUserPost(string id)
         {
-            // var userId = _jWTService.GetUserIdFromJWT(token);
-            var user = _context.UserInfo.Where(c => c.Email == email).FirstOrDefault();
-            var postList = _context.Posts.Where(c => c.AuthorID == user.UserID & c.IsDeleted == false & c.IsApprove == false);
+           
+            var postList = _context.Posts.Where(c => c.AuthorID == id & c.IsDeleted == false & c.IsApprove == false);
             return postList
                .Join(_context.UserInfo,
                post => post.AuthorID,
@@ -251,6 +252,7 @@ namespace Application.Services
                (post, userInfo) => new PostResponseDTO
                {
                    PostId = post.Id,
+                   AuthorID = userInfo.UserID,
                    AuthorName = userInfo.Name,
                    AuthorEmail = userInfo.Email,
                    Title = post.Title,
@@ -277,6 +279,7 @@ namespace Application.Services
                (post, userInfo) => new PostResponseDTO
                {
                    PostId = post.Id,
+                   AuthorID = userInfo.UserID,
                    AuthorName = userInfo.Name,
                    AuthorEmail = userInfo.Email,
                    Title = post.Title,

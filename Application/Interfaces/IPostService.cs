@@ -21,9 +21,9 @@ namespace Application.Interfaces
         
         Task<PostResponseDTO[]> GelAllPosts();
         Task<PostCommentsDTO[]> GetPostWithComments();
-        Task<PostResponseDTO[]> WaitingUserPost(string email);
+        Task<PostResponseDTO[]> WaitingUserPost(string id);
         Task<PostResponseDTO[]> CancelledUserPosts(string token);
         Task<PostResponseDTO> GetPost(int postId);
-        Task<PostResponseDTO[]> GetSharedPost(string email);
+        Task<PostResponseDTO[]> GetSharedPost(string id);
     }
 }

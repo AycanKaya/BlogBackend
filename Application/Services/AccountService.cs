@@ -153,9 +153,9 @@ namespace Application.Services
 
         }
 
-        public async Task<UserInfo> GetUserInfo(string email)
+        public async Task<UserInfo> GetUserInfo(string id)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByIdAsync(id);
             var userInfo = _context.UserInfo.Where(x => x.UserID == user.Id).FirstOrDefault();
             if (userInfo == null)
                 throw new ExceptionResponse("User not found");
@@ -163,8 +163,9 @@ namespace Application.Services
             
         }
         public async Task<UserInfo[]> GetAllUserInfo()
-        {
+        {            
             var userList = await _context.UserInfo.ToArrayAsync();
+           
             return userList;
         }
         public async Task<string> GetCurrentUserRole(string token)
@@ -186,9 +187,9 @@ namespace Application.Services
             return true;
 
         }
-        public AccountLevelResponseDTO GetUserLevel(string email)
+        public AccountLevelResponseDTO GetUserLevel(string id)
         {
-            var user = _context.UserInfo.Where(x => x.Email == email).FirstOrDefault();
+            var user = _context.UserInfo.Where(x => x.UserID == id).FirstOrDefault();
             var userID = user.UserID;
             var userAndLevelID = _context.UserAccountLevels.Where(x => x.UserID == userID).FirstOrDefault();
             var accountLevel = _context.AccountLevel.Where(x => x.Id == userAndLevelID.AccountLevelID).FirstOrDefault();

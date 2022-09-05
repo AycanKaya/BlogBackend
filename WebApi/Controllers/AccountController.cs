@@ -54,7 +54,7 @@ namespace WebApi.Controllers
             else
             {
                 result.StatusCode = (int)HttpStatusCode.Unauthorized;
-                result.Message = "İnvalid Token";
+                result.Message = "Invalid Token";
                 result.Error = "Unauthorized";
             }
             return result;
@@ -120,9 +120,9 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("GetUserInfo")]
-        public async Task<UserInfoResponseModel> GetUserInfo(string email)
+        public async Task<UserInfoResponseModel> GetUserInfo(string id)
         {            
-            var userInfo = await _accountService.GetUserInfo(email);
+            var userInfo = await _accountService.GetUserInfo(id);
             return new UserInfoResponseModel(userInfo, true, "User Info ready", 200);
 
         }
@@ -160,9 +160,9 @@ namespace WebApi.Controllers
        
         [HttpGet]
         [Route("GetAccountLevel")]
-        public async Task<AccountLevelResponseModel> GetUserLevel(string email)
+        public async Task<AccountLevelResponseModel> GetUserLevel(string id)
         {
-            var accountLevel = _accountService.GetUserLevel(email);
+            var accountLevel = _accountService.GetUserLevel(id);
             return new AccountLevelResponseModel(accountLevel, true, "here", 2000);
 
         }

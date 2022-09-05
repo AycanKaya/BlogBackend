@@ -158,9 +158,11 @@ namespace Application.Services
                 throw new Exception("Account Level not found");
 
             userAccountLevel.AccountLevelID = accountLevel.Id;
+
+            var userInfo= _context.UserInfo.Where(x => x.UserID == dto.UserID).FirstOrDefault();
+            userInfo.Level = dto.LevelName;
+            await _context.SaveChanges();
             return accountLevel;
-
-
 
         }
 

@@ -10,6 +10,7 @@ using System.Net.Mail;
 using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Application.DTO.AccountServiceDTOs;
+using System.Globalization;
 
 namespace Application.Services
 {
@@ -55,6 +56,29 @@ namespace Application.Services
 
                 await _userManager.AddToRoleAsync(user, "Basic");
                 await initalLevel(user.Id);
+
+                var c = new CultureInfo("en-GB");
+                var r = new RegionInfo(c.LCID);
+                string name = r.Name;
+
+
+                var userInfo = new UserInfo();
+                userInfo.UserName = registerRequest.Username;
+                userInfo.Email= registerRequest.Email;
+                userInfo.UserID=user.Id;
+                userInfo.Role = "Basic";
+                userInfo.Address = r.TwoLetterISORegionName;
+                userInfo.Gender = 0;
+                userInfo.Name = "";
+                userInfo.Surname = "";
+                userInfo.Age = 0;
+                userInfo.PhoneNumber = "";
+                userInfo.BirthDay = new DateTime();
+                userInfo.Contry = r.TwoLetterISORegionName;
+                _context.UserInfo.Add(userInfo);
+                await _context.SaveChanges(); 
+
+
                 return true;
             }
             else
@@ -207,10 +231,13 @@ namespace Application.Services
 
         private UserInfo SetUserInfo(UserInfoDTO dto, UserInfo userInfo, string token, string userId)
         {
+            var userLevelID =  _context.UserAccountLevels.Where(x => x.UserID == userId).FirstOrDefault();
+            var userLevel = _context.AccountLevel.Where(x => x.Id == userLevelID.AccountLevelID).FirstOrDefault();
 
             userInfo.UserID = userId;
             userInfo.Role = _jwtService.GetUserRole(token);
             userInfo.UserName = dto.UserName;
+            userInfo.Level = userLevel.Name;
             userInfo.Surname = dto.Surname;
             userInfo.Name = dto.Name;
             userInfo.Email = dto.Email;

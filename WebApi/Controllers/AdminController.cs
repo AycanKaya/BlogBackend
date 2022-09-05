@@ -95,6 +95,7 @@ namespace WebApi.Controllers
         public async Task<ResponseBase> AccountLevelUp(AccountLevelUpDTO levelUpDTO)
         {
             var accountLevel = await _adminService.AccountLevelUp(levelUpDTO);
+           
             var response = new ResponseBase();
             response.setResponseMessage(true, "User Level Updated to " + accountLevel.Name, 200);
             return response;

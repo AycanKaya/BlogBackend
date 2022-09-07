@@ -29,6 +29,8 @@ namespace WebApi
             }
 
 
+
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -36,6 +38,11 @@ namespace WebApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseSerilog((context, config) =>
+                    {
+                        config.ReadFrom.Configuration(context.Configuration);
+                    });
                 });
+           
     }
 }

@@ -14,21 +14,22 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    [Authorize(Roles = "Admin")]
+     [Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         IAdminService _adminService;
-        private readonly ILogger<PostController> _logger;
-        public AdminController(IAdminService adminService, ILogger<PostController> logger)
+        private readonly ILogger<AdminController> _logger;
+        public AdminController(IAdminService adminService, ILogger<AdminController> logger)
         {
             _adminService = adminService;
             _logger = logger;
         }
+     
 
         [HttpGet("GetAllUsers")]
         public async Task<GetUsersResponseModel> GetAllUsers()
         {
-            _logger.LogInformation("Only Admin can see ");
+            _logger.LogInformation("Hello from inside AdminController!");
             var users = await _adminService.GetAllUsers();
             var response = new GetUsersResponseModel(users,true,"All users here",200);
             return response;

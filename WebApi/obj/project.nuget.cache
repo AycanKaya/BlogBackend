@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8NrE83mkYqzvxA2+VURh9QiS/nthNBI3SIkYLujIREw5vJykPdEfJWXnVNNZ9B08RZ4HT4sCEgRmNOBYELIf/w==",
+  "dgSpecHash": "kWuxCLSmm3xCe2b+iMkUQlVeDjyS1LJo57lkb/l9VD4bZvsLWSoxoWLgQP3GAn+FiCees6GvTWnZBvzlP1ovJA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Aycan\\Desktop\\BlogBackend\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
@@ -52,6 +52,7 @@
     "C:\\Users\\Aycan\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.10.2\\microsoft.identitymodel.tokens.6.10.2.nupkg.sha512",
     "C:\\Users\\Aycan\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\Aycan\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Aycan\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Users\\Aycan\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Aycan\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Aycan\\.nuget\\packages\\mongodb.bson\\2.17.1\\mongodb.bson.2.17.1.nupkg.sha512",

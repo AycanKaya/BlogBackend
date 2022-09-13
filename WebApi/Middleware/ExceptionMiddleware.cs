@@ -40,7 +40,9 @@ namespace WebApi.Middleware
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             var now = DateTime.UtcNow;
             
-            Log.Error($"{now.ToString("HH:mm:ss")} : {ex}");
+          
+           Log.Error(ex.Message);
+         
             var message = HttpStatusCode.InternalServerError.ToString();
             // var m = "Please ask your service with this code : "+ex.GetType().GUID ;
 
@@ -53,6 +55,8 @@ namespace WebApi.Middleware
 
             ;
             var result = JsonSerializer.Serialize(responseBaseModel);
+
+          //   Log.Error<ResponseBase>(result,responseBaseModel);
             return httpContext.Response.WriteAsync(result);
 
        /*     var responseModel = new ErrorResultModel() { Succeeded = false, Message = m.ToString(), StatusCode

@@ -4,43 +4,12 @@ i:{00000000-0000-0000-0000-000000000000}:BlogBackend.sln
 i:{00000000-0000-0000-0000-000000000000}:Core
 ++Domain
 i:{d9bff438-2db1-47f6-a0e2-fbc5737acb2d}:Domain
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\domain\bin\debug\net6.0\domain.dll
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\domain\domain.csproj
 ++Dependencies
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>659
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>661
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>660
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>914
-++Common
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\common\
-++Entities
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\
-++AccountLevel.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\accountlevel.cs
-++Comment.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\comment.cs
-++Permissions.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\permissions.cs
-++Post.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\post.cs
-++PostTag.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\posttag.cs
-++PostWithComments.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\postwithcomments.cs
-++RoleWithPermissions.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\rolewithpermissions.cs
-++Tag.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\tag.cs
-++UserAccountLevel.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\useraccountlevel.cs
-++UserInfo.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\userinfo.cs
-++Enum
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\enum\
-++appsettings.json
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\webapi\appsettings.json
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\appsettings.json
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\appsettings.json
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\bin\debug\netcoreapp3.1\appsettings.json
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>682
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>683
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>684
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>960
 ++Analyzers
 i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:analyzers
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:analyzers
@@ -56,10 +25,19 @@ i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:packages
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:packages
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:packages
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:packages
+++Common
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\common\
 ++BaseEntity.cs
 i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\common\baseentity.cs
-++Gender.cs
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\enum\gender.cs
+++Entities
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\
+++Enum
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\enum\
+++appsettings.json
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\webapi\appsettings.json
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\appsettings.json
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\appsettings.json
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\bin\debug\netcoreapp3.1\appsettings.json
 ++Microsoft.AspNetCore.App.Analyzers
 i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.4\analyzers\dotnet\cs\microsoft.aspnetcore.app.analyzers.dll
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\program files\dotnet\packs\microsoft.aspnetcore.app.ref\6.0.4\analyzers\dotnet\cs\microsoft.aspnetcore.app.analyzers.dll
@@ -101,31 +79,53 @@ i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\appl
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\microsoft.netcore.app
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\microsoft.netcore.app
 ++MediatR.Extensions.Microsoft.DependencyInjection (10.0.1)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>968
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>995
 ++Microsoft.AspNetCore.Authentication.JwtBearer (6.0.6)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>966
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>991
 ++Microsoft.AspNetCore.Identity.EntityFrameworkCore (6.0.6)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>965
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>945
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>989
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>992
 ++Microsoft.EntityFrameworkCore (6.0.6)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>962
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>939
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>940
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>983
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>981
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>982
 ++Microsoft.EntityFrameworkCore.SqlServer (6.0.6)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>963
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>941
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>986
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>985
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>987
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1010
 ++Microsoft.EntityFrameworkCore.Tools (6.0.6)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>967
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>946
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>997
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>993
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>994
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1022
 ++Swashbuckle.AspNetCore (6.3.1)
-i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>964
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>989
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:>988
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1013
+++AccountLevel.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\accountlevel.cs
+++Comment.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\comment.cs
+++Permissions.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\permissions.cs
+++Post.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\post.cs
+++PostTag.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\posttag.cs
+++PostWithComments.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\postwithcomments.cs
+++RoleWithPermissions.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\rolewithpermissions.cs
+++Tag.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\tag.cs
+++UserAccountLevel.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\useraccountlevel.cs
+++UserInfo.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\entities\userinfo.cs
+++Gender.cs
+i:{c2dc8a3b-dd00-4f27-82c7-c70da0380408}:c:\users\aycan\desktop\blogbackend\domain\enum\gender.cs
 ++Application
 i:{d9bff438-2db1-47f6-a0e2-fbc5737acb2d}:Application
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\application\bin\debug\net6.0\application.dll
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\application\bin\debug\net6.0\application.dll
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\application\application.csproj
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\application\application.csproj
 ++DTO
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\dto\
 ++Helpers
@@ -137,28 +137,6 @@ i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\appl
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\model\
 ++Services
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\
-++AccountService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\accountservice.cs
-++AdminServices.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\adminservices.cs
-++AuthenticatedUserService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\authenticateduserservice.cs
-++CommentService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\commentservice.cs
-++EditorUserService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\editoruserservice.cs
-++JWTService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\jwtservice.cs
-++PostService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\postservice.cs
-++PostTagService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\posttagservice.cs
-++TagService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\tagservice.cs
-++UserInfoService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\userinfoservice.cs
-++UserService.cs
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\userservice.cs
 ++Wrappers
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\wrappers\
 ++ServiceExtensions.cs
@@ -213,6 +191,28 @@ i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\appl
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\model\postresponsemodel.cs
 ++PostsResponseModel.cs
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\model\postsresponsemodel.cs
+++AccountService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\accountservice.cs
+++AdminServices.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\adminservices.cs
+++AuthenticatedUserService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\authenticateduserservice.cs
+++CommentService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\commentservice.cs
+++EditorUserService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\editoruserservice.cs
+++JWTService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\jwtservice.cs
+++PostService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\postservice.cs
+++PostTagService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\posttagservice.cs
+++TagService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\tagservice.cs
+++UserInfoService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\userinfoservice.cs
+++UserService.cs
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\services\userservice.cs
 ++BaseResponse.cs
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\wrappers\baseresponse.cs
 ++ExceptionResponse.cs
@@ -220,9 +220,9 @@ i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\appl
 ++ResponseBase.cs
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\wrappers\responsebase.cs
 ++Microsoft.Extensions.Identity.Core (6.0.7)
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>944
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>986
 ++SFX.Random (1.0.35)
-i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>942
+i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:>984
 ++AccountLevelDTO.cs
 i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\application\dto\accountservicedtos\accountleveldto.cs
 ++AccountLevelResponseDTO.cs
@@ -275,34 +275,34 @@ i:{11f8d58d-174b-41b3-8d87-9ddfb687c7ca}:c:\users\aycan\desktop\blogbackend\appl
 i:{00000000-0000-0000-0000-000000000000}:Infrastructure
 ++Persistence
 i:{38bc0517-954e-496d-9214-f643fd211dab}:Persistence
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\persistence\bin\debug\net6.0\persistence.dll
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\persistence\persistence.csproj
 ++Context
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\context\
-++ApplicationDbContext.cs
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\context\applicationdbcontext.cs
 ++Migrations
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\migrations\
+++DependencyInjection.cs
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\dependencyinjection.cs
+++ApplicationDbContext.cs
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\context\applicationdbcontext.cs
 ++20220803062956_initial.cs
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\migrations\20220803062956_initial.cs
 ++20220905114703_second.cs
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\migrations\20220905114703_second.cs
 ++ApplicationDbContextModelSnapshot.cs
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\migrations\applicationdbcontextmodelsnapshot.cs
-++DependencyInjection.cs
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\dependencyinjection.cs
+++Newtonsoft.Json (13.0.1)
+i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>990
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1014
 ++20220803062956_initial.Designer.cs
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\migrations\20220803062956_initial.designer.cs
 ++20220905114703_second.Designer.cs
 i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:c:\users\aycan\desktop\blogbackend\persistence\migrations\20220905114703_second.designer.cs
-++Newtonsoft.Json (13.0.1)
-i:{cf8f6c72-7bb8-44bd-a464-2d7a84a70595}:>943
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>990
 ++Presentation
 i:{00000000-0000-0000-0000-000000000000}:Presentation
 ++WebApi
 i:{a2d3e026-f8dd-48d0-85da-6aae5ec57b7b}:WebApi
 ++Connected Services 
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>915
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>961
 ++Properties
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\properties\
 ++Controllers
@@ -329,12 +329,16 @@ i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\weba
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\controllers\weatherforecastcontroller.cs
 ++Middleware
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\middleware\
+++ExceptionMiddleware.cs
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\middleware\exceptionmiddleware.cs
 ++OnionArhitecture.xml
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\
 ++appsettings.Development.json
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\appsettings.development.json
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\appsettings.development.json
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\bin\debug\netcoreapp3.1\appsettings.development.json
+++Dockerfile
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\dockerfile
 ++OnionArchitecture.xml
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarchitecture.xml
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\onionarchitecture.xml
@@ -347,11 +351,8 @@ i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\weba
 ++WeatherForecast.cs
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\weatherforecast.cs
 ++No service dependencies discovered
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>916
 ++launchSettings.json
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\properties\launchsettings.json
-++ExceptionMiddleware.cs
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\middleware\exceptionmiddleware.cs
 ++AccountLevelResponseModel.cs
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\model\accountlevelresponsemodel.cs
 ++AllUserInfoResponseModel.cs
@@ -379,6 +380,8 @@ i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\weba
 ++Debug
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\bin\debug\
+++.dockerignore
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\.dockerignore
 ++Microsoft.AspNetCore.Analyzers
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\program files\dotnet\sdk\6.0.202\sdks\microsoft.net.sdk.web\analyzers\cs\microsoft.aspnetcore.analyzers.dll
 ++Microsoft.AspNetCore.Components.Analyzers
@@ -392,25 +395,29 @@ i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\program files\dotnet\sdk\6.0.202\sdk
 ++Microsoft.AspNetCore.App
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\microsoft.aspnetcore.app
 ++Auth0.AspNetCore.Authentication (1.0.3)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>992
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1016
 ++Microsoft.AspNetCore.Authentication.JwtBearer (6.0.8)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>996
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1021
 ++Microsoft.EntityFrameworkCore.Design (6.0.6)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>988
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1012
+++Microsoft.VisualStudio.Azure.Containers.Tools.Targets (1.14.0)
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1063
 ++RestSharp (108.0.1)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>998
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1023
 ++Serilog.AspNetCore (6.0.1)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>991
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1015
 ++Serilog.Extensions.Logging (3.1.0)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>987
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1011
 ++Serilog.Settings.Configuration (3.3.0)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>999
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1024
 ++Serilog.Sinks.Console (4.0.1)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>994
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1019
 ++Serilog.Sinks.File (5.0.0)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>995
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1020
+++Serilog.Sinks.MongoDB (5.2.1)
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1018
 ++Swashbuckle.AspNetCore.Swagger (6.3.1)
-i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>993
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1017
 ++netcoreapp3.1
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\bin\debug\netcoreapp3.1\
@@ -439,3 +446,15 @@ i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\weba
 ++WebApi.runtimeconfig.json
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\webapi.runtimeconfig.json
 i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:c:\users\aycan\desktop\blogbackend\webapi\onionarhitecture.xml\debug\netcoreapp3.1\bin\debug\netcoreapp3.1\webapi.runtimeconfig.json
+++Microsoft identity platform
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1109
+++For applications that authenticate users with the Microsoft identity platform (Azure AD, Azure AD B2C and personal Microsoft accounts).
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1110
+++Secrets.json (Local)
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1111
+++Secrets.json (Local) dependency is detected
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1112
+++SQL Server Database (ConnectionStrings:DefaultConnection)
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1113
+++SQL Server Database dependency with connectionId 'ConnectionStrings:DefaultConnection' is detected
+i:{7a0c6ea4-34c3-4374-9aed-857ae6cbb10f}:>1114

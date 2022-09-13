@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Application.Interfaces;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Application.DTO;
+using Application.Interfaces;
 using Application.Wrappers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using WebApi.Model;
-using System.Net;
-using Microsoft.Extensions.Logging;
 
 namespace WebApi.Controllers
 {
@@ -18,18 +18,18 @@ namespace WebApi.Controllers
     public class AdminController : ControllerBase
     {
         IAdminService _adminService;
-        private readonly ILogger<AdminController> _logger;
-        public AdminController(IAdminService adminService, ILogger<AdminController> logger)
+        private readonly ILogger _logger;
+        public AdminController(IAdminService adminService)
         {
             _adminService = adminService;
-            _logger = logger;
+            _logger = Serilog.Log.ForContext<AdminController>();
         }
      
 
         [HttpGet("GetAllUsers")]
         public async Task<GetUsersResponseModel> GetAllUsers()
         {
-            _logger.LogInformation("Hello from inside AdminController!");
+            _logger.Information("Deneme");
             var users = await _adminService.GetAllUsers();
             var response = new GetUsersResponseModel(users,true,"All users here",200);
             return response;
